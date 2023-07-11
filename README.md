@@ -1,2 +1,7 @@
-# DSP_extra_BSA
-Data Skills Pathway extra module on using British Social Attitudes Survey data 
+# Data Skills Pathway Supplementary Module 
+## Survey design informed population inference the British Social Attitudes Survey
+## Practical exercises
+This repository  contains the source files of the practical exercises for this module.
+Direct links to the exercise on GitHub Pages:
+- Population inference using SPSS
+- Population inference using R
