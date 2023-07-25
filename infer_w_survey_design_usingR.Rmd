@@ -15,25 +15,27 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 klippy::klippy()
 ```
 
-In this exercise, we will  practice statistical inference with data from the  [2017 British Social Attitudes Survey (BSA)](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and  survey design variables. Please note that at the time of writing this document only some of the BSA editions  include survey design variables.
+In this exercise, we will  practice statistical inference with data from the  [2017 British Social Attitudes Survey (BSA)](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and  survey design variables. Please note that at the time of writing this document only some of the BSA edition  included survey design variables.
 
 
 ### 1. Identifying the survey design and variables
 
-We first need to find out about the survey design that was used in the 2017 BSA, and the design variables that are made available in the dataset. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder. 
+We first need to find out about the survey design that was used in the 2017 BSA, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Data documentation and technical reports  are  usually located under the `mrdoc/pdf` folder. 
 
 **Question 1**
-What is the design that was used in this survey (ie how many stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?
 
-Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the user manual or the data dictionary available under `mrdoc/ukda_data_dictionaries.zip` You may need to decompress the file separately
+What is the design that was used in this survey (ie how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?
+
+Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the data documentation or the data dictionary available under `mrdoc/ukda_data_dictionaries.zip` You may need to decompress the file separately
 
 **Question 2**
+
 What survey design variables are available? Are there any ones that are missing -- if so which ones? What is the name of the weights variables?
 
 ### 2. Specifying the survey design 
-In principle, we should  tell R that we are working with a three stage stratified cluster sample. In practice however, we only have information about the initial ie primary sampling units. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached.
+In principle, we should  tell R that we are working with a three stage stratified cluster sample . In practice however, we only have information about the initial sampling stage ie primary sampling units. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used
 
-But first we need to load the required packages setup the working directory and open the BSA dataset. 
+But first we need to load the required packages, set up the working directory and open the BSA dataset. 
 
 ```{r, echo = F, include=TRUE}
 library(klippy)
@@ -41,16 +43,15 @@ klippy::klippy()
 ``` 
 
 ```{r libload}
-rm(list=ls())
 library(dplyr) ### Data manipulation functions
 library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 library(survey) ### Survey design functions
 
 #setwd("C:/Users/mscsepw2/OneDrive - The University of Manchester/Surveyskills")
-setwd("~/Dropbox/work/UKDS/Surveyskills") ### Edit as appropriate
+setwd("~/Dropbox/work/UKDS/DSP/extra-BSA") ### Edit as appropriate
 
-bsa17<-read_spss("Data/BSA/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 dim(bsa17)
 ```
 Once this is done we can specify the survey design:
@@ -73,11 +74,13 @@ round(
     svymean(~RAgeE,bsa17.s),
     confint(svymean(~RAgeE,bsa17.s))
     ),
-  1)### Estimate and CI, rounded
+  1) ### ... Or both, rounded
 ```
-What difference would it make to the estimates and 95% CI to compute respectively, an unweighted mean, as well as a weighted mean without accounting for design? There are different ways of computing this in R. Below we demonstrate how to do it ´by hand' for greater transparency.
+*What difference would it make to the estimates and 95% CI to compute respectively, an unweighted mean, as well as a weighted mean without accounting for the survey design?*
 
-R provides a function for computing the variance of a variable: `var()`. Since we know that:
+There are different ways of computing 'naive estimates' in R. Below we demonstrate how to do it ´by hand' for greater transparency.
+
+Base R provides a function for computing the variance of a variable: `var()`. Since we know that:
 
 - The standard deviation of the mean is the square root of its variance
 - The standard  error of a sample mean is its standard deviation divided by the square root of the sample size
@@ -96,13 +99,14 @@ w.se<-sqrt(wtd.var(bsa17$RAgeE,bsa17$WtFactor))/sqrt(length(bsa17$RAgeE))
 w.ci<-c(w.m - 1.96*w.se,w.m + 1.96*w.se)
 round(c(w.m,w.ci),1)
 ```
+
 **Question 3**
 What are the consequences of not accounting for the sample design; not using  weights and accounting for the sample design when:
 - inferring the mean value of the population age?
 - inferring the uncertainty  of our estimate of the population age? 
 
 ### 4. Computing a proportion and its 95% confidence interval
-We can now similarly compute the distribution of a categorical variable in the population by estimating proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly). 
+We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. 
 
 ```{r polrecode}
 attr(bsa17$Politics,"label")     ### Phrasing of the question
@@ -131,12 +135,11 @@ rbind(round(svytable(~Politics.s,bsa17.s),1),
       round(100*prop.table(svytable(~Politics.s,bsa17.s)),1)
 )
 ```
-As with the mean of age earlier, we can see that the weighted and unweighted point estimates of the proportion of respondents  significantly interested in politics change, even if  slightly, and that they remain the same when survey design is accounted for.
+As with the mean of age earlier, we can see that the weighted and unweighted point estimates of the proportion of respondents  significantly interested in politics  differ, even if  slightly, and that weighted point estimates  do not differ irrespective of the  survey design being accounted for.
 
-Let us now examine confidence intervals of these proportions. Traditional statistical software compute these without giving us an idea of the underlying computations going on. 
-Doing this in R requires more coding, but also a better understanding of what is actually estimated. 
+Let us now examine the confidence intervals of these proportions. Traditional statistical software usually compute these without telling  us about the underlying computations going on.  By contrast, doing this in R requires more coding, but in the process we gain a better understanding of what is actually estimated. 
 
-Confidence intervals for proportion of categorical variables are usually computed as a sequence   of binomial/dichotomic estimations -- ie one for each category. In R this needs to be specified explicitly via the `svyciprop()` and `I()` functions. The former actually computes the proportion and its confidence interval (by default 95%), whereas the latter allows us to define the category we are focusing on.
+Confidence intervals for proportion of categorical variables are usually computed as a sequence   of binomial/dichotomic estimations -- ie one for each category. In R this needs to be specified explicitly via the `svyciprop()` and `I()` functions. The former actually computes the proportion and its confidence interval (by default 95%), whereas the latter allows us to define the category we are focusing on (in case of non dichotomic variable).
 
 ```{r cipoltab}
 svyciprop(~I(Politics.s=="Significantly"),bsa17.s)
@@ -146,12 +149,13 @@ attr(svyciprop(~I(Politics.s=="Significantly"),bsa17.s),"ci")),1
 )
 ```                     
 **Question 4**
+
 What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use `RAgecat5`
 
 ### 5. Domain (ie subpopulation) estimates
-Although computing estimates for specific groups (for example the average age of people who report being interested in politics) is not conceptually different from doing it for the sample as a whole, doing it with weights as part of an inferential analysis requires some caution. Calculating weighted estimates  for  a subpopulation while the rest of the sample is left out of the analysis might  yield incorrect results. This is why using survey design informed functions rather is particularly recommended when doing such analyses.
+Computing estimates for specific groups of a sample (for example the average age of people who reported being interested in politics) is not much more difficult than  doing it for the sample as a whole. However doing it as part of an inferential analysis requires some caution. Calculating weighted estimates  for  a subpopulation, amounts to computing second order estimates ie an estimate for a group whose size needs to be estimated first. Therefore, attempting this while  leaving out of  the rest of the sample might  yield incorrect results. This is why using survey design informed functions is particularly recommended in such cases.
 
-The survey package function`svyby()` makes such domain estimation relatively straightforward. For instance, if we would like to compute the mean age of BSA respondents by Government Office Regions, we need to specify:
+The `survey` package function`svyby()` makes such domain estimation relatively straightforward. For instance, if we would like to compute the mean age of BSA respondents by Government Office Regions, we need to specify:
 
 - The outcome variable whose estimate we want to compute: ie `RAgeE`
 - The grouping variable(s) `GOR_ID`
@@ -181,11 +185,13 @@ round(
             1)
  ```
  **Question 5**
+ 
 What is the 95% confidence interval for the proportion of people interested in politics in the South West? Is the proportion likely to be different in London? In what way? What is the region of the UK for which the precision of the estimates is likely to be the smallest?
 
 When using `svyby()`, we can  define domains or subpopulations with several variables, not just one. For example, we could have looked at gender differences in political affiliations by regions. However, as the size of subgroups decrease, so does the precision of the estimates as their confidence interval widens, to a point where their substantive interest is not meaningful anymore. 
 
  **Question 6**
+ 
 Using interest in politics as before, and three category age 
 `RAgecat5` (which you may want to recode as a factor in order to improve  display clarity): 
 
