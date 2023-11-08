@@ -1,5 +1,5 @@
 ---
-title: "Population estimates with the British Social Attitudes Survey using R"
+title: "Basic population estimates with British Social Attitudes Survey data using R"
 author: "UK Data Service -- March 2023"
 output: 
   html_document:

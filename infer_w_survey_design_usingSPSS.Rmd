@@ -1,5 +1,5 @@
 ---
-title: "Survey design-informed inference with SPSS and BSA data"
+title: "Survey design-informed inference with British Social Attitudes Survey data using SPSS"
 author: "Pierre Walthéry - Jennifer Buckley, UK Data Service"
 date: "`r paste0(substr(date(), 9,11),substr(date(), 5,8),substr(date(), 21,24))`"
 output: 
@@ -52,9 +52,9 @@ library(survey)
 
 #setwd("C:/Users/mscsepw2/OneDrive - The University of Manchester/Surveyskills")
 #setwd ("C:/Users/msrahjb2/Dropbox (The University of Manchester)/Surveyskills")
-setwd ("~/Dropbox/work/UKDS/Surveyskills")
+setwd ("~/Dropbox/work/UKDS/DSP/extra-BSA")
 
-bsa17<-read_spss("Data/BSA/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 #bsa17.s<-svydesign(ids=~Spoint+Sserial, strata=~StratID, weights=~WtFactor,data=bsa17)
 ```
 ```

@@ -1,5 +1,5 @@
 ---
-title: "Population estimates with the British Social Attitudes Survey using SPSS"
+title: "Basic population estimates with British Social Attitudes Survey data using SPSS"
 author: "Pierre Walthéry - Jennifer Buckley, UK Data Service"
 date: "`r paste0(substr(date(), 9,11),substr(date(), 5,8),substr(date(), 21,24))`"
 output: 
@@ -164,7 +164,7 @@ EXAMINE VARIABLES=PenExp2
 
 Select two variables that interest you and examine their distribution. 
 
-# 6. Answers
+# Answers
 ```{r files,echo=F, include=F}
 library(dplyr) ### Data manipulation functions
 library(haven) ### Importing stata/SPSS files
@@ -174,13 +174,13 @@ library(Hmisc) ### Extra statistical functions
 ### Change it to match yours: ie typically 
 ### `C:/USERS/Your_Username_here/Your_data_folder_here`)
 
-#setwd("/home/piet/Dropbox/work/UKDS/Surveyskills")
-setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
+setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
+#setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
 
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa20<-read_spss('BSA/data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
 
 bsa20<-bsa20%>%mutate(
               TAXSPEND.r=factor(as_factor(TAXSPEND,"labels"), 
@@ -221,7 +221,6 @@ se.p<-sqrt(wtd.var(bsa20$PenExp2.r,weights=bsa20$BSA20_wt_new))
 n<-sum(bsa20$BSA20_wt_new[!is.na(bsa20$PenExp2)])
 
 ci<-c(m.p,m.p-1.96*(se.p/sqrt(n)),m.p+1.96*(se.p/sqrt(n)))
-
 ```
 
 1. There are `r nrow(bsa20)` cases in the dataset.
