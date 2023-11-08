@@ -40,12 +40,12 @@ library(Hmisc) ### Extra statistical functions
 ### Change it to match yours: ie typically 
 ### `C:/USERS/Your_Username_here/Your_data_folder_here`)
 
-setwd("/home/piet/Dropbox/work/UKDS/Surveyskills")
+setwd("/home/piet/Dropbox/work/UKDS/DSP/extra-BSA")
 
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa20<-read_spss('Data/BSA/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
 ```
 
 
