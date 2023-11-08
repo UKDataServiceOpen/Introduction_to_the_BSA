@@ -213,7 +213,7 @@ ci<-c(m.p,m.p-1.96*(se.p/sqrt(n)),m.p+1.96*(se.p/sqrt(n)))
 **Question 6** How much do people think they will get at state pension age? 
 
 
-#6. Answers
+### Answers
 
 1. There are `r nrow(bsa20)` cases in the dataset.
 
