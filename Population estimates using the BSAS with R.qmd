@@ -1,27 +1,28 @@
 ---
 title: "Basic population estimates with British Social Attitudes Survey data using R"
-author: "UK Data Service -- March 2023"
-output: 
-  html_document:
-      toc: true
-      toc_float: true
+author: "UK Data Service"
+date: last-modified
+date-format: "MMMM YYYY"
+mainfont: "Open Sans"
+title-block: "plain"
+title-block-banner: "white"
+format:
+  html:
+   toc: true
+   smooth-scroll: true
+   toc-location: left
+css: bsa.css
+execute:
+  warning: false
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F)
-options(scipen=999)
-```
-```{r klippy, echo = F, include=TRUE}
-klippy::klippy()
-```
+This exercise is part of the ‘Getting started with social attitudes surveys’ online module.. In the exercise, we examine data from the British Social Attitudes 2020 survey to find out: 
 
-This exercise is part of the Skills for Surveys course. It consists in examining data from the British Social Attitudes 2020 survey to find out:
+- what proportion of respondents said they voted remain in the EU Referendum? 
 
-* what proportion of respondents said they voted remain in the EU Referendum?
+- whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures? 
 
-* whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?
-
-* how much people think they'll get from the State pension? 
+- how much people think they’ll get from the State pension? 
 
 ### 1. Getting started 
 
@@ -37,10 +38,12 @@ library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 
 ### Setting up the working directory
-### Change it to match yours: ie typically 
-### `C:/USERS/Your_Username_here/Your_data_folder_here`)
+### Change the setwd() command it to match yours: ie typically 
+### setwd(`C:/USERS/Your_Username_here/Your_practicals_folder_here`)
+### Please note that the in the example below the data is located in
+### a 'data' folder inside the working directory
 
-setwd("/home/piet/Dropbox/work/UKDS/DSP/extra-BSA")
+setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
 
 getwd()
 

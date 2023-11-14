@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="UK Data Service">
+
+<title>Basic population estimates with British Social Attitudes Survey data using R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Population estimates using the BSAS with R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Population estimates using the BSAS with R_files/libs/quarto-html/quarto.js"></script>
+<script src="Population estimates using the BSAS with R_files/libs/quarto-html/popper.min.js"></script>
+<script src="Population estimates using the BSAS with R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Population estimates using the BSAS with R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Population estimates using the BSAS with R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Population estimates using the BSAS with R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Population estimates using the BSAS with R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Population estimates using the BSAS with R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Population estimates using the BSAS with R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: white;
+      }
+</style>
+
+
+<link rel="stylesheet" href="bsa.css">
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Basic population estimates with British Social Attitudes Survey data using R</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>UK Data Service </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">1. Getting started</a></li>
+  <li><a href="#explore-the-dataset" id="toc-explore-the-dataset" class="nav-link" data-scroll-target="#explore-the-dataset">2. Explore the dataset</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">3. Missing values</a></li>
+  <li><a href="#compare-unweighted-and-weighted-proportions" id="toc-compare-unweighted-and-weighted-proportions" class="nav-link" data-scroll-target="#compare-unweighted-and-weighted-proportions">4. Compare unweighted and weighted proportions</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">5. Confidence intervals</a></li>
+  <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>This exercise is part of the ‘Getting started with social attitudes surveys’ online module.. In the exercise, we examine data from the British Social Attitudes 2020 survey to find out:</p>
+<ul>
+<li><p>what proportion of respondents said they voted remain in the EU Referendum?</p></li>
+<li><p>whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?</p></li>
+<li><p>how much people think they’ll get from the State pension?</p></li>
+</ul>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">1. Getting started</h3>
+<p>Data can be accessed from the <a href="https://doi.org/10.5255/UKDA-SN-9005-1">UK Data Service website</a> following a registration. However, for this session, we recommend that you directly use the workshop folder containing the data and follow the steps below.</p>
+<p>Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
+<p>We first load the R packages needed for the exercise and set the working directory. It will need to be adjusted in order to match the location of the data on your computer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="do">### Importing stata/SPSS files</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc) <span class="do">### Extra statistical functions</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">### Setting up the working directory</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">### Change the setwd() command it to match yours: ie typically </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">### setwd(`C:/USERS/Your_Username_here/Your_practicals_folder_here`)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">### Please note that the in the example below the data is located in</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">### a 'data' folder inside the working directory</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"~/Dropbox/work/UKDS/DSP/extra-BSA"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/home/piet/Dropbox/work/UKDS/DSP/extra-BSA"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Opening the BSA dataset in SPSS format</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span><span class="fu">read_spss</span>(<span class="st">'data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="explore-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="explore-the-dataset">2. Explore the dataset</h3>
+<p>Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bsa20) <span class="do">### Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3964  210</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(bsa20) <span class="do">### List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "serial"       "QnrVersion"   "RespSx2cat"   "RespAgeE"     "MarStat6"    
+  [6] "REconFW01"    "REconFW02"    "REconFW03"    "REconFW04"    "REconFW05"   
+ [11] "REconFW06"    "REconFW07"    "REconFW08"    "REconFW09"    "REconFW10"   
+ [16] "REconFW11"    "EMPSTAT"      "Employ"       "Superv"       "EmpOCC"      
+ [21] "TenureE"      "SupParty"     "ClosePty"     "PARTYFW"      "Idstrng"     
+ [26] "RemLea"       "RemLeaCl"     "RemLeaSt"     "Politics"     "ConLabDf"    
+ [31] "VoteDuty"     "SocTrust"     "EngParl"      "ScotPar2"     "ECPolicy2"   
+ [36] "Spend1"       "Spend2"       "SocBen1"      "SOCBEN2"      "DOLE"        
+ [41] "TAXSPEND"     "WkMent"       "WkPhys"       "HProbRsp"     "PhsRetn"     
+ [46] "PhsRecov"     "MntRetn"      "MntRecov"     "HCWork21"     "HCWork22"    
+ [51] "HCWork23"     "HCWork24"     "HCWork25"     "HCWork26"     "HCWork28"    
+ [56] "HCWork29"     "HCWork213"    "HCWork214"    "HCWork215"    "HCWork27"    
+ [61] "CMtUnmar1"    "CMtUnmar2"    "CMtUnmar3"    "CMtUnmar4"    "CMtUnmar5"   
+ [66] "CMtUnmar6"    "CMtUnmar7"    "CMtUnmar8"    "CMtUnmar9"    "CMtUnmar10"  
+ [71] "CMtmar1"      "CMtmar2"      "CMtmar3"      "CMtmar4"      "CMtmar5"     
+ [76] "CMtmar6"      "CMtmar7"      "CMtmar8"      "CMtmar9"      "CMtmar10"    
+ [81] "ChCoSupp"     "ChMIncM"      "ChMIncF"      "ChMCont"      "RBGaran2"    
+ [86] "RBGGov"       "DigPCUn"      "DigPCctl"     "DigPCcon"     "DigPCrsk"    
+ [91] "DigGVun"      "DigGVctl"     "DigGVcon"     "DigGVrsk"     "DigPro"      
+ [96] "NHSSat"       "WkHmNow"      "WkHmJan"      "CovWkc"       "CovNoWkc"    
+[101] "CovWkr1"      "CovWkr2"      "CovWkr3"      "CovWkr4"      "CovWkr5"     
+[106] "CovWkr6"      "CovWk1"       "CovWk2"       "CovWk3"       "GovtWork"    
+[111] "GovTrust"     "CLRTRUST"     "MPsTrust"     "LoseTch"      "VoteIntr"    
+[116] "PtyNMat2"     "PolPart01"    "PolPart02"    "PolPart03"    "PolPart04"   
+[121] "PolPart05"    "PolPart06"    "PolPart07"    "PolPart08"    "PolPart09"   
+[126] "PolPart10"    "PolPart11"    "REFHANG"      "RefSyst"      "UnempJob"    
+[131] "SocHelp"      "DoleFidl"     "WelfFeet"     "welfhelp"     "morewelf"    
+[136] "damlives"     "proudwlf"     "Redistrb"     "BigBusnN"     "Wealth"      
+[141] "RichLaw"      "Indust4"      "TradVals"     "StifSent"     "DeathApp"    
+[146] "Obey"         "WrongLaw"     "Censor"       "NatIdGB"      "ChAttend"    
+[151] "DisNew2"      "DisAct"       "HEdQual2"     "HhldEdu"      "EURefV2"     
+[156] "EUVOTWHO"     "EURefb"       "Voted"        "Vote"         "Anybn3"      
+[161] "HHincome"     "Maininc5"     "REarn"        "HIncDif4"     "RetExp"      
+[166] "RetExpb"      "FutrWrk"      "PenKnow2"     "PenExp2"      "PenComp"     
+[171] "PenIntr"      "INFORET3"     "WkPKnw"       "WKPSav"       "WkPSpn"      
+[176] "WPSvUs"       "WPSvWw"       "WPSvEas"      "PrPKnw"       "PrPSav"      
+[181] "PrPSpn"       "PrPSvUs"      "PrPSvWW"      "PrPSvEas"     "NCOutcome"   
+[186] "Ragecat"      "Ragecat20"    "DisActDV"     "leftrigh"     "libauth"     
+[191] "welfare2"     "libauth2"     "leftrig2"     "welfgrp"      "REconAct20"  
+[196] "REconSum20"   "RaceOri4"     "LegMarStE"    "HhlAdGpd"     "HhlChlGpd"   
+[201] "BestNatU2"    "RetirAg3"     "ReligSum20"   "RlFamSum20"   "EmplStatDV"  
+[206] "RClassGP"     "serialh"      "GOR"          "gor2"         "BSA20_wt_new"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(bsa20)) <span class="do">### Displays the first five lines of a data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     serial QnrVersion RespSx2cat RespAgeE MarStat6 REconFW01 REconFW02
+1 3.211e+09          1          2       70        5         0         0
+2 3.211e+09          1          2       66        1         0         0
+3 3.211e+09          1          1       64        1         0         0
+4 3.211e+09          1          2       43        1         0         0
+5 3.211e+09          1          1       38        1         0         0
+6 3.211e+09          1          2       77        1         0         0
+  REconFW03 REconFW04 REconFW05 REconFW06 REconFW07 REconFW08 REconFW09
+1         0         0         0         0         0         0         1
+2         0         0         0         0         0         0         1
+3         0         0         0         0         0         0         1
+4         1         0         0         0         0         0         0
+5         1         0         0         0         0         0         0
+6         0         0         0         0         0         0         1
+  REconFW10 REconFW11 EMPSTAT Employ Superv EmpOCC TenureE SupParty ClosePty
+1         0         0       1      2      1      3      10        1       NA
+2         0         0       1      2      1      1       1        1       NA
+3         0         0       1      1      2      1       1        1       NA
+4         0         0       1      3      1      3       1        2        2
+5         0         0       1      3      2      2       1        2        2
+6         0         0       3     NA     NA      1       9        1       NA
+  PARTYFW Idstrng RemLea RemLeaCl RemLeaSt Politics ConLabDf VoteDuty SocTrust
+1       1       2     NA       NA       NA        2       NA       NA        1
+2       2       3     NA       NA       NA        3       NA       NA        1
+3       2       3     NA       NA       NA        3       NA       NA        1
+4       2       3     NA       NA       NA        2       NA       NA        2
+5       1       3     NA       NA       NA        3       NA       NA        2
+6       1       2     NA       NA       NA        2       NA       NA        2
+  EngParl ScotPar2 ECPolicy2 Spend1 Spend2 SocBen1 SOCBEN2 DOLE TAXSPEND WkMent
+1      NA       NA        NA      2      1       1       2    1        2      1
+2      NA       NA        NA      1      3       2       5    1        2      2
+3      NA       NA        NA      3      1       2       3    1        2      2
+4      NA       NA        NA      7      3       1       2    2        2      2
+5      NA       NA        NA      7      3       2       4    2        2      1
+6      NA       NA        NA     98     NA       1       4    2        3      2
+  WkPhys HProbRsp PhsRetn PhsRecov MntRetn MntRecov HCWork21 HCWork22 HCWork23
+1      1        1       1        2       1        2        1        1        1
+2      2        1       1        3       1        2        1        0        1
+3      2        1       1        2       1        2        1        1        1
+4      2        2       2        3       1        2        1        1        1
+5      1        1       1        2       1        2        1        1        1
+6      2        2       2        2       2        2        1        0        1
+  HCWork24 HCWork25 HCWork26 HCWork28 HCWork29 HCWork213 HCWork214 HCWork215
+1        1        1        1        0        0         0         0         0
+2        1        1        1        0        0         0         0         0
+3        1        1        1        0        0         0         0         0
+4        1        1        1        0        0         0         0         0
+5        1        1        1        0        0         0         0         0
+6        1        1        0        0        0         0         0         0
+  HCWork27 CMtUnmar1 CMtUnmar2 CMtUnmar3 CMtUnmar4 CMtUnmar5 CMtUnmar6
+1        0         1         2         2         1         1         1
+2        0         1         1         1         3         3         1
+3        0         1         1         1         3         3         1
+4        0        NA        NA        NA        NA        NA        NA
+5        0        NA        NA        NA        NA        NA        NA
+6        0         1         1         1         3         1         8
+  CMtUnmar7 CMtUnmar8 CMtUnmar9 CMtUnmar10 CMtmar1 CMtmar2 CMtmar3 CMtmar4
+1         1         2         1          1      NA      NA      NA      NA
+2         1         1         3          1      NA      NA      NA      NA
+3         1         1         3          3      NA      NA      NA      NA
+4        NA        NA        NA         NA       1       1       2       1
+5        NA        NA        NA         NA       1       1       1       1
+6         1         1         3          1      NA      NA      NA      NA
+  CMtmar5 CMtmar6 CMtmar7 CMtmar8 CMtmar9 CMtmar10 ChCoSupp ChMIncM ChMIncF
+1      NA      NA      NA      NA      NA       NA        3       1      NA
+2      NA      NA      NA      NA      NA       NA        3       2      NA
+3      NA      NA      NA      NA      NA       NA        2       2      NA
+4       1       1       1       2       1        1       NA      NA       1
+5       1       1       1       2       1        1       NA      NA       1
+6      NA      NA      NA      NA      NA       NA        3       8      NA
+  ChMCont RBGaran2 RBGGov DigPCUn DigPCctl DigPCcon DigPCrsk DigGVun DigGVctl
+1       1        2     NA       2        2        2        1      NA       NA
+2       4        2     NA       2        3        3        1      NA       NA
+3       2        3     NA       3        3        3        8      NA       NA
+4      NA       NA     NA      NA       NA       NA       NA       1        2
+5      NA       NA     NA      NA       NA       NA       NA       3        3
+6       1        1      1       1        3        1        2      NA       NA
+  DigGVcon DigGVrsk DigPro NHSSat WkHmNow WkHmJan CovWkc CovNoWkc CovWkr1
+1       NA       NA      2      3      NA      NA     NA       NA      NA
+2       NA       NA      2      2      NA      NA     NA       NA      NA
+3       NA       NA      2      3      NA      NA     NA       NA      NA
+4        4        1      2      2       1       2     NA        1       0
+5        3        8      1      2       3       3      1       NA       0
+6       NA       NA      2      2      NA      NA     NA       NA      NA
+  CovWkr2 CovWkr3 CovWkr4 CovWkr5 CovWkr6 CovWk1 CovWk2 CovWk3 GovtWork
+1      NA      NA      NA      NA      NA     NA     NA     NA       NA
+2      NA      NA      NA      NA      NA     NA     NA     NA       NA
+3      NA      NA      NA      NA      NA     NA     NA     NA       NA
+4       0       0       0       1       0      5      5      5       NA
+5       0       0       0       0       1      3      3      3       NA
+6      NA      NA      NA      NA      NA     NA     NA     NA       NA
+  GovTrust CLRTRUST MPsTrust LoseTch VoteIntr PtyNMat2 PolPart01 PolPart02
+1       NA       NA       NA      NA       NA       NA        NA        NA
+2       NA       NA       NA      NA       NA       NA        NA        NA
+3       NA       NA       NA      NA       NA       NA        NA        NA
+4       NA       NA       NA      NA       NA       NA        NA        NA
+5       NA       NA       NA      NA       NA       NA        NA        NA
+6       NA       NA       NA      NA       NA       NA        NA        NA
+  PolPart03 PolPart04 PolPart05 PolPart06 PolPart07 PolPart08 PolPart09
+1        NA        NA        NA        NA        NA        NA        NA
+2        NA        NA        NA        NA        NA        NA        NA
+3        NA        NA        NA        NA        NA        NA        NA
+4        NA        NA        NA        NA        NA        NA        NA
+5        NA        NA        NA        NA        NA        NA        NA
+6        NA        NA        NA        NA        NA        NA        NA
+  PolPart10 PolPart11 REFHANG RefSyst UnempJob SocHelp DoleFidl WelfFeet
+1        NA        NA      NA      NA        3       4        4        4
+2        NA        NA      NA      NA        3       3        3        4
+3        NA        NA      NA      NA        3       4        4        4
+4        NA        NA      NA      NA        2       3        3        1
+5        NA        NA      NA      NA        2       4        2        3
+6        NA        NA      NA      NA        2       2        2        2
+  welfhelp morewelf damlives proudwlf Redistrb BigBusnN Wealth RichLaw Indust4
+1        4        2        2        1        3        4      3       5       4
+2        4        3        1        2        4        3      3       4       4
+3        3        3        1        1        3        3      2       3       3
+4        2        4        3        3        4        2      2       2       3
+5        3        3        3        2        4        2      3       3       4
+6        3        3        4        2        4        4      3       5       4
+  TradVals StifSent DeathApp Obey WrongLaw Censor NatIdGB ChAttend DisNew2
+1        3        3        2    3        4      3       5        7       2
+2        4        3        2    2        3      2       6       NA       2
+3        3        3        3    2        2      2       1       NA       2
+4        2        1        2    1        2      2       3        7       2
+5        4        3        3    3        4      2       3       NA       2
+6        1        2        3    1        3      2       3        1       2
+  DisAct HEdQual2 HhldEdu EURefV2 EUVOTWHO EURefb Voted Vote Anybn3 HHincome
+1     NA        2       2      NA       NA     NA     2   NA      1        2
+2     NA        1      NA      NA       NA     NA     1    2      2        3
+3     NA        2       1      NA       NA     NA     1    2      2        3
+4     NA        4       2      NA       NA     NA     1    1      1        4
+5     NA        3       2      NA       NA     NA     1    1      1        3
+6     NA        1      NA      NA       NA     NA     1    1      1        9
+  Maininc5 REarn HIncDif4 RetExp RetExpb FutrWrk PenKnow2 PenExp2 PenComp
+1        4    NA        3     NA      NA      NA       NA      NA      NA
+2        2    NA        2     NA      NA      NA       NA      NA      NA
+3        2    NA        2     NA      NA      NA       NA      NA      NA
+4        1     3        2      3      60       2        1    7000       4
+5        1     3        3      3      65       1        2     130       2
+6        1    NA        3     NA      NA      NA       NA      NA      NA
+  PenIntr INFORET3 WkPKnw WKPSav WkPSpn WPSvUs WPSvWw WPSvEas PrPKnw PrPSav
+1      NA       NA     NA     NA     NA     NA     NA      NA     NA     NA
+2      NA       NA     NA     NA     NA     NA     NA      NA     NA     NA
+3      NA       NA     NA     NA     NA     NA     NA      NA     NA     NA
+4       2        2      2      1      4      1      1       1     NA     NA
+5       2        2      3      1      4      1      2       2     NA     NA
+6      NA       NA     NA     NA     NA     NA     NA      NA     NA     NA
+  PrPSpn PrPSvUs PrPSvWW PrPSvEas NCOutcome Ragecat Ragecat20 DisActDV leftrigh
+1     NA      NA      NA       NA         1       7         6        3      3.8
+2     NA      NA      NA       NA         1       7         6        3      3.6
+3     NA      NA      NA       NA         1       6         5        3      2.8
+4     NA      NA      NA       NA         1       3         3        3      2.6
+5     NA      NA      NA       NA         1       3         3        3      3.2
+6     NA      NA      NA       NA         1       7         7        3      4.0
+   libauth welfare2 libauth2 leftrig2 welfgrp REconAct20 REconSum20 RaceOri4
+1 3.000000    2.000        2        3       1          9          6        3
+2 3.333333    2.375        2        3       1          9          6        3
+3 3.500000    2.125        2        2       1          9          6        3
+4 4.333333    3.625        3        2       3          3          2        3
+5 2.833333    3.000        2        2       2          3          2        3
+6 4.000000    3.500        3        3       2          9          6        3
+  LegMarStE HhlAdGpd HhlChlGpd BestNatU2 RetirAg3 ReligSum20 RlFamSum20
+1         4        1         0         1       65          3          1
+2         1        2         0         3       58          5          2
+3         1        2         0         1       54          5          1
+4         1        2         1         1       NA          3          2
+5         1        2         1         2       NA          5          3
+6         1        2         0         2       99          3          3
+  EmplStatDV RClassGP   serialh GOR gor2 BSA20_wt_new
+1          4        1 321100002   1    1    0.7099859
+2          6        1 321100014   1    1    0.3145871
+3          7        1 321100014   1    1    0.5649618
+4          4        1 321100040   1    1    0.9355446
+5          7        2 321100040   1    1    0.6830794
+6          3        1 321100042   1    1    1.4006989</code></pre>
+</div>
+</div>
+<p><strong>Questions</strong></p>
+<ol type="1">
+<li>What is the overall sample size?</li>
+<li>How many variables are there in the dataset?</li>
+</ol>
+<p>Now, focus on the three variables we will use.</p>
+<p><strong>Note</strong> In traditional statistical software packages such as SPSS or Stata, categorical variables are coded as arbitrary numbers, to which values labels are attached that describe the substantive meaning of these values. R on the other hand can either directly deal with the value themselves as alphanumeric variables, or with its own version of categorical variables, known as ‘factors’. There aren’t straightforward ways to convert SPSS or Stata labelled categorical variables into R factors. The approach followed by the <code>Haven</code> package that we use here consist in preserving the original numeric values in the data, and add attributes that can be manipulated separately. Attributes are a special type of R objects that have a name, and can be read using the <code>attr()</code> function. Each variable has a ‘label’ and ‘labels’ attribute. The former is the variable description, the latter the value labels. Alternatively, haven-imported numeric variables can be converted into factors with levels (ie categories) reflecting the SPSS or Stata value labels, but with numeric values different from the original ones.</p>
+<p>Let’s examine the original variable description and value labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "If it had to choose, should govt reduce/increase/maintain levels of taxation and spending?"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"labels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                        Not applicable 
+                                                                    -1 
+  Reduce taxes and spend less on health, education and social benefits 
+                                                                     1 
+    Keep taxes and spending on these services at the same level as now 
+                                                                     2 
+Increase taxes and spend more on health, education and social benefits 
+                                                                     3 
+                                                            Don't know 
+                                                                     8 
+                                                  Prefer not to answer 
+                                                                     9 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>EUVOTWHO,<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Did you vote to 'remain a member of the EU' or to 'leave the EU'?"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>EUVOTWHO,<span class="st">"labels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       Not applicable Remain a member of the European Union 
+                                   -1                                     1 
+             Leave the European Union                      I Don't remember 
+                                    2                                     3 
+                           Don't know                  Prefer not to answer 
+                                    8                                     9 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">attr</span>(bsa20<span class="sc">$</span>PenExp2,<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "How much do you think someone who reaches State Pension age today would receive in pounds per week?"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">attr</span>(bsa20<span class="sc">$</span>PenExp2,<span class="st">"labels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Not applicable           Don't know Prefer not to answer 
+                  -1                 9998                 9999 </code></pre>
+</div>
+</div>
+<p><strong>Question 3 </strong> What do the variables measure and how?*</p>
+</section>
+<section id="missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="missing-values">3. Missing values</h3>
+<p>Let’s now examine the distribution of our three variables. We can temporarily convert <code>EUVOTWHO</code> and <code>TAXSPEND</code> into factors using <code>mutate()</code> for a more meaningful output. Review the frequency tables, examining the ‘not applicable’ and ‘don’t know’ categories.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND)<span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="fu">as_factor</span>(.))<span class="sc">%&gt;%</span><span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  EUVOTWHO   
+ Not applicable                       :   0  
+ Remain a member of the European Union: 635  
+ Leave the European Union             : 463  
+ I Don't remember                     :   2  
+ Don't know                           :   0  
+ Prefer not to answer                 :  21  
+ NA's                                 :2843  
+                                                                   TAXSPEND   
+ Not applicable                                                        :   0  
+ Reduce taxes and spend less on health, education and social benefits  : 186  
+ Keep taxes and spending on these services at the same level as now    :1589  
+ Increase taxes and spend more on health, education and social benefits:2133  
+ Don't know                                                            :  35  
+ Prefer not to answer                                                  :  21  
+                                                                              </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+      0     120     160    1293     200    9999    1076 </code></pre>
+</div>
+</div>
+<p><strong>Question 4</strong> Why for EUVOTWHO are there so many system missing values (NA)? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages?</p>
+<p>Now, set all remaining item missing responses including don’t knows and prefer not to say as missing values so that they do not appear in the results.</p>
+<p>In the code below, we recode the missing values into system missing (NA). For ease of interpretation, we also convert the original numeric variable into labelled factors using <code>as_factor()</code>, so that they directly display the value labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span>bsa20<span class="sc">%&gt;%</span><span class="fu">mutate</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">TAXSPEND.r=</span><span class="fu">factor</span>(<span class="fu">as_factor</span>(TAXSPEND,<span class="st">"labels"</span>), </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">exclude =</span> <span class="fu">c</span>(<span class="st">"Prefer not to answer"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Don't know"</span>)),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">EUVOTWHO.r=</span><span class="fu">factor</span>(<span class="fu">as_factor</span>(EUVOTWHO,<span class="st">"labels"</span>),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">exclude =</span> <span class="fu">c</span>(<span class="st">"Prefer not to answer"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"I Don't remember"</span>,<span class="st">"Not applicable"</span>,<span class="cn">NA</span>)),</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">PenExp2.r=</span><span class="fu">ifelse</span>(PenExp2<span class="sc">==-</span><span class="dv">1</span> <span class="sc">|</span> PenExp2<span class="sc">&gt;=</span><span class="dv">9998</span>,<span class="cn">NA</span>,PenExp2)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                      )</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="do">### Value labels need to be truncated as they are rather lengthy!</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r),<span class="dv">1</span>,<span class="dv">14</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r),<span class="dv">1</span>,<span class="dv">6</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Reduce taxes a" "Keep taxes and" "Increase taxes"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Remain" "Leave "</code></pre>
+</div>
+</div>
+</section>
+<section id="compare-unweighted-and-weighted-proportions" class="level3">
+<h3 class="anchored" data-anchor-id="compare-unweighted-and-weighted-proportions">4. Compare unweighted and weighted proportions</h3>
+<p>Let’s examine the unweighted responses first. At this stage, we use <code>xtabs()</code> for the categorical variables and <code>summary()</code> for the continuous ones.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(                               <span class="do">### Round the results to one decimal</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span><span class="sc">*</span>                               <span class="do">### Convert proportions to %  </span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(                      <span class="do">### Compute proportions</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xtabs</span>(<span class="sc">~</span>TAXSPEND.r,bsa20)       <span class="do">### Compute frequencies</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TAXSPEND.r
+Reduce taxes a Keep taxes and Increase taxes 
+           4.8           40.7           54.6 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.r,bsa20)),<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EUVOTWHO.r
+Remain Leave  
+  57.8   42.2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+      0     120     160    1293     200    9999    1076 </code></pre>
+</div>
+</div>
+<p>What is the (unweighted) percentage of respondents who say they voted remain in the EU referendum? About 58 percent of sample members who voted in referendum said they voted to remain. This figure seems a bit high (though people do not always report accurately).</p>
+<p>Let’s compare with the weighted frequencies. We will use the <code>wtd.table()</code> from the <code>Hmisc</code> package. The weights are specified after the variable for which we request the frequencies in the command below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Raw output</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$x
+[1] "Remain" "Leave" 
+
+$sum.of.weights
+[1] 565.0111 489.1466</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converted into proportions            </span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 53.6 46.4</code></pre>
+</div>
+</div>
+<p>Now, what proportion say they voted remain in the EU referendum? It is about 54, 46 percent, lower than the unweighted proportion and closer to the actual referendum results. Do you have an idea as to why this might be the case?</p>
+</section>
+<section id="confidence-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-intervals">5. Confidence intervals</h3>
+<p>So far, we have just computed point estimates without worrying about their precision. We can compute confidence intervals to indicate the precision (uncertainty) of our estimates. We will leave exploration of survey design functions provided by the <code>survey</code> package to the next session and will compute confidence intervals ‘by hand’ in this one. By doing so, we are choosing to ignore the survey design and pretend that the sample was collected using simple random sampling.</p>
+<p>The <code>Hmisc</code> package provides <code>binconf()</code> a handy function to compute confidence intervals for proportions. Although this is not shown by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually. In other words, we need to compute one set of confidence interval for each one of the categories of <code>TAXSPEND.r</code> and <code>EUVOTWHO.r</code> separately. We can then assemble them a table of results) using <code>rbind()</code>.</p>
+<p>We need to provide binconf() with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Raw confidence interval for EUVOTWHO, unweighted</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">binconf</span>(<span class="fu">table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r<span class="sc">==</span><span class="st">"Remain"</span>),<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PointEst     Lower     Upper
+ 0.4216758 0.3927892 0.4511085
+ 0.5783242 0.5488915 0.6072108</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">### We can round the output and convert it into percentages to make it more readable.</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">binconf</span>(<span class="fu">table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r<span class="sc">==</span><span class="st">"Remain"</span>),<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)))[<span class="dv">1</span>,],</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>PointEst    Lower    Upper 
+    42.2     39.3     45.1 </code></pre>
+</div>
+</div>
+<p>We can adapt the syntax above to make it work with weighted frequencies:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">### We can round the output and convert it into percentages to make it more readable.</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">binconf</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights[<span class="dv">2</span>],</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sum</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights)),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> PointEst Lower Upper
+     46.4  43.4  49.4</code></pre>
+</div>
+</div>
+<p>What are the differences between weighted and unweighted confidence intervals for the proportion of people who voted remain?</p>
+<p>Let us now do the same with people’s views about government tax and spending.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>w.n<span class="ot">&lt;-</span><span class="fu">sum</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>TAXSPEND.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>ciprop<span class="ot">&lt;-</span><span class="fu">cbind</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">binconf</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>TAXSPEND.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights,w.n),</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When computing confidence intervals for means, two steps are usually needed, whether embedded in a single line of code or not: compute the mean (or any other estimate), then the confidence interval itself using <code>confint</code>. We also use the <code>round()</code> function in order to remove unneeded decimal values.</p>
+<p><strong>Question 5.</strong> What proportion think government should increase taxes and spend more on health, education and social benefits?</p>
+<p>Several R packages offer functions for computing confidence intervals and standard errors of means. Here again, we privilege doing things by hand in order to properly undertstand what is happening in the background.</p>
+<p>Under assumptions of simple random sampling, a 95% confidence of the mean is defined as plus or minus 1.96 times the standard error of the mean. The standard error of the mean itself is the standard error of the mean (that is, the square root of its variance) divided by the square of the sample size. Since we have functions for computing weighted means and variance in R, we can compute:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>m.p<span class="ot">&lt;-</span><span class="fu">wtd.mean</span>(bsa20<span class="sc">$</span>PenExp2.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>se.p<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(bsa20<span class="sc">$</span>PenExp2.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new))</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="fu">sum</span>(bsa20<span class="sc">$</span>BSA20_wt_new[<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>PenExp2)])</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>ci<span class="ot">&lt;-</span><span class="fu">c</span>(m.p,m.p<span class="fl">-1.96</span><span class="sc">*</span>(se.p<span class="sc">/</span><span class="fu">sqrt</span>(n)),m.p<span class="fl">+1.96</span><span class="sc">*</span>(se.p<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Question 6</strong> How much do people think they will get at state pension age?</p>
+</section>
+<section id="answers" class="level3">
+<h3 class="anchored" data-anchor-id="answers">Answers</h3>
+<ol type="1">
+<li><p>There are 3964 cases in the dataset.</p></li>
+<li><p>The total number of variables is 213.</p></li>
+<li><p><em><code>TAXSPEND</code> records responses to the questions of whether government should reduce/increase/maintain levels of taxation and spending. There are three possible responses to the question. </em><code>EUVOTWHO</code> records responses to the question ‘Did you vote to ’remain a member of the EU’ or to ‘leave the EU’?’ The responses are ‘Remain’ or ‘Leave’. *<code>PenExp2</code> contains responses to the question ‘How much do you think someone who reaches State Pension age today would receive in pounds per week?’ Responses are numeric.</p></li>
+<li><p>There are two reasons for the many not applicable.</p></li>
+</ol>
+<ul>
+<li>Routing: the question is only asked to those who said yes to a previous question (EURefV2).</li>
+<li>Versions 5 and 6 - The BSA uses a split sample and the question is only asked in Versions 5 and 6.</li>
+</ul>
+<ol start="5" type="1">
+<li><p>Between 49.4 and 52.6% in the population say the government should increase taxes and spend more.</p></li>
+<li><p>The amount people think they will get at state pension age varies between £170 and £184, with an average (ie mean) in the region of £177.</p></li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="Population estimates using the BSAS with R_files/libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

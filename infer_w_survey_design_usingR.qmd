@@ -1,46 +1,43 @@
 ---
 title: "Survey design-informed inference with R and BSA data"
-author: "Pierre Walthéry - Jennifer Buckley, UK Data Service"
-date: "`r paste0(substr(date(), 9,11),substr(date(), 5,8),substr(date(), 21,24))`"
-output: 
-  html_document:
-      toc: true
-      toc_float: true
+author: "UK Data Service"
+date: last-modified
+date-format: "MMMM YYYY"
+mainfont: "Open Sans"
+title-block: "plain"
+title-block-banner: "white"
+format:
+  html:
+   toc: true
+   smooth-scroll: true
+   toc-location: left
+css: bsa.css
+execute:
+  warning: false
 ---
+This exercise is part of the ’Getting started with social attitudes surveys’ online module. In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and survey design variables.  
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
-```
-```{r klippy, echo = F, include=TRUE}
-klippy::klippy()
-```
+Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/0923_UKDS_weighting_draft.html).  
 
-In this exercise, we will  practice statistical inference with data from the  [2017 British Social Attitudes Survey (BSA)](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and  survey design variables. Please note that at the time of writing this document only some of the BSA edition  included survey design variables.
+### 1. Identifying the survey design and variables 
 
-
-### 1. Identifying the survey design and variables
-
-We first need to find out about the survey design that was used in the 2017 BSA, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Data documentation and technical reports  are  usually located under the `mrdoc/pdf` folder. 
+We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450).
 
 **Question 1**
 
-What is the design that was used in this survey (ie how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?
+What is the design that was used in this survey (i.e. how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)? 
 
-Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the data documentation or the data dictionary available under `mrdoc/ukda_data_dictionaries.zip` You may need to decompress the file separately
+Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the data documentation or the data dictionary available in the BSA documentation.  
 
 **Question 2**
 
-What survey design variables are available? Are there any ones that are missing -- if so which ones? What is the name of the weights variables?
+What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables? 
 
 ### 2. Specifying the survey design 
 In principle, we should  tell R that we are working with a three stage stratified cluster sample . In practice however, we only have information about the initial sampling stage ie primary sampling units. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used
 
-But first we need to load the required packages, set up the working directory and open the BSA dataset. 
+We first load the R packages needed for the exercise and set the working directory. The code  below will need to be adjusted in order to match the location of the data on your computer. 
 
-```{r, echo = F, include=TRUE}
-library(klippy)
-klippy::klippy()
-``` 
 
 ```{r libload}
 library(dplyr) ### Data manipulation functions
@@ -48,7 +45,13 @@ library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 library(survey) ### Survey design functions
 
-#setwd("C:/Users/mscsepw2/OneDrive - The University of Manchester/Surveyskills")
+### Setting up the working directory
+### Change the setwd() command it to match yours: ie typically 
+### setwd(`C:/USERS/Your_Username_here/Your_practicals_folder_here`)
+### Please note that the in the example below the data is located in
+### a 'data' folder inside the working directory
+
+
 setwd("~/Dropbox/work/UKDS/DSP/extra-BSA") ### Edit as appropriate
 
 bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")

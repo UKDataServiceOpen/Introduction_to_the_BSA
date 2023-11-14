@@ -1,33 +1,20 @@
 ---
 title: "Basic population estimates with British Social Attitudes Survey data using SPSS"
-author: "Pierre Walthéry - Jennifer Buckley, UK Data Service"
-date: "`r paste0(substr(date(), 9,11),substr(date(), 5,8),substr(date(), 21,24))`"
+author: "UK Data Service"
+date: last-modified
+date-format: "DD MMMM YYYY"
 mainfont: "Open Sans"
-output: 
+title-block: "plain"
+title-block-banner: "white"
+format:
   html:
-      toc: true
+   toc: true
+   smooth-scroll: true
+   toc-location: left
+css: bsa.css
+execute:
+  warning: false
 ---
-
-```{css, echo=FALSE}
-.title {
-  font-size: 100px;
-  color: #702082;
-  font-family:  "Open Sans";
-}
-.h1 {
-  color: #702082;
-  font-family:  "Open Sans";
-}
-
-```
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-```{r klippy, echo = F, include=TRUE}
-klippy::klippy()
-```
 
 This exercise is part of the Skills for Surveys course. In the exercise, we examine data from the British Social Attitudes 2020 survey to find out:
 
@@ -37,15 +24,20 @@ This exercise is part of the Skills for Surveys course. In the exercise, we exam
 
 * how much people think they'll get from the State pension? 
 
-# 1. Getting started 
-
-You can access the data from the UK Data Service website (following a registration). However, for this session, we recommend that you access a workshop folder containing the data and follow the steps below. 
+# Getting started 
+You can access the BSA 2020 data from the UK Data Service website (following registration).  
 
 Download the folder, unzip and save it somewhere accessible on your computer. 
 
-Once you have the workshop folder saved, set the folder as your working directory in your software. To do this, you need to add the correct file path to the folder on your computer to the code below. 
+Once you have the workshop folder saved, set the folder as your working directory in SPSS. To do this, you need to add the correct file path to the folder on your computer to the code below. 
 
 ```
+* Setting up the working directory
+* Change the command below  to match yours: ie typically 
+* cd "C:/USERS/Your_Username_here/Your_practicals_folder_here"
+* Please note that in the example below the data is located in
+* a 'data' folder inside the working directory
+
 *The directory path in "" needs to be changed for your own. 
 cd "C:\Users\qtnvpw1\Dropbox\work\UKDS\DSP\BSA".
 show DIRECTORY.
