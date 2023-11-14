@@ -42,7 +42,7 @@ Once you have the workshop folder saved, set the folder as your working director
 cd "C:\Users\qtnvpw1\Dropbox\work\UKDS\DSP\BSA".
 show DIRECTORY.
 ```
-![Output of the show DIRECTORY command](pics/spss_1.PNG)
+![Output of the show DIRECTORY command](pics/spss_1.PNG){fig-alt="A screenshot of SPPS Output window showing the current default directory"}
 
 If you have your working directory saved to the folder location, the following code should open the BSA dataset. 
 
@@ -50,7 +50,7 @@ If you have your working directory saved to the folder location, the following c
 GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.
 ```
 
-![BSA dataset in SPSS Variables View ](pics/spss_2.PNG)
+![BSA dataset in SPSS Variables View ](pics/spss_2.PNG){fig-alt="A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view"}
 
 # 2. Explore the dataset 
 
@@ -59,7 +59,7 @@ Start by getting an overall feel for the dataset. Either inspect variables and c
 ```
 CODEBOOK all. 
 ```
-![SPSS codebook output for the first variables](pics/spss_3.PNG)
+![SPSS codebook output for the first variables](pics/spss_3.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the CODEBOOK command for the SERIAL variable"}
 
 
 **Questions**
@@ -73,7 +73,7 @@ Now, focus on the three variables we will use.
 ```
 CODEBOOK TAXSPEND EUVOTWHO PenExp2.  
 ```
-![SPSS codebook output for TAXSPEND](pics/spss_4.PNG)
+![SPSS codebook output for TAXSPEND](pics/spss_4.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the TAXSPEND command for the SERIAL variable"}
 
 
 **Questions 3**
@@ -113,7 +113,7 @@ EXAMINE VARIABLES=PenExp2
   /NOTOTAL.
 ```
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_5.PNG)
+![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_5.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the EUVOTWHO command for the SERIAL variable"}
 
 What is the (unweighted) percent who say they voted remain in the EU referendum? The answer is about 58 percent of those who voted in the referendum say they voted to remain. This figure seems a bit high (though people do not always report accurately). 
 
@@ -135,7 +135,7 @@ EXAMINE VARIABLES=PenExp2
 WEIGHT off. 
 ```
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG)
+![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables and EXAMINE VARIABLES for the PenExp2 variable"}
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 
@@ -161,10 +161,11 @@ EXAMINE VARIABLES=PenExp2
   /NOTOTAL.
 ```
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_7.PNG)
+![SPSS output for GRAPH BAR of TAXSPEND and EUVOTWHO ](pics/spss_7.PNG){fig-alt="A screenshot of SPPS Output  window showing a bar plot  of the frequency distribution of  the TAXSPEND and EUVOTWHO variables"}
 
-5. What proportion think government should increase taxes and spend more on health, education and social benefits?
-6. How much do people think they will get at state pension age? 
+**Question 5 ** What proportion think government should increase taxes and spend more on health, education and social benefits?
+
+**Question 6 **  How much do people think they will get at state pension age? 
 
 **Additional question**
 
