@@ -9,6 +9,6 @@ Direct links to the exercises on GitHub Pages:
 - <a href="https://ukdataserviceopen.github.io/DSP_extra_BSA/infer_w_survey_design_usingSPSS.html"> Survey design informed inference with BSA data using SPSS</a> 
 
 
-- <a href="https://ukdataserviceopen.github.io/DSP_extra_BSA/Population-estimates-using-the-BSAS-with-R.html">Basic population estimates with BSA data using R</a>
+- <a href="https://ukdataserviceopen.github.io/DSP_extra_BSA/Population estimates using the BSAS with R.html">Basic population estimates with BSA data using R</a>
 - <a href="https://ukdataserviceopen.github.io/DSP_extra_BSA/infer_w_survey_design_usingR.html">Survey design informed inference with BSA data using R</a>
 
