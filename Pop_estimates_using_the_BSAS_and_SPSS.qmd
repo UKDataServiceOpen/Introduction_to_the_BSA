@@ -119,6 +119,7 @@ What is the (unweighted) percent who say they voted remain in the EU referendum?
 
 Let's add the weight.
 
+
 ```
 *The weight is added by the command below. It will remain on for all subsequent analyses. 
 WEIGHT BY BSA20_wt_new.
@@ -134,6 +135,7 @@ EXAMINE VARIABLES=PenExp2
 *To stop weighting the data you can use the following command. 
 WEIGHT off. 
 ```
+
 
 ![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG){fig-alt="A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"}
 
@@ -159,8 +161,8 @@ EXAMINE VARIABLES=PenExp2
   /CINTERVAL 95
   /MISSING LISTWISE
   /NOTOTAL.
+  
 ```
-
 ![SPSS output for GRAPH BAR of TAXSPEND and EUVOTWHO ](pics/spss_7.PNG){fig-alt="A screenshot of SPPS Output  window showing a bar plot  of the frequency distribution of  the TAXSPEND and EUVOTWHO variables"}
 
 **Question 5 ** What proportion think government should increase taxes and spend more on health, education and social benefits?
