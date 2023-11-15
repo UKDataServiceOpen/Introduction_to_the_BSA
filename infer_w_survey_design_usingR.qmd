@@ -1,5 +1,5 @@
 ---
-title: "Survey design-informed inference with R and BSA data"
+title: "Survey design-informed inference with British Social Attitudes Survey data using R"
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
