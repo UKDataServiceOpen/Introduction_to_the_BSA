@@ -3,7 +3,7 @@ title: "Basic population estimates with British Social Attitudes Survey data usi
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
-mainfont: "Open Sans"
+mainfont: "Arial"
 title-block: "plain"
 title-block-banner: "white"
 format:
@@ -11,7 +11,7 @@ format:
    toc: true
    smooth-scroll: true
    toc-location: left
-css: bsa.css
+css: bsa_alt.css
 execute:
   warning: false
 ---

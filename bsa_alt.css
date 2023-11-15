@@ -1,0 +1,25 @@
+.quarto-title-block .quarto-title-banner {
+  background-image: url("pics/UKDS_logo_only.png");
+  background-size: 100px;
+  background-position: left;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  background-origin: content-box;
+}
+
+title {
+  color: #74237b;
+}
+h1 {
+  color: #74237b;
+}
+h2 {
+  color: #74237b;
+}
+h3 {
+  color: #74237b;
+}
+h4 {
+  color: #74237b;
+}
