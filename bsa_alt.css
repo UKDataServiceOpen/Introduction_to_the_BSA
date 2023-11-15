@@ -8,6 +8,11 @@
   background-origin: content-box;
 }
 
+.cell {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
 title {
   color: #74237b;
 }

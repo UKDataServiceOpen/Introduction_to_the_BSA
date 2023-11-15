@@ -113,7 +113,7 @@ EXAMINE VARIABLES=PenExp2
   /NOTOTAL.
 ```
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_5.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the EUVOTWHO command for the SERIAL variable"}
+![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_5.PNG){fig-alt=""A screenshot of SPPS Output  window showing the unweighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"}
 
 What is the (unweighted) percent who say they voted remain in the EU referendum? The answer is about 58 percent of those who voted in the referendum say they voted to remain. This figure seems a bit high (though people do not always report accurately). 
 
@@ -135,7 +135,7 @@ EXAMINE VARIABLES=PenExp2
 WEIGHT off. 
 ```
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG){fig-alt="A screenshot of SPPS Output  window showing the output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables and EXAMINE VARIABLES for the PenExp2 variable"}
+![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG){fig-alt="A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"}
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 

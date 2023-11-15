@@ -14,23 +14,29 @@ format:
 css: bsa_alt.css
 execute:
   warning: false
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
-This exercise is part of the ‘Getting started with social attitudes surveys’ online module.. In the exercise, we examine data from the British Social Attitudes 2020 survey to find out: 
+This exercise is part of the 'Getting started with social attitudes surveys' online module..
+In the exercise, we examine data from the British Social Attitudes 2020 survey to find out:
 
-- what proportion of respondents said they voted remain in the EU Referendum? 
+-   what proportion of respondents said they voted remain in the EU Referendum?
 
-- whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures? 
+-   whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?
 
-- how much people think they’ll get from the State pension? 
+-   how much people think they'll get from the State pension?
 
-### 1. Getting started 
+### 1. Getting started
 
-Data can be accessed from the [UK Data Service website](https://doi.org/10.5255/UKDA-SN-9005-1) following a registration. However, for this session, we recommend that you directly use the workshop folder containing the data and follow the steps below. 
+Data can be accessed from the [UK Data Service website](https://doi.org/10.5255/UKDA-SN-9005-1) following a registration.
+However, for this session, we recommend that you directly use the workshop folder containing the data and follow the steps below.
 
-Download the compressed folder, unzip and save it somewhere accessible on your computer. 
+Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
-We first load the  R packages needed for the exercise and set the working directory. It will need to be adjusted  in order to match the location of the data on your computer.
+We first load the R packages needed for the exercise and set the working directory.
+It will need to be adjusted in order to match the location of the data on your computer.
 
 ```{r files}
 library(dplyr) ### Data manipulation functions
@@ -51,25 +57,32 @@ getwd()
 bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
 ```
 
+### 2. Explore the dataset
 
-
-### 2. Explore the dataset 
-
-Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset. 
+Start by getting an overall feel for the dataset.
+Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.
 
 ```{r desc}
 dim(bsa20) ### Gives the number of rows (observations) and columns (variables)
 names(bsa20) ### List variable names in their actual order in the dataset
 head(data.frame(bsa20)) ### Displays the first five lines of a data frame
 ```
+
 **Questions**
 
-1. What is the overall sample size?
-2. How many variables are there in the dataset?
+1.  What is the overall sample size?
+2.  How many variables are there in the dataset?
 
-Now, focus on the three variables we will use. 
+Now, focus on the three variables we will use.
 
-**Note** In traditional statistical software packages such as SPSS or Stata, categorical variables are coded as arbitrary numbers, to which values labels are attached that describe the substantive meaning of these values. R on the other hand can either directly deal with the value themselves as alphanumeric variables, or with its own version of categorical variables, known as 'factors'. There aren't straightforward ways to convert SPSS or Stata labelled categorical variables into R factors. The approach followed by the `Haven` package that we use here consist in preserving the original  numeric values in the data, and add attributes that can be manipulated separately. Attributes are a special type of R objects that have a name, and can be read using the ```attr()``` function. Each variable has a 'label' and 'labels' attribute. The former is the variable description, the latter the value labels. Alternatively, haven-imported numeric variables can be converted into factors with levels (ie categories) reflecting the SPSS or Stata value labels, but with numeric values different from the original ones.
+**Note** In traditional statistical software packages such as SPSS or Stata, categorical variables are coded as arbitrary numbers, to which values labels are attached that describe the substantive meaning of these values.
+R on the other hand can either directly deal with the value themselves as alphanumeric variables, or with its own version of categorical variables, known as 'factors'.
+There aren't straightforward ways to convert SPSS or Stata labelled categorical variables into R factors.
+The approach followed by the `Haven` package that we use here consist in preserving the original numeric values in the data, and add attributes that can be manipulated separately.
+Attributes are a special type of R objects that have a name, and can be read using the `attr()` function.
+Each variable has a 'label' and 'labels' attribute.
+The former is the variable description, the latter the value labels.
+Alternatively, haven-imported numeric variables can be converted into factors with levels (ie categories) reflecting the SPSS or Stata value labels, but with numeric values different from the original ones.
 
 Let's examine the original variable description and value labels.
 
@@ -84,26 +97,28 @@ attr(bsa20$EUVOTWHO,"labels")
  attr(bsa20$PenExp2,"labels")
 ```
 
-**Question 3 **
-What do the variables measure and how?* 
-
+**Question 3** What do the variables measure and how?\*
 
 ### 3. Missing values
-Let's now examine the distribution of our three variables. We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output. Review the frequency tables, examining the 'not applicable' and 'don't know' categories.
+
+Let's now examine the distribution of our three variables.
+We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output.
+Review the frequency tables, examining the 'not applicable' and 'don't know' categories.
 
 ```{r summ}
 bsa20%>%select(EUVOTWHO,TAXSPEND)%>%mutate(as_factor(.))%>%summary()
 
 summary(bsa20$PenExp2)
 ```
-**Question 4**
-Why for EUVOTWHO are there so many system missing values (NA)? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages? 
+
+**Question 4** Why for EUVOTWHO are there so many system missing values (NA)?
+Note, you can use the documentation to check if needed.
+What does this mean when it comes to interpreting the percentages?
 
 Now, set all remaining item missing responses including don't knows and prefer not to say as missing values so that they do not appear in the results.
 
-
-In the code below, we recode the missing values into system missing (NA). For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.    
-
+In the code below, we recode the missing values into system missing (NA).
+For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.
 
 ```{r missing}
 bsa20<-bsa20%>%mutate(
@@ -123,9 +138,11 @@ levels(bsa20$TAXSPEND.r)
 levels(bsa20$EUVOTWHO.r)
 
 ```
-### 4. Compare unweighted and weighted proportions
-Let's examine the unweighted responses first. At this stage, we use `xtabs()`  for the categorical variables and `summary()` for the continuous ones. 
 
+### 4. Compare unweighted and weighted proportions
+
+Let's examine the unweighted responses first.
+At this stage, we use `xtabs()` for the categorical variables and `summary()` for the continuous ones.
 
 ```{r test}
 round(                               ### Round the results to one decimal
@@ -139,10 +156,13 @@ round(100*prop.table(xtabs(~EUVOTWHO.r,bsa20)),1)
 summary(bsa20$PenExp2)
 ```
 
-What is the (unweighted) percentage of respondents who say they voted remain in the EU referendum? About `r round(100*prop.table(xtabs(~EUVOTWHO.r,bsa20)))[1]` percent of sample members  who voted in referendum said they voted to remain. This figure seems a bit high (though people do not always report accurately). 
+What is the (unweighted) percentage of respondents who say they voted remain in the EU referendum?
+About `r round(100*prop.table(xtabs(~EUVOTWHO.r,bsa20)))[1]` percent of sample members who voted in referendum said they voted to remain.
+This figure seems a bit high (though people do not always report accurately).
 
-Let's compare with the weighted frequencies. We will use the `wtd.table()` from the `Hmisc` package.
- The weights are specified after  the  variable for which we request the frequencies in the command below. 
+Let's compare with the weighted frequencies.
+We will use the `wtd.table()` from the `Hmisc` package.
+The weights are specified after the variable for which we request the frequencies in the command below.
 
 ```{r weight}
 # Raw output
@@ -155,13 +175,22 @@ round(
       wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights),
   1)
 ```
-Now, what proportion say they voted remain in the EU referendum? It is about `r round(100*prop.table(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights))` percent, lower than the unweighted proportion and closer to the actual referendum results. Do you have an idea as to why this might be the case?
 
-### 5. Confidence intervals 
+Now, what proportion say they voted remain in the EU referendum?
+It is about `r round(100*prop.table(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights))` percent, lower than the unweighted proportion and closer to the actual referendum results.
+Do you have an idea as to why this might be the case?
 
-So far, we have just computed point estimates without worrying about their precision. We can compute confidence intervals to indicate the precision (uncertainty) of our estimates. We will leave exploration of  survey design functions provided by the `survey` package to the next session and will compute confidence intervals 'by hand' in this one. By doing so, we are choosing to ignore the survey design and pretend that the sample was collected using  simple random sampling.
+### 5. Confidence intervals
 
-The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions. Although this is not shown by traditional statistical packages, estimating  confidence intervals for proportions of  categorical variables necessitates looking at each one of them individually. In other words, we need to compute one set of confidence interval for each one of the categories of `TAXSPEND.r` and `EUVOTWHO.r` separately. We can then assemble them a table of results) using `rbind()`.
+So far, we have just computed point estimates without worrying about their precision.
+We can compute confidence intervals to indicate the precision (uncertainty) of our estimates.
+We will leave exploration of survey design functions provided by the `survey` package to the next session and will compute confidence intervals 'by hand' in this one.
+By doing so, we are choosing to ignore the survey design and pretend that the sample was collected using simple random sampling.
+
+The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions.
+Although this is not shown by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually.
+In other words, we need to compute one set of confidence interval for each one of the categories of `TAXSPEND.r` and `EUVOTWHO.r` separately.
+We can then assemble them a table of results) using `rbind()`.
 
 We need to provide binconf() with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations.
 
@@ -174,7 +203,9 @@ round(100*
         binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))[1,],
       1)
 ```
+
 We can adapt the syntax above to make it work with weighted frequencies:
+
 ```{r ciprop1}
 
 ### We can round the output and convert it into percentages to make it more readable.
@@ -183,9 +214,11 @@ round(100*
                 sum(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)),
       1)
 ```
-What are the differences between  weighted and unweighted confidence intervals for the proportion of people who voted remain?
+
+What are the differences between weighted and unweighted confidence intervals for the proportion of people who voted remain?
 
 Let us now do the same with people's views about government tax and spending.
+
 ```{r ciprop2}
 w.n<-sum(wtd.table(bsa20$TAXSPEND.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)
 
@@ -196,14 +229,17 @@ binconf(wtd.table(bsa20$TAXSPEND.r,weights=bsa20$BSA20_wt_new)$sum.of.weights,w.
 )
 ```
 
-When computing confidence intervals for means, two steps are usually needed, whether embedded in a single line of code or not: compute the mean (or any other estimate), then the confidence interval itself using `confint`. We also use the `round()` function in order to remove unneeded decimal values.
+When computing confidence intervals for means, two steps are usually needed, whether embedded in a single line of code or not: compute the mean (or any other estimate), then the confidence interval itself using `confint`.
+We also use the `round()` function in order to remove unneeded decimal values.
 
 **Question 5.** What proportion think government should increase taxes and spend more on health, education and social benefits?
 
 Several R packages offer functions for computing confidence intervals and standard errors of means.
 Here again, we privilege doing things by hand in order to properly undertstand what is happening in the background.
 
-Under assumptions of simple random sampling, a 95% confidence of the mean is defined as plus or minus 1.96 times the standard error of the mean. The standard error of the mean itself is the standard error of the mean (that is, the square root of its variance) divided by the square of the sample size. Since we have functions for computing  weighted means and variance in R, we can compute: 
+Under assumptions of simple random sampling, a 95% confidence of the mean is defined as plus or minus 1.96 times the standard error of the mean.
+The standard error of the mean itself is the standard error of the mean (that is, the square root of its variance) divided by the square of the sample size.
+Since we have functions for computing weighted means and variance in R, we can compute:
 
 ```{r cimean}
 m.p<-wtd.mean(bsa20$PenExp2.r,weights=bsa20$BSA20_wt_new)
@@ -213,24 +249,24 @@ n<-sum(bsa20$BSA20_wt_new[!is.na(bsa20$PenExp2)])
 ci<-c(m.p,m.p-1.96*(se.p/sqrt(n)),m.p+1.96*(se.p/sqrt(n)))
 ```
 
-**Question 6** How much do people think they will get at state pension age? 
-
+**Question 6** How much do people think they will get at state pension age?
 
 ### Answers
 
-1. There are `r nrow(bsa20)` cases in the dataset.
+1.  There are `r nrow(bsa20)` cases in the dataset.
 
-2. The total number of variables is `r ncol(bsa20)`. 
+2.  The total number of variables is `r ncol(bsa20)`.
 
-3. 
-*`TAXSPEND` records responses to the questions of whether government should reduce/increase/maintain levels of taxation and spending.	There are three possible responses to the question.
-*`EUVOTWHO` records responses to the question 'Did you vote to 'remain a member of the EU' or to 'leave the EU'?' The responses are 'Remain' or 'Leave'. 
-*`PenExp2` contains responses to the question 'How much do you think someone who reaches State Pension age today would receive in pounds per week?' Responses are numeric. 	
+3.  *`TAXSPEND` records responses to the questions of whether government should reduce/increase/maintain levels of taxation and spending. There are three possible responses to the question.* `EUVOTWHO` records responses to the question 'Did you vote to 'remain a member of the EU' or to 'leave the EU'?'
+    The responses are 'Remain' or 'Leave'.
+    \*`PenExp2` contains responses to the question 'How much do you think someone who reaches State Pension age today would receive in pounds per week?'
+    Responses are numeric.
 
-4. There are two reasons for the many not applicable. 
-* Routing: the question is only asked to those who said yes to a previous question (EURefV2). 
-* Versions 5 and 6 - The BSA uses a split sample and the question is only asked in Versions 5 and 6. 
+4.  There are two reasons for the many not applicable.
 
-5. Between `r ciprop[3,3]` and `r ciprop[3,4]`% in the population say the government should increase taxes and spend more. 
+-   Routing: the question is only asked to those who said yes to a previous question (EURefV2).
+-   Versions 5 and 6 - The BSA uses a split sample and the question is only asked in Versions 5 and 6.
 
-6. The amount people think they will get at state pension age varies between £`r round(ci[2])` and £`r round(ci[3])`, with an average (ie mean) in the region of £`r round(ci[1])`.
+5.  Between `r ciprop[3,3]` and `r ciprop[3,4]`% in the population say the government should increase taxes and spend more.
+
+6.  The amount people think they will get at state pension age varies between £`r round(ci[2])` and £`r round(ci[3])`, with an average (ie mean) in the region of £`r round(ci[1])`.

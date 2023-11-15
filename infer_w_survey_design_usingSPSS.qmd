@@ -70,6 +70,7 @@ CSPLAN ANALYSIS
 
 ### 3. Mean age and its 95% confidence interval
 We can now produce a first set of estimates using this design and compare them with those we would have got without accounting for  it. We will compute the average (ie mean) age of respondents in the sample, as well as the proportion of male and female respondents aged over 55. We will need to use ```/CSDESCRIPTIVES```
+
 ```
 DATASET ACTIVATE DataSet1.
 * Complex Samples Descriptives.
