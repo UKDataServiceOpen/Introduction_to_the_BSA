@@ -1,9 +1,9 @@
 ---
 title: "Survey design-informed inference with British Social Attitudes Survey data using SPSS"
-author: "Pierre Walthéry - Jennifer Buckley, UK Data Service"
+author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
-mainfont: "Open Sans"
+mainfont: "Arial"
 title-block: "plain"
 title-block-banner: "white"
 format:

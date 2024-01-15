@@ -3,7 +3,7 @@ title: "Basic population estimates with British Social Attitudes Survey data usi
 author: "UK Data Service"
 date: last-modified
 date-format: "DD MMMM YYYY"
-mainfont: "Open Sans"
+mainfont: "Arial"
 title-block: "plain"
 title-block-banner: "white"
 format:
@@ -137,7 +137,7 @@ WEIGHT off.
 ```
 
 
-![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_6.PNG){fig-alt='A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables'}
+![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO](pics/spss_6.PNG){fig-alt='A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables'}
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 

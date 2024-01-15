@@ -3,7 +3,7 @@ title: "Survey design-informed inference with British Social Attitudes Survey da
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
-mainfont: "Open Sans"
+mainfont: "Arial"
 title-block: "plain"
 title-block-banner: "white"
 format:
@@ -15,6 +15,7 @@ css: bsa.css
 execute:
   warning: false
 ---
+
 This exercise is part of the ’Getting started with social attitudes surveys’ online module. In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and survey design variables.  
 
 Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/0923_UKDS_weighting_draft.html).  

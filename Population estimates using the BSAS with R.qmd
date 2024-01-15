@@ -11,7 +11,7 @@ format:
    toc: true
    smooth-scroll: true
    toc-location: left
-css: bsa_alt.css
+css: bsa.css
 execute:
   warning: false
 editor: 
