@@ -462,7 +462,9 @@ Increase taxes and spend more on health, education and social benefits
 <h3 class="anchored" data-anchor-id="missing-values">3. Missing values</h3>
 <p>Let’s now examine the distribution of our three variables. We can temporarily convert <code>EUVOTWHO</code> and <code>TAXSPEND</code> into factors using <code>mutate()</code> for a more meaningful output. Review the frequency tables, examining the ‘not applicable’ and ‘don’t know’ categories.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND)<span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="fu">as_factor</span>(.))<span class="sc">%&gt;%</span><span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND) <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="fu">as_factor</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                  EUVOTWHO   
  Not applicable                       :   0  

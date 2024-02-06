@@ -125,7 +125,9 @@ We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate(
 Review the frequency tables, examining the 'not applicable' and 'don't know' categories.
 
 ```{r summ}
-bsa20%>%select(EUVOTWHO,TAXSPEND)%>%mutate(as_factor(.))%>%summary()
+bsa20%>%select(EUVOTWHO,TAXSPEND) %>%
+       mutate(as_factor(.)) %>%
+       summary()
 
 summary(bsa20$PenExp2)
 ```
