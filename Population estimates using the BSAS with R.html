@@ -591,11 +591,10 @@ $sum.of.weights
 </div>
 <p>We can adapt the syntax above to make it work with weighted frequencies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">### We can round the output and convert it into percentages to make it more readable.</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">binconf</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights[<span class="dv">2</span>],</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sum</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights)),</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">binconf</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights[<span class="dv">2</span>],</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(<span class="fu">wtd.table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)<span class="sc">$</span>sum.of.weights)),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PointEst Lower Upper
      46.4  43.4  49.4</code></pre>

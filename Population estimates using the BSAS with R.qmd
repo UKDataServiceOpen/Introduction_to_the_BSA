@@ -228,11 +228,9 @@ round(100*
 We can adapt the syntax above to make it work with weighted frequencies:
 
 ```{r ciprop1}
-
-### We can round the output and convert it into percentages to make it more readable.
 round(100*
-        binconf(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights[2],
-                sum(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)),
+  binconf(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights[2],
+          sum(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)),
       1)
 ```
 
