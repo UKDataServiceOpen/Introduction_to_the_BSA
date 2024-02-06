@@ -38,8 +38,6 @@ The examples below assume that the dataset has been saved in a  new folder named
 
 We begin by  loading  the R packages needed for the exercise and set the working directory.
 
-setwd("C:/Users/Your_Username_here/UKDS")
-
 ```{r eval=F}
 library(dplyr) ### Data manipulation functions
 library(haven) ### Functions for importing data from commercial packages
