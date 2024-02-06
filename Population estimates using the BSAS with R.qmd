@@ -18,10 +18,11 @@ execute:
 editor: 
   markdown: 
     wrap: sentence
+engine: knitr
 ---
 
-This exercise is part of the 'Getting started with social attitudes surveys' online module..
-In the exercise, we examine data from the British Social Attitudes 2020 survey to find out:
+This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/) online module.
+In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:
 
 -   what proportion of respondents said they voted remain in the EU Referendum?
 
@@ -31,25 +32,42 @@ In the exercise, we examine data from the British Social Attitudes 2020 survey t
 
 ### 1. Getting started
 
-Data can be accessed from the [UK Data Service website](https://doi.org/10.5255/UKDA-SN-9005-1) following a registration.
-However, for this session, we recommend that you directly use the workshop folder containing the data and follow the steps below.
+Data can be downloaded from the [UK Data Service website](https://doi.org/10.5255/UKDA-SN-9005-1) following a registration. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
-Download the compressed folder, unzip and save it somewhere accessible on your computer.
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typicallly be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
 
-We first load the R packages needed for the exercise and set the working directory.
-It will need to be adjusted in order to match the location of the data on your computer.
+We begin by  loading  the R packages needed for the exercise and set the working directory.
 
-```{r files}
+setwd("C:/Users/Your_Username_here/UKDS")
+
+```{r eval=F}
+library(dplyr) ### Data manipulation functions
+library(haven) ### Functions for importing data from commercial packages
+library(Hmisc) ### Extra statistical functions
+
+### Setting up the working directory
+### Change the setwd() command  to match the location of the data on your computer if required 
+
+setwd("C:\Users\Your_Username_here\")
+
+getwd()
+
+# Opening the BSA dataset in SPSS format
+bsa20<-read_spss('UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+```
+
+`
+[1] C:\Users\Your_Username_here\
+`
+
+```{r files, echo=F,output=F}
 library(dplyr) ### Data manipulation functions
 library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 
 ### Setting up the working directory
-### Change the setwd() command it to match yours: ie typically 
-### setwd(`C:/USERS/Your_Username_here/Your_practicals_folder_here`)
-### Please note that the in the example below the data is located in
-### a 'data' folder inside the working directory
-
+### Change the setwd() command  to match the location of the data on your computer  if required 
+### setwd(`C:\Users\Your_Username_here\`)
 setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
 
 getwd()
