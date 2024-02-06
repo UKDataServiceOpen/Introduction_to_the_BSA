@@ -150,6 +150,7 @@ background: white;
 <li><p>whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?</p></li>
 <li><p>how much people think they’ll get from the State pension?</p></li>
 </ul>
+<p>Answers to the questions throughout the exercise can be found at the end of the page.</p>
 <section id="getting-started" class="level3">
 <h3 class="anchored" data-anchor-id="getting-started">1. Getting started</h3>
 <p>Data can be downloaded from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005">UK Data Service website</a> following a registration. Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
@@ -579,9 +580,9 @@ $sum.of.weights
  0.4216758 0.3927892 0.4511085
  0.5783242 0.5488915 0.6072108</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">### We can round the output and convert it into percentages to make it more readable.</span></span>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">### We can convert the output into rounded percentages for better readability.</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">binconf</span>(<span class="fu">table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r<span class="sc">==</span><span class="st">"Remain"</span>),<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)))[<span class="dv">1</span>,],</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">binconf</span>(<span class="fu">table</span>(bsa20<span class="sc">$</span>EUVOTWHO.r<span class="sc">==</span><span class="st">"Remain"</span>),<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)))[<span class="dv">1</span>,],</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>PointEst    Lower    Upper 

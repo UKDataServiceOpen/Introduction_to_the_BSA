@@ -30,6 +30,8 @@ In the exercise, we examine data from the 2020 British Social Attitudes survey t
 
 -   how much people think they'll get from the State pension?
 
+Answers to the questions throughout the exercise can be found at the end of the page.
+
 ### 1. Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005) following a registration. Download the compressed folder, unzip and save it somewhere accessible on your computer.
@@ -217,9 +219,9 @@ We need to provide binconf() with two parameters: the frequencies for which we w
 ### Raw confidence interval for EUVOTWHO, unweighted
 binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))
 
-### We can round the output and convert it into percentages to make it more readable.
+### We can convert the output into rounded percentages for better readability.
 round(100*
-        binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))[1,],
+      binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))[1,],
       1)
 ```
 
