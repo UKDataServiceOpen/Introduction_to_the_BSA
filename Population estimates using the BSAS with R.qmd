@@ -32,7 +32,7 @@ In the exercise, we examine data from the 2020 British Social Attitudes survey t
 
 ### 1. Getting started
 
-Data can be downloaded from the [UK Data Service website](https://doi.org/10.5255/UKDA-SN-9005-1) following a registration. Download the compressed folder, unzip and save it somewhere accessible on your computer.
+Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005) following a registration. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
 The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typicallly be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
 
