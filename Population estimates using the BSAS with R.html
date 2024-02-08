@@ -127,11 +127,11 @@ background: white;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">1. Getting started</a></li>
-  <li><a href="#explore-the-dataset" id="toc-explore-the-dataset" class="nav-link" data-scroll-target="#explore-the-dataset">2. Explore the dataset</a></li>
-  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">3. Missing values</a></li>
-  <li><a href="#compare-unweighted-and-weighted-proportions" id="toc-compare-unweighted-and-weighted-proportions" class="nav-link" data-scroll-target="#compare-unweighted-and-weighted-proportions">4. Compare unweighted and weighted proportions</a></li>
-  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">5. Confidence intervals</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
+  <li><a href="#explore-the-dataset" id="toc-explore-the-dataset" class="nav-link" data-scroll-target="#explore-the-dataset">1. Explore the dataset</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">2. Missing values</a></li>
+  <li><a href="#compare-unweighted-and-weighted-proportions" id="toc-compare-unweighted-and-weighted-proportions" class="nav-link" data-scroll-target="#compare-unweighted-and-weighted-proportions">3. Compare unweighted and weighted proportions</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">4. Confidence intervals</a></li>
   <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a></li>
   </ul>
 </nav>
@@ -150,11 +150,11 @@ background: white;
 <li><p>whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?</p></li>
 <li><p>how much people think they’ll get from the State pension?</p></li>
 </ul>
-<p>Answers to the questions throughout the exercise can be found at the end of the page.</p>
+<p>Answers to the questions asked throughout the exercise can be found at the end of the page.</p>
 <section id="getting-started" class="level3">
-<h3 class="anchored" data-anchor-id="getting-started">1. Getting started</h3>
+<h3 class="anchored" data-anchor-id="getting-started">Getting started</h3>
 <p>Data can be downloaded from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005" target="_blank" rel="noopener">UK Data Service website</a> following <a href="https://ukdataservice.ac.uk/help/registration/registration-login-faqs/" target="_blank" rel="noopener">registration</a>. Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
-<p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typicallly be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs</p>
+<p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typically be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs</p>
 <p>We begin by loading the R packages needed for the exercise and set the working directory.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
@@ -175,7 +175,7 @@ background: white;
 <p><code>[1] C:\Users\Your_Username_here\</code></p>
 </section>
 <section id="explore-the-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="explore-the-dataset">2. Explore the dataset</h3>
+<h3 class="anchored" data-anchor-id="explore-the-dataset">1. Explore the dataset</h3>
 <p>Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bsa20) <span class="do">### Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -460,7 +460,7 @@ Increase taxes and spend more on health, education and social benefits
 <p><strong>Question 3</strong> What do the variables measure and how?*</p>
 </section>
 <section id="missing-values" class="level3">
-<h3 class="anchored" data-anchor-id="missing-values">3. Missing values</h3>
+<h3 class="anchored" data-anchor-id="missing-values">2. Missing values</h3>
 <p>Let’s now examine the distribution of our three variables. We can temporarily convert <code>EUVOTWHO</code> and <code>TAXSPEND</code> into factors using <code>mutate()</code> for a more meaningful output. Review the frequency tables, examining the ‘not applicable’ and ‘don’t know’ categories.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND) <span class="sc">%&gt;%</span></span>
@@ -518,7 +518,7 @@ Increase taxes and spend more on health, education and social benefits
 </div>
 </section>
 <section id="compare-unweighted-and-weighted-proportions" class="level3">
-<h3 class="anchored" data-anchor-id="compare-unweighted-and-weighted-proportions">4. Compare unweighted and weighted proportions</h3>
+<h3 class="anchored" data-anchor-id="compare-unweighted-and-weighted-proportions">3. Compare unweighted and weighted proportions</h3>
 <p>Let’s examine the unweighted responses first. At this stage, we use <code>xtabs()</code> for the categorical variables and <code>summary()</code> for the continuous ones.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(                               <span class="do">### Round the results to one decimal</span></span>
@@ -569,7 +569,7 @@ $sum.of.weights
 <p>Now, what proportion say they voted remain in the EU referendum? It is about 54, 46 percent, lower than the unweighted proportion and closer to the actual referendum results. Do you have an idea as to why this might be the case?</p>
 </section>
 <section id="confidence-intervals" class="level3">
-<h3 class="anchored" data-anchor-id="confidence-intervals">5. Confidence intervals</h3>
+<h3 class="anchored" data-anchor-id="confidence-intervals">4. Confidence intervals</h3>
 <p>So far, we have just computed point estimates without worrying about their precision. We can compute confidence intervals to indicate the precision (uncertainty) of our estimates. We will leave exploration of survey design functions provided by the <code>survey</code> package to the next session and will compute confidence intervals ‘by hand’ in this one. By doing so, we are choosing to ignore the survey design and pretend that the sample was collected using simple random sampling.</p>
 <p>The <code>Hmisc</code> package provides <code>binconf()</code> a handy function to compute confidence intervals for proportions. Although this is not shown by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually. In other words, we need to compute one set of confidence interval for each one of the categories of <code>TAXSPEND.r</code> and <code>EUVOTWHO.r</code> separately. We can then assemble them a table of results) using <code>rbind()</code>.</p>
 <p>We need to provide binconf() with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations.</p>

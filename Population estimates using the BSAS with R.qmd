@@ -18,8 +18,6 @@ execute:
 editor: 
   markdown: 
     wrap: sentence
-engine: knitr
-
 ---
 
 This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
@@ -31,13 +29,13 @@ In the exercise, we examine data from the 2020 British Social Attitudes survey t
 
 -   how much people think they'll get from the State pension?
 
-Answers to the questions throughout the exercise can be found at the end of the page.
+Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-### 1. Getting started
+### Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
-The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typicallly be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
 
 We begin by  loading  the R packages needed for the exercise and set the working directory.
 
@@ -78,7 +76,7 @@ getwd()
 bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
 ```
 
-### 2. Explore the dataset
+### 1. Explore the dataset
 
 Start by getting an overall feel for the dataset.
 Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.
@@ -120,7 +118,7 @@ attr(bsa20$EUVOTWHO,"labels")
 
 **Question 3** What do the variables measure and how?\*
 
-### 3. Missing values
+### 2. Missing values
 
 Let's now examine the distribution of our three variables.
 We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output.
@@ -162,7 +160,7 @@ levels(bsa20$EUVOTWHO.r)
 
 ```
 
-### 4. Compare unweighted and weighted proportions
+### 3. Compare unweighted and weighted proportions
 
 Let's examine the unweighted responses first.
 At this stage, we use `xtabs()` for the categorical variables and `summary()` for the continuous ones.
@@ -203,7 +201,7 @@ Now, what proportion say they voted remain in the EU referendum?
 It is about `r round(100*prop.table(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights))` percent, lower than the unweighted proportion and closer to the actual referendum results.
 Do you have an idea as to why this might be the case?
 
-### 5. Confidence intervals
+### 4. Confidence intervals
 
 So far, we have just computed point estimates without worrying about their precision.
 We can compute confidence intervals to indicate the precision (uncertainty) of our estimates.

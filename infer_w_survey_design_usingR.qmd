@@ -17,13 +17,76 @@ execute:
   warning: false
 ---
 
-This exercise is part of the ’Getting started with social attitudes surveys’ online module. In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and survey design variables.  
+This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
+ In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
 
-Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/0923_UKDS_weighting_draft.html).  
+Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/){target="_blank" rel="noopener"}.  
+
+Answers to the questions asked throughout the exercise can be found at the end of the page.
+
+### Getting started
+
+Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
+
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
+
+We first load the R packages needed for the exercise and set the working directory and open the dataset. 
+The code  below will need to be adjusted in order to match the location of the data on your computer. 
+
+We begin by  loading  the R packages needed for the exercise and set the working directory.
+
+```{r eval=F}
+library(dplyr) ### Data manipulation functions
+library(haven) ### Functions for importing data from commercial packages
+library(Hmisc) ### Extra statistical functions
+library(survey) ### Survey design functions
+
+### Setting up the working directory
+### Change the setwd() command  to match the location of the data on your computer 
+### if required 
+
+setwd("C:\Users\Your_Username_here\")
+
+getwd()
+
+# Opening the BSA dataset in SPSS format
+bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+```
+
+`
+[1] C:\Users\Your_Username_here\
+`
+
+```{r files, echo=F,output=F}
+library(dplyr) ### Data manipulation functions
+library(haven) ### Importing stata/SPSS files
+library(Hmisc) ### Extra statistical functions
+library(survey) ### Survey design functions
+
+
+### Setting up the working directory
+### Change the setwd() command  to match the location of the data on your computer  if required 
+### setwd(`C:\Users\Your_Username_here\`)
+setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
+
+getwd()
+
+# Opening the BSA dataset in SPSS format
+bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+```
+
+
+
+
+
+
+
+
+
 
 ### 1. Identifying the survey design and variables 
 
-We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450).
+We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation){target="_blank" rel="noopener"}.
 
 **Question 1**
 
@@ -36,30 +99,9 @@ Now that we are a bit more familiar with the way the survey was designed, we nee
 What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables? 
 
 ### 2. Specifying the survey design 
-In principle, we should  tell R that we are working with a three stage stratified cluster sample . In practice however, we only have information about the initial sampling stage ie primary sampling units. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used
-
-We first load the R packages needed for the exercise and set the working directory. The code  below will need to be adjusted in order to match the location of the data on your computer. 
+We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie primary sampling units as well as the strata. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.
 
 
-```{r libload}
-library(dplyr) ### Data manipulation functions
-library(haven) ### Importing stata/SPSS files
-library(Hmisc) ### Extra statistical functions
-library(survey) ### Survey design functions
-
-### Setting up the working directory
-### Change the setwd() command it to match yours: ie typically 
-### setwd(`C:/USERS/Your_Username_here/Your_practicals_folder_here`)
-### Please note that the in the example below the data is located in
-### a 'data' folder inside the working directory
-
-
-setwd("~/Dropbox/work/UKDS/DSP/extra-BSA") ### Edit as appropriate
-
-bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
-dim(bsa17)
-```
-Once this is done we can specify the survey design:
 ```{r svy}
 bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
 class(bsa17.s)
@@ -166,20 +208,19 @@ The `survey` package function`svyby()` makes such domain estimation relatively s
 - The grouping variable(s) `GOR_ID`
 - The estimate function we are going to use here: `svymean`, the same as  we used before
 - And the type of type of variance estimation we would like to see displayed ie standard errors or confidence interval  
- ```{r bygor}
+```{r bygor}
 bsa17$gor.f<-as_factor(bsa17$GOR_ID)
 bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
 
 round(svyby(~RAgeE,by=~gor.f,svymean,design=bsa17.s,vartype = "ci")[-1],1)
- ```
+```
  *Note:* we used `[-1]` from the object created by `svyby()` in order to remove a column with alphanumeric values (the region names), so that we could round the results without getting an error.
  
  Our inference seem to suggest that the population in  London is among the youngest in the country, and that those in the South West are among the oldest -- their respective 95% confidence intervals do not overlap. We should not feel  so confident about differences between London and the South East for example, as the CIs partially overlap.  
 
  We can follow a similar approach with proportions: we just need to specify the category of the variable we are interested in as an outcome, for instance respondents who are significantly interested in politics, and replace `svymean` by `svyciprop`.
 
- ```{r bygorprop}
-
+```{r bygorprop}
 round(
       100*
       svyby(~I(Politics.s=="Significantly"),
@@ -188,7 +229,7 @@ round(
             design=bsa17.s,
             vartype = "ci")[-1],
             1)
- ```
+```
  **Question 5**
  
 What is the 95% confidence interval for the proportion of people interested in politics in the South West? Is the proportion likely to be different in London? In what way? What is the region of the UK for which the precision of the estimates is likely to be the smallest?
@@ -215,7 +256,7 @@ Using interest in politics as before, and three category age
 The 2017 BSA is a three stage stratified random survey, with postcode sectors, adresses and individuals as the units selected at each stage. Primary sampling units were furthermore stratified according to geographies (sub regions), population density, and proportion of owner-occupiers. Sampling rate was proportional to the size of postcode sectors (ie number of addresses)
 
 **Question 2**
-From the Data Dictionary it appears that the primary sampling units (sub regions) are identified by ```Spoint``` and the strata by ```StratID```. The weights variable is ```WtFactor```. Addresses are not provided but could be approximated with a household identifier. 
+From the Data Dictionary it appears that the primary sampling units (sub regions) are identified by```Spoint``` and the strata by```StratID```. The weights variable is```WtFactor```. Addresses are not provided but could be approximated with a household identifier. 
 
 
 **Question 3**
