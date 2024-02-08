@@ -47,7 +47,8 @@ library(haven) ### Functions for importing data from commercial packages
 library(Hmisc) ### Extra statistical functions
 
 ### Setting up the working directory
-### Change the setwd() command  to match the location of the data on your computer if required 
+### Change the setwd() command  to match the location of the data on your computer 
+### if required 
 
 setwd("C:\Users\Your_Username_here\")
 
