@@ -1,10 +1,10 @@
 <img src="pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo" style="width:256px;"/>
 
-# Survey Skills Pathway Supplementary Module
+
 
 ## Introduction to the British Social Attitudes Survey: R and SPSS Practical Exercises
 
-This repository contains the Quarto source files for the practical exercises for this module.
+This repository contains the Quarto source files of the practical exercises for the Introduction to Social Attitudes Surveys UKDS Data Skills Module.
 
 Direct links to the exercises on GitHub Pages:
 
