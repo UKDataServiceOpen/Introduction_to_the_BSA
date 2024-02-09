@@ -1,8 +1,9 @@
 .quarto-title-block .quarto-title-banner {
   background: url("pics/UKDS_Logos_Col_Grey_300dpi.png");
-  background-position: 1.9em;
+  background-size: 12pc;
+  background-position: 0em;
   background-repeat: no-repeat;
-  padding-left: 100px;
+  padding-left: 10px;
   background-origin: content-box;
   title-block-banner-color: #742082;
 }
