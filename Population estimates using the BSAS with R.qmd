@@ -35,7 +35,7 @@ Answers to the questions asked throughout the exercise can be found at the end o
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
-The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs 
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs. 
 
 We begin by  loading  the R packages needed for the exercise and set the working directory.
 

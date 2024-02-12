@@ -17,9 +17,18 @@ execute:
   warning: false
 ---
 
-This exercise is part of the ’Getting started with social attitudes surveys’ online module. In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450) taking into account weights and survey design variables.  
+This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
+ In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
 
-Please note that at the time of writing this document only some of the BSA editions include survey design variables.  For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/0923_UKDS_weighting_draft.html).
+Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/){target="_blank" rel="noopener"}.  
+
+Answers to the questions asked throughout the exercise can be found at the end of the page.
+
+### Getting started
+
+Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
+
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs
 
 ### 1. Identifying the survey design and variables 
 
@@ -37,9 +46,9 @@ What survey design variables are available? Are there any that are missing – i
 
 Let us first open the 2017 BSA dataset.
 ```
-CD 'C:\Users\mscsepw2\OneDrive - The University of Manchester\Surveyskills'.
+CD 'C:\Users\YOUR_USER_NAME\Desktop\UKDS'.
   GET 
-    FILE=' BSA\UKDA-8450-spss\spss\spss25\bsa2017_for_ukda.sav'.
+    FILE=' UKDA-8450-spss\spss\spss25\bsa2017_for_ukda.sav'.
 ```
 
 In principle, we should  tell SPSS that we are working with a three stage stratified cluster sample. In practice however, we only have information about the initial ie primary sampling units.  

@@ -79,7 +79,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 2024</p>
+        <p class="date">February 2024</p>
       </div>
     </div>
     
@@ -93,7 +93,8 @@ background: white;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#identifying-the-survey-design-and-variables" id="toc-identifying-the-survey-design-and-variables" class="nav-link active" data-scroll-target="#identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
+  <li><a href="#identifying-the-survey-design-and-variables" id="toc-identifying-the-survey-design-and-variables" class="nav-link" data-scroll-target="#identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</a></li>
   <li><a href="#specifying-the-survey-design" id="toc-specifying-the-survey-design" class="nav-link" data-scroll-target="#specifying-the-survey-design">2. Specifying the survey design</a></li>
   <li><a href="#mean-age-and-its-95-confidence-interval" id="toc-mean-age-and-its-95-confidence-interval" class="nav-link" data-scroll-target="#mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</a></li>
   <li><a href="#computing-a-proportion-and-its-95-confidence-interval" id="toc-computing-a-proportion-and-its-95-confidence-interval" class="nav-link" data-scroll-target="#computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</a></li>
@@ -110,8 +111,14 @@ background: white;
 
 
 
-<p>This exercise is part of the ’Getting started with social attitudes surveys’ online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450">British Social Attitudes Survey (BSA) 2017</a> taking into account weights and survey design variables.</p>
-<p>Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult <a href="https://ukdataserviceopen.github.io/DSP-core-inference/0923_UKDS_weighting_draft.html">our guidelines</a>.</p>
+<p>This exercise is part of the <a href="https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/" target="_blank" rel="noopener">‘Getting started with the British Social Attitudes Survey (BSA)’</a> online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">British Social Attitudes Survey (BSA) 2017</a> using weights and survey design variables.</p>
+<p>Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult <a href="https://ukdataserviceopen.github.io/DSP-core-inference/" target="_blank" rel="noopener">our guidelines</a>.</p>
+<p>Answers to the questions asked throughout the exercise can be found at the end of the page.</p>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">Getting started</h3>
+<p>Data can be downloaded from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">UK Data Service website</a> following <a href="https://ukdataservice.ac.uk/help/registration/registration-login-faqs/" target="_blank" rel="noopener">registration</a>. Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
+<p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typically be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs</p>
+</section>
 <section id="identifying-the-survey-design-and-variables" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</h3>
 <p>We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the <code>mrdoc/pdf</code> folder or on the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450">UK Data Service website</a>.</p>
@@ -122,9 +129,9 @@ background: white;
 <section id="specifying-the-survey-design" class="level3">
 <h3 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h3>
 <p>Let us first open the 2017 BSA dataset.</p>
-<pre><code>CD 'C:\Users\mscsepw2\OneDrive - The University of Manchester\Surveyskills'.
+<pre><code>CD 'C:\Users\YOUR_USER_NAME\Desktop\UKDS'.
   GET 
-    FILE=' BSA\UKDA-8450-spss\spss\spss25\bsa2017_for_ukda.sav'.</code></pre>
+    FILE=' UKDA-8450-spss\spss\spss25\bsa2017_for_ukda.sav'.</code></pre>
 <p>In principle, we should tell SPSS that we are working with a three stage stratified cluster sample. In practice however, we only have information about the initial ie primary sampling units.<br>
 This is achieved with the <code>CSPLAN</code> command through we create a plan file which contains the survey design information.</p>
 <pre><code>CSPLAN ANALYSIS

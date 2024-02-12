@@ -2,7 +2,7 @@
 title: "Basic population estimates with British Social Attitudes Survey data using SPSS"
 author: "UK Data Service"
 date: last-modified
-date-format: "DD MMMM YYYY"
+date-format: "MMMM YYYY"
 mainfont: "Arial"
 title-block: "plain"
 title-block-banner: "white"
@@ -15,32 +15,35 @@ format:
 css: bsa.css
 execute:
   warning: false
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
-This exercise is part of the Skills for Surveys course. In the exercise, we examine data from the British Social Attitudes 2020 survey to find out:
+This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
+In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:
 
-* what proportion say they voted remain in the EU Referendum?
+-   what proportion of respondents said they voted remain in the EU Referendum?
 
-* whether people think the government should raises taxes and spend more or reduce tax and cut social expenditure?
+-   whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?
 
-* how much people think they'll get from the State pension? 
+-   how much people think they'll get from the State pension?
 
-# Getting started 
-You can access the BSA 2020 data from the UK Data Service website (following registration).  
+Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-Download the folder, unzip and save it somewhere accessible on your computer. 
+### Getting started
 
-Once you have the workshop folder saved, set the folder as your working directory in SPSS. To do this, you need to add the correct file path to the folder on your computer to the code below. 
+Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
+
+The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs.  
+
+You need to set the folder as your working directory in SPSS. To do this, you need to add the correct file path to the folder on your computer to the code below. 
 
 ```
 * Setting up the working directory
-* Change the command below  to match yours: ie typically 
-* cd "C:/USERS/Your_Username_here/Your_practicals_folder_here"
-* Please note that in the example below the data is located in
-* a 'data' folder inside the working directory
+* Change the command below  to match yours: 
 
-*The directory path in "" needs to be changed for your own. 
-cd "C:\Users\qtnvpw1\Dropbox\work\UKDS\DSP\BSA".
+cd "C:\Users\YOUR_USER_NAME\Desktop\UKDS".
 show DIRECTORY.
 ```
 ![Output of the show DIRECTORY command](pics/spss_1.PNG){fig-alt='A screenshot of SPPS Output window showing the current default directory'}
@@ -53,7 +56,7 @@ GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.
 
 ![BSA dataset in SPSS Variables View ](pics/spss_2.PNG){fig-alt='A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view'}
 
-# 2. Explore the dataset 
+# 1. Explore the dataset 
 
 Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset. 
 
@@ -81,7 +84,7 @@ CODEBOOK TAXSPEND EUVOTWHO PenExp2.
 What do the variables measure and how?* 
 
 
-# 3. Missing values
+# 2. Missing values
 
 Review the frequency tables, examining the not applicable and don't know categories. 
 
@@ -97,7 +100,7 @@ MISSING VALUES TAXSPEND (-1, 8, 9).
 MISSING VALUES EUVOTWHO (-1, 3 THRU 9). 
 ```
 
-# 4. Compare unweighted and weighted frequencies
+# 3. Compare unweighted and weighted frequencies
 Let's examine the weighted responses. 
 
 ```
@@ -142,7 +145,7 @@ WEIGHT off.
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 
-# 5. Confidence intervals 
+# 4. Confidence intervals 
 
 Add confidence intervals to the bar charts and mean to indicate uncertainty due to sampling error. 
 
