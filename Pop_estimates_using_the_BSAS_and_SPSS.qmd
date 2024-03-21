@@ -189,7 +189,7 @@ library(Hmisc) ### Extra statistical functions
 ### Change it to match yours: ie typically 
 ### `C:/USERS/Your_Username_here/Your_data_folder_here`)
 
-setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
+setwd("~/Dropbox/work/UKDS/")
 #setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
 
 getwd()

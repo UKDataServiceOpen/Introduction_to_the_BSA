@@ -4,6 +4,7 @@ author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
 mainfont: "Arial"
+fontsize: 12pt
 title-block: "plain"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
@@ -41,11 +42,13 @@ We begin by  loading  the R packages needed for the exercise and set the working
 
 ```{r eval=F}
 library(dplyr) ### Data manipulation functions
-library(haven) ### Functions for importing data from commercial packages
+library(haven) ### Functions for importing data from 
+               ### commercial packages
 library(Hmisc) ### Extra statistical functions
 
 ### Setting up the working directory
-### Change the setwd() command  to match the location of the data on your computer 
+### Change the setwd() command  to match the location 
+### of the data on your computer 
 ### if required 
 
 setwd("C:\Users\Your_Username_here\")
@@ -53,7 +56,9 @@ setwd("C:\Users\Your_Username_here\")
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa20<-read_spss('UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+bsa20<-read_spss(
+       'UKDA-9005-spss/spss/spss25/bsa2020_archive.sav'
+       ) 
 ```
 
 `
@@ -66,14 +71,17 @@ library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 
 ### Setting up the working directory
-### Change the setwd() command  to match the location of the data on your computer  if required 
+### Change the setwd() command  to match the location 
+### of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
-setwd("~/Dropbox/work/UKDS/DSP/extra-BSA")
+setwd("~/Dropbox/work/UKDS/data")
 
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+bsa20<-read_spss(
+       'UKDA-9005-spss/spss/spss25/bsa2020_archive.sav'
+       ) 
 ```
 
 ### 1. Explore the dataset
@@ -82,9 +90,12 @@ Start by getting an overall feel for the dataset.
 Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.
 
 ```{r desc}
-dim(bsa20) ### Gives the number of rows (observations) and columns (variables)
-names(bsa20) ### List variable names in their actual order in the dataset
-head(data.frame(bsa20)) ### Displays the first five lines of a data frame
+dim(bsa20) ### Gives the number of rows (observations) 
+           ### and columns (variables)
+names(bsa20) ### List variable names in their actual 
+             ### order in the dataset
+head(data.frame(bsa20)) ### Displays the first five 
+                        ### lines of a data frame
 ```
 
 **Questions**
