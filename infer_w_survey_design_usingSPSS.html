@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,7 +79,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 2024</p>
+        <p class="date">March 2024</p>
       </div>
     </div>
     
@@ -111,7 +111,7 @@ background: white;
 
 
 
-<p>This exercise is part of the <a href="https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/" target="_blank" rel="noopener">‘Getting started with the British Social Attitudes Survey (BSA)’</a> online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">British Social Attitudes Survey (BSA) 2017</a> using weights and survey design variables.</p>
+<p>This exercise is part of the <a href="https://trainingmodules.ukdataservice.ac.uk/attitudes/#/" target="_blank" rel="noopener">‘Introduction to the British Social Attitudes Survey (BSA)’</a> online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">British Social Attitudes Survey (BSA) 2017</a> using weights and survey design variables.</p>
 <p>Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult <a href="https://ukdataserviceopen.github.io/DSP-core-inference/" target="_blank" rel="noopener">our guidelines</a>.</p>
 <p>Answers to the questions asked throughout the exercise can be found at the end of the page.</p>
 <section id="getting-started" class="level3">
@@ -121,7 +121,7 @@ background: white;
 </section>
 <section id="identifying-the-survey-design-and-variables" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</h3>
-<p>We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the <code>mrdoc/pdf</code> folder or on the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450">UK Data Service website</a>.</p>
+<p>We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the <code>mrdoc/pdf</code> folder or in the data catalogue pages for the data on the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation" target="_blank" rel="noopener">UK Data Service website</a>.</p>
 <p><strong>Question 1</strong> What is the design that was used in this survey (ie how many stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?</p>
 <p>Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the user manual or the data dictionary available in the BSA documentation.</p>
 <p><strong>Question 2</strong> What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?</p>
@@ -354,6 +354,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -388,7 +406,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

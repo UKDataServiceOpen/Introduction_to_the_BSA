@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,7 +79,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 2024</p>
+        <p class="date">March 2024</p>
       </div>
     </div>
     
@@ -110,7 +110,7 @@ background: white;
 
 
 
-<p>This exercise is part of the <a href="https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/" target="_blank" rel="noopener">‘Getting started with the British Social Attitudes Survey (BSA)’</a> online module. In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:</p>
+<p>This exercise is part of the <a href="https://trainingmodules.ukdataservice.ac.uk/attitudes/#/" target="_blank" rel="noopener">‘Introduction to the British Social Attitudes Survey (BSA)’</a> online module. In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:</p>
 <ul>
 <li><p>what proportion of respondents said they voted remain in the EU Referendum?</p></li>
 <li><p>whether people think the government should raise taxes and spend more or reduce tax and cut social expenditures?</p></li>
@@ -129,7 +129,7 @@ cd "C:\Users\YOUR_USER_NAME\Desktop\UKDS".
 show DIRECTORY.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_1.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output window showing the current default directory"></p>
+<p><img src="pics/spss_1.PNG" class="img-fluid figure-img"></p>
 <figcaption>Output of the show DIRECTORY command</figcaption>
 </figure>
 </div>
@@ -137,7 +137,7 @@ show DIRECTORY.</code></pre>
 <pre><code>GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_2.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view"></p>
+<p><img src="pics/spss_2.PNG" class="img-fluid figure-img"></p>
 <figcaption>BSA dataset in SPSS Variables View</figcaption>
 </figure>
 </div>
@@ -148,7 +148,7 @@ show DIRECTORY.</code></pre>
 <pre><code>CODEBOOK all. </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_3.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the output of the CODEBOOK command for the SERIAL variable"></p>
+<p><img src="pics/spss_3.PNG" class="img-fluid figure-img"></p>
 <figcaption>SPSS codebook output for the first variables</figcaption>
 </figure>
 </div>
@@ -161,7 +161,7 @@ show DIRECTORY.</code></pre>
 <pre><code>CODEBOOK TAXSPEND EUVOTWHO PenExp2.  </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_4.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the output of the TAXSPEND command for the SERIAL variable"></p>
+<p><img src="pics/spss_4.PNG" class="img-fluid figure-img"></p>
 <figcaption>SPSS codebook output for TAXSPEND</figcaption>
 </figure>
 </div>
@@ -193,7 +193,7 @@ EXAMINE VARIABLES=PenExp2
   /NOTOTAL.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_5.PNG" class="img-fluid figure-img" alt="&quot;A screenshot of SPPS Output  window showing the unweighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"></p>
+<p><img src="pics/spss_5.PNG" class="img-fluid figure-img"></p>
 <figcaption>SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
@@ -214,7 +214,7 @@ EXAMINE VARIABLES=PenExp2
 WEIGHT off. </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_6.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"></p>
+<p><img src="pics/spss_6.PNG" class="img-fluid figure-img"></p>
 <figcaption>SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
@@ -241,7 +241,7 @@ EXAMINE VARIABLES=PenExp2
   </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_7.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing a bar plot  of the frequency distribution of  the TAXSPEND and EUVOTWHO variables"></p>
+<p><img src="pics/spss_7.PNG" class="img-fluid figure-img"></p>
 <figcaption>SPSS output for GRAPH BAR of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
@@ -349,6 +349,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -383,7 +401,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

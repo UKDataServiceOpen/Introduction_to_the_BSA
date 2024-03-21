@@ -17,7 +17,7 @@ execute:
   warning: false
 ---
 
-This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
+This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
  In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
 
 Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult [our guidelines](https://ukdataserviceopen.github.io/DSP-core-inference/){target="_blank" rel="noopener"}.  
@@ -66,7 +66,7 @@ library(survey) ### Survey design functions
 ### Setting up the working directory
 ### Change the setwd() command  to match the location of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
-setwd("~/Dropbox/work/UKDS/data")
+setwd("~/Documents/UKDS/data")
 
 getwd()
 
@@ -85,7 +85,7 @@ bsa17<-read_spss("UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 
 ### 1. Identifying the survey design and variables 
 
-We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can be found in the documentation supplied with the data. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation){target="_blank" rel="noopener"}.
+We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or  in the data catalogue pages for the data on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation){target="_blank" rel="noopener"}.
 
 **Question 1**
 

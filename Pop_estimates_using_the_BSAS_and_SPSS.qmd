@@ -20,7 +20,7 @@ editor:
     wrap: sentence
 ---
 
-This exercise is part of the ['Getting started with the British Social Attitudes Survey (BSA)'](https://rise.articulate.com/share/dGUdhFV-whQOjnNwFW2rXzp4fM6ZVhXA#/){target="_blank" rel="noopener"} online module.
+This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
 In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:
 
 -   what proportion of respondents said they voted remain in the EU Referendum?
@@ -189,7 +189,7 @@ library(Hmisc) ### Extra statistical functions
 ### Change it to match yours: ie typically 
 ### `C:/USERS/Your_Username_here/Your_data_folder_here`)
 
-setwd("~/Dropbox/work/UKDS/")
+setwd("~/Documents/UKDS/")
 #setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
 
 getwd()
