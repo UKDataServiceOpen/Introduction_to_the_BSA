@@ -4,8 +4,6 @@ author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
 mainfont: "Arial"
-fontsize: 12pt
-title-block: "plain"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
@@ -13,7 +11,7 @@ format:
    toc: true
    smooth-scroll: true
    toc-location: left
-css: bsa.css
+   css: ukds.css
 execute:
   warning: false
 editor: 

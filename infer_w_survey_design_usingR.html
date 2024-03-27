@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.552">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -88,7 +88,7 @@ background: white;
 </style>
 
 
-<link rel="stylesheet" href="bsa.css">
+<link rel="stylesheet" href="ukds.css">
 </head>
 
 <body>
@@ -556,7 +556,7 @@ skip, version off route     Item not applicable       ... a great deal,
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),bsa17.s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                        2.5% 97.5%
-I(Politics.s == "Significantly") 0.430 0.411  0.45</code></pre>
+I(Politics.s == "Significantly") 0.430 0.411 0.450</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,bsa17.s))[<span class="dv">2</span>],</span>
