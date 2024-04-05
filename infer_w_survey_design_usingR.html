@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.552">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -113,7 +113,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 2024</p>
+        <p class="date">April 2024</p>
       </div>
     </div>
     
@@ -184,7 +184,7 @@ background: white;
 </section>
 <section id="specifying-the-survey-design" class="level3">
 <h3 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h3>
-<p>We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie primary sampling units as well as the strata. This is achieved with the <code>svydesign()</code> command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.</p>
+<p>We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie the <em>Primary Sampling Units</em>, as well as the strata. This is achieved with the <code>svydesign()</code> command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint, <span class="at">strata=</span><span class="sc">~</span>StratID, <span class="at">weights=</span><span class="sc">~</span>WtFactor,<span class="at">data=</span>bsa17)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bsa17.s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -498,7 +498,7 @@ RAgeE 47.48289 49.1433</code></pre>
 </section>
 <section id="computing-a-proportion-and-its-95-confidence-interval" class="level3">
 <h3 class="anchored" data-anchor-id="computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</h3>
-<p>We can now similarly estimate the distribution of a categorical variable in the population by computing proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly), for simplicity.</p>
+<p>We can now similarly estimate the distribution of a categorical variable in the population by computing proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly), for simplicity. In principle, given how weights are computed in the BSA, we need to retain the item non response. However since in this case there is only one ‘Don`t know’, we can safely ignore it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa17<span class="sc">$</span>Politics,<span class="st">"label"</span>)     <span class="do">### Phrasing of the question</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

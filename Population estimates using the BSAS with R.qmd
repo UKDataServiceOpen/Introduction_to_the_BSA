@@ -54,6 +54,7 @@ setwd("C:\Users\Your_Username_here\")
 getwd()
 
 # Opening the BSA dataset in SPSS format
+
 bsa20<-read_spss(
        'UKDA-9005-spss/spss/spss25/bsa2020_archive.sav'
        ) 
@@ -72,6 +73,7 @@ library(Hmisc) ### Extra statistical functions
 ### Change the setwd() command  to match the location 
 ### of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
+
 setwd("~/Documents/UKDS/data")
 
 getwd()
@@ -84,16 +86,23 @@ bsa20<-read_spss(
 
 ### 1. Explore the dataset
 
-Start by getting an overall feel for the dataset.
+Start by getting an overall feel for the data.
 Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.
 
 ```{r desc}
-dim(bsa20) ### Gives the number of rows (observations) 
-           ### and columns (variables)
-names(bsa20) ### List variable names in their actual 
-             ### order in the dataset
-head(data.frame(bsa20)) ### Displays the first five 
-                        ### lines of a data frame
+### Gives the number of rows (observations) 
+### and columns (variables)
+dim(bsa20) 
+
+ ### List variable names in their actual 
+ ### order in the dataset
+names(bsa20)
+
+### Displays the first five
+### lines of a data frame
+### Beware, the output might be lengthy!
+head(data.frame(bsa20))  
+                        
 ```
 
 **Questions**
@@ -114,23 +123,29 @@ Alternatively, haven-imported numeric variables can be converted into factors wi
 
 Let's examine the original variable description and value labels.
 
-```{r attr}
-attr(bsa20$TAXSPEND,"label")
-attr(bsa20$TAXSPEND,"labels")
 
-attr(bsa20$EUVOTWHO,"label")
+```{r attr}
+# We can do this variable by variable...
+attr(bsa20$TAXSPEND,"label")
+
+# Or all as once
+t(bsa20|>select(TAXSPEND,EUVOTWHO,PenExp2)
+       |>summarise_all(attr,"label"))
+
+# The same holds with value labels
+attr(bsa20$TAXSPEND,"labels")
 attr(bsa20$EUVOTWHO,"labels")
 
- attr(bsa20$PenExp2,"label")
- attr(bsa20$PenExp2,"labels")
 ```
 
-**Question 3** What do the variables measure and how?\*
+
+
+**Question 3** What do the variables measure and how?
 
 ### 2. Missing values
 
 Let's now examine the distribution of our three variables.
-We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output.
+We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output that include their value labels.
 Review the frequency tables, examining the 'not applicable' and 'don't know' categories.
 
 ```{r summ}
@@ -141,14 +156,13 @@ bsa20%>%select(EUVOTWHO,TAXSPEND) %>%
 summary(bsa20$PenExp2)
 ```
 
-**Question 4** Why for EUVOTWHO are there so many system missing values (NA)?
+**Question 4** Why for EUVOTWHO and PenExp2 are there so many system missing values (NA)?
 Note, you can use the documentation to check if needed.
 What does this mean when it comes to interpreting the percentages?
 
-Now, set all remaining item missing responses including don't knows and prefer not to say as missing values so that they do not appear in the results.
+When analysing survey data, it is sometimes convenient to set all item non responses such as  ´Don't know´ and 'Prefer not to say' as system missing so that they do not appear in the results. With BSA data, this can only be done as long as we do not weight the data (in order to make inference to the British population as a whole), otherwise we might get biased results.
 
-In the code below, we recode the missing values into system missing (NA).
-For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.
+The code below show how to recode the missing values into system missing (NA) using separate variables. For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.
 
 ```{r missing}
 bsa20<-bsa20%>%mutate(
@@ -171,18 +185,36 @@ levels(bsa20$EUVOTWHO.r)
 
 ### 3. Compare unweighted and weighted proportions
 
+
 Let's examine the unweighted responses first.
-At this stage, we use `xtabs()` for the categorical variables and `summary()` for the continuous ones.
+In order to ensure coherence with the remainder of this exercise, we use `xtabs()` for categorical variables and `summary()` for  continuous ones.
+
+Unlike some other surveys, the BSA has retained observations with "Don't knows" and 'Does not apply' when weights were computed. As a result, any univariate analysis needs to retain these observations, otherwise the estimated results might be incorrect. There is a way of obtaining 'clean' estimates without them, but this goes beyond this exercise. Instead, we will examine below results that includes them. 
+
 
 ```{r test}
-round(                               ### Round the results to one decimal
-  100*                               ### Convert proportions to %  
-    prop.table(                      ### Compute proportions
-      xtabs(~TAXSPEND.r,bsa20)       ### Compute frequencies
-      ),
+bsa20<-bsa20%>%mutate(
+              TAXSPEND.f=as_factor(TAXSPEND,"labels"), 
+              EUVOTWHO.f=as_factor(EUVOTWHO,"labels"),
+              PenExp2.=ifelse(PenExp2==-1 | PenExp2>=9998,NA,PenExp2)
+               )
+
+# As before, we can truncate factor levels for a more human-friendly output
+levels(bsa20$TAXSPEND.f)<-substr(levels(bsa20$TAXSPEND.f),1,14)
+levels(bsa20$EUVOTWHO.f)<-substr(levels(bsa20$EUVOTWHO.f),1,6)
+
+
+
+
+round(                               ### Rounds the results to one decimal
+  100*                               ### Converts proportions to %  
+    prop.table(                      ### Computes proportions
+      xtabs(~TAXSPEND.f,bsa20,       ### Computes frequencies,
+             drop.unused.levels = T) ### Leaves out levels with 0 observations),
+      ), 
   1)
 
-round(100*prop.table(xtabs(~EUVOTWHO.r,bsa20)),1)
+round(100*prop.table(xtabs(~EUVOTWHO.f,bsa20,drop.unused.levels = T)),1)
 summary(bsa20$PenExp2)
 ```
 
@@ -196,41 +228,48 @@ The weights are specified after the variable for which we request the frequencie
 
 ```{r weight}
 # Raw output
-wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)
+wtd.table(bsa20$EUVOTWHO.f,weights=bsa20$BSA20_wt_new)
 
 # Converted into proportions            
-round(
+euv.w<-wtd.table(bsa20$EUVOTWHO.f,weights=bsa20$BSA20_wt_new)
+
+# Raw results
+euv.wp<-round(
   100*
     prop.table(
-      wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights),
+      euv.w$sum.of.weights),
   1)
+
+euv.wp
+
+# We can easily improve the output
+cbind(euv.w$x,"Weighted %"=euv.wp)
+
 ```
 
 Now, what proportion say they voted remain in the EU referendum?
-It is about `r round(100*prop.table(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights))` percent, lower than the unweighted proportion and closer to the actual referendum results.
+It is about `r round(100*prop.table(wtd.table(bsa20$EUVOTWHO.f,weights=bsa20$BSA20_wt_new)$sum.of.weights))[1]` percent, lower than the unweighted proportion and closer to the actual referendum results.
 Do you have an idea as to why this might be the case?
 
 ### 4. Confidence intervals
 
-So far, we have just computed point estimates without worrying about their precision.
-We can compute confidence intervals to indicate the precision (uncertainty) of our estimates.
-We will leave exploration of survey design functions provided by the `survey` package to the next session and will compute confidence intervals 'by hand' in this one.
-By doing so, we are choosing to ignore the survey design and pretend that the sample was collected using simple random sampling.
+So far, we have just computed point estimates without worrying about their precision. Estimates precision (or uncertainty) does matter insofar as it determines how big the ranges within which  'true' population values are likely to be. These are also known as the *confidence intervals* of our estimates.
 
-The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions.
-Although this is not shown by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually.
-In other words, we need to compute one set of confidence interval for each one of the categories of `TAXSPEND.r` and `EUVOTWHO.r` separately.
-We can then assemble them a table of results) using `rbind()`.
+In this exercise, we will compute confidence intervals 'by hand'. By doing so, we are choosing to ignore the survey design, which amounts to assuming that the sample was collected using simple random sampling - which wasn't the case - and therefore increase the bias of our estimates. We will leave exploration of the more reliable survey design functions provided by the `survey` package to the next exercise.
 
-We need to provide binconf() with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations.
+The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions. 
+Although this is usually left under the hood by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually. In other words, we need to compute one set of confidence interval for each one of the categories of `TAXSPEND.f` and `EUVOTWHO.f` separately.
+We can then gather them into a table of results using `rbind()`.
+
+We need to provide `binconf()` with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations.
 
 ```{r ci}
 ### Raw confidence interval for EUVOTWHO, unweighted
-binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))
+binconf(table(bsa20$EUVOTWHO.f=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))
 
 ### We can convert the output into rounded percentages for better readability.
 round(100*
-      binconf(table(bsa20$EUVOTWHO.r=="Remain"),sum(!is.na(bsa20$EUVOTWHO.r)))[1,],
+      binconf(table(bsa20$EUVOTWHO.f=="Remain"),sum(!is.na(bsa20$EUVOTWHO.f)))[1,],
       1)
 ```
 
@@ -238,8 +277,8 @@ We can adapt the syntax above to make it work with weighted frequencies:
 
 ```{r ciprop1}
 round(100*
-  binconf(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights[2],
-          sum(wtd.table(bsa20$EUVOTWHO.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)),
+  binconf(wtd.table(bsa20$EUVOTWHO.f,weights=bsa20$BSA20_wt_new)$sum.of.weights[2],
+          sum(wtd.table(bsa20$EUVOTWHO.f,weights=bsa20$BSA20_wt_new)$sum.of.weights)),
       1)
 ```
 
@@ -248,13 +287,15 @@ What are the differences between weighted and unweighted confidence intervals fo
 Let us now do the same with people's views about government tax and spending.
 
 ```{r ciprop2}
-w.n<-sum(wtd.table(bsa20$TAXSPEND.r,weights=bsa20$BSA20_wt_new)$sum.of.weights)
+w.n<-sum(wtd.table(bsa20$TAXSPEND.f,weights=bsa20$BSA20_wt_new)$sum.of.weights)
 
-ciprop<-cbind(levels(bsa20$TAXSPEND.r),
+ciprop<-cbind(levels(bsa20$TAXSPEND.f),
 round(100*
-binconf(wtd.table(bsa20$TAXSPEND.r,weights=bsa20$BSA20_wt_new)$sum.of.weights,w.n),
+binconf(wtd.table(bsa20$TAXSPEND.f,weights=bsa20$BSA20_wt_new)$sum.of.weights,w.n),
 1)
 )
+
+ciprop
 ```
 
 When computing confidence intervals for means, two steps are usually needed, whether embedded in a single line of code or not: compute the mean (or any other estimate), then the confidence interval itself using `confint`.
@@ -275,6 +316,8 @@ se.p<-sqrt(wtd.var(bsa20$PenExp2.r,weights=bsa20$BSA20_wt_new))
 n<-sum(bsa20$BSA20_wt_new[!is.na(bsa20$PenExp2)])
 
 ci<-c(m.p,m.p-1.96*(se.p/sqrt(n)),m.p+1.96*(se.p/sqrt(n)))
+
+round(ci,1)
 ```
 
 **Question 6** How much do people think they will get at state pension age?
