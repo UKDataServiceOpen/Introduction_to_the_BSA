@@ -7,6 +7,7 @@ mainfont: "Arial"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
+#  docx: default
   html:
    toc: true
    smooth-scroll: true
@@ -160,9 +161,9 @@ summary(bsa20$PenExp2)
 Note, you can use the documentation to check if needed.
 What does this mean when it comes to interpreting the percentages?
 
-When analysing survey data, it is sometimes convenient to set all item non responses such as  ´Don't know´ and 'Prefer not to say' as system missing so that they do not appear in the results. With BSA data, this can only be done as long as we do not weight the data (in order to make inference to the British population as a whole), otherwise we might get biased results.
+When analysing survey data, it is sometimes convenient to set all item nonresponses such as ´Don’t know´ and ‘Prefer not to say’ as system missing so that they do not appear in the results. However, the BSA treated 'don't know' and refusals as valid responses when weights were computed. Therefore with the BSA, we can convert item non response to system missing as along as we are not planning to use the data to make inference about the British population, otherwise we might get biased results. 
 
-The code below show how to recode the missing values into system missing (NA) using separate variables. For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.
+For the record, the code below show how to recode the missing values into system missing (NA) using separate variables. For ease of interpretation, we also convert the original numeric variable into labelled factors using `as_factor()`, so that they directly display the value labels.
 
 ```{r missing}
 bsa20<-bsa20%>%mutate(
@@ -189,7 +190,7 @@ levels(bsa20$EUVOTWHO.r)
 Let's examine the unweighted responses first.
 In order to ensure coherence with the remainder of this exercise, we use `xtabs()` for categorical variables and `summary()` for  continuous ones.
 
-Unlike some other surveys, the BSA has retained observations with "Don't knows" and 'Does not apply' when weights were computed. As a result, any univariate analysis needs to retain these observations, otherwise the estimated results might be incorrect. There is a way of obtaining 'clean' estimates without them, but this goes beyond this exercise. Instead, we will examine below results that includes them. 
+Unlike some other surveys, the BSA has retained observations with “Don’t knows” and ‘Does not apply’ when weights were computed. As a result, any univariate analysis aiming to make inference about the British population needs to retain these observations, otherwise the estimated results might be incorrect. As a result the code below retains them.  
 
 
 ```{r test}
@@ -255,7 +256,11 @@ Do you have an idea as to why this might be the case?
 
 So far, we have just computed point estimates without worrying about their precision. Estimates precision (or uncertainty) does matter insofar as it determines how big the ranges within which  'true' population values are likely to be. These are also known as the *confidence intervals* of our estimates.
 
-In this exercise, we will compute confidence intervals 'by hand'. By doing so, we are choosing to ignore the survey design, which amounts to assuming that the sample was collected using simple random sampling - which wasn't the case - and therefore increase the bias of our estimates. We will leave exploration of the more reliable survey design functions provided by the `survey` package to the next exercise.
+In this exercise, we will be computing confidence intervals ‘by hand‘ and ignore the survey design (ie whether clustering or stratification were used when collecting the sample) as the information is not available in this edition of the BSA. This amounts to assuming that the sample was collected using simple random sampling - which wasn’t the case - and increase the bias of our estimates. 
+
+In this exercise, we will be computing confidence intervals ‘by hand‘ and ignore the survey design (ie whether clustering or stratification were used when collecting the sample) as the information is not available in this edition of the BSA. This amounts to assuming that the sample was collected using simple random sampling - which wasn’t the case - and increase the bias of our estimates. 
+
+We will explore  the more reliable survey design functions provided by the `survey` package in the next exercise.
 
 The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions. 
 Although this is usually left under the hood by traditional statistical packages, estimating confidence intervals for proportions of categorical variables necessitates looking at each one of them individually. In other words, we need to compute one set of confidence interval for each one of the categories of `TAXSPEND.f` and `EUVOTWHO.f` separately.

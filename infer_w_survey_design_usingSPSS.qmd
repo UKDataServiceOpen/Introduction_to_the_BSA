@@ -7,6 +7,7 @@ mainfont: "Arial"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
+  docx: default
   html:
    toc: true
    smooth-scroll: true
