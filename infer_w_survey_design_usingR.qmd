@@ -66,14 +66,13 @@ library(survey) ### Survey design functions
 ### Setting up the working directory
 ### Change the setwd() command  to match the location of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
-setwd("~/Documents/UKDS/data")
+setwd("~/OneDrive/data")
 
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa17<-read_spss("UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+bsa17<-read_spss("bsa/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 ```
-
 
 
 
@@ -89,20 +88,23 @@ We first need to find out about the survey design that was used in the BSA 2017,
 
 **Question 1**
 
-What is the design that was used in this survey (i.e. how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)? 
+*What is the design that was used in this survey (i.e. how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?*
 
 Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the data documentation or the data dictionary available in the BSA documentation.  
 
 **Question 2**
 
-What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables? 
+*What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?* 
 
 ### 2. Specifying the survey design 
 We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie the *Primary Sampling Units*, as well as the strata. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.
 
 
 ```{r svy}
-bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
+bsa17.s<-svydesign(ids=~Spoint,       ### Primary Sampling Units
+                   strata=~StratID,   ### Strata if stratified design
+                   weights=~WtFactor, ### Weights
+                   data=bsa17)        ### The dataset
 class(bsa17.s)
 summary(bsa17.s) ### Warning: very long output
 ```
@@ -147,38 +149,65 @@ round(c(w.m,w.ci),1)
 ```
 
 **Question 3**
-What are the consequences of not accounting for the sample design; not using  weights and accounting for the sample design when:
-- inferring the mean value of the population age?
-- inferring the uncertainty  of our estimate of the population age? 
+
+*What are the consequences of not accounting for the sample design; not using  weights and accounting for the sample design when:*
+
+*- inferring the mean value of the population age?*
+
+*- inferring the uncertainty  of our estimate of the population age?*
 
 ### 4. Computing a proportion and its 95% confidence interval
-We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. The BSA regards 'don't know' and 'refusal' responses as valid but in this case there is only one 'don't know' and no 'refusal' responses, so we can safely ignore these categories.   
+We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. The BSA regards 'don't know' and 'refusal' responses as valid but in this case there is only one 'don't know' and no 'refusal' responses, so we can safely ignore these categories.   As before, we prefer using `xtabs()` over `table()` as it allows us to ignore unused factor levels.
 
 ```{r polrecode}
 attr(bsa17$Politics,"label")     ### Phrasing of the question
-table(as_factor(bsa17$Politics)) ### Sample distribution
+xtabs(~as_factor(Politics),
+      data=bsa17,
+      drop.unused.levels = T) ### Sample distribution
 
 bsa17$Politics.s<-ifelse(bsa17$Politics==1 | bsa17$Politics==2,
                          "Significantly",NA)
 bsa17$Politics.s<-ifelse(bsa17$Politics>=3 & bsa17$Politics<=5,
                          "Not Interested",bsa17$Politics.s)
 bsa17$Politics.s<-as.factor(bsa17$Politics.s)
-rbind(table(bsa17$Politics.s),
-      round(100*prop.table(table(bsa17$Politics.s)),1)
+
+rbind(xtabs(~as_factor(Politics.s),
+      data=bsa17,
+      drop.unused.levels = T) ,
+      round(
+        100*prop.table(
+          xtabs(~as_factor(Politics),
+          data=bsa17,
+          drop.unused.levels = T) 
+          ),
+        1)
 )
 ``` 
 Changes in a data frame are not automatically transferred into `svydesign` objects  used for inferences. We therefore need to recreate it each time  we create or recode a variable.
 
 ```{r poltab}
 
-rbind(round(wtd.table(bsa17$Politics.s,bsa17$WtFactor)$sum.of.weights,1),
-      round(100*prop.table(wtd.table(bsa17$Politics.s,bsa17$WtFactor)$sum.of.weights),1)
+
+rbind(round(xtabs(WtFactor~Politics.s,bsa17),
+            1),
+      round(100*
+              prop.table(
+                xtabs(WtFactor~Politics.s,bsa17))
+            ,1)
 )
 
-bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
 
-rbind(round(svytable(~Politics.s,bsa17.s),1),
-      round(100*prop.table(svytable(~Politics.s,bsa17.s)),1)
+
+bsa17.s<-svydesign(ids=~Spoint,      
+                   strata=~StratID, 
+                   weights=~WtFactor,
+                   data=bsa17)
+
+rbind(round(svytable(~Politics.s,
+                     bsa17.s),1),
+      round(100*prop.table(
+        svytable(~Politics.s,
+                 bsa17.s)),1)
 )
 ```
 As with the mean of age earlier, we can see that the weighted and unweighted point estimates of the proportion of respondents  significantly interested in politics  differ, even if  slightly, and that weighted point estimates  do not differ irrespective of the  survey design being accounted for.
@@ -188,15 +217,19 @@ Let us now examine the confidence intervals of these proportions. Traditional st
 Confidence intervals for proportion of categorical variables are usually computed as a sequence   of binomial/dichotomic estimations -- ie one for each category. In R this needs to be specified explicitly via the `svyciprop()` and `I()` functions. The former actually computes the proportion and its confidence interval (by default 95%), whereas the latter allows us to define the category we are focusing on (in case of non dichotomic variable).
 
 ```{r cipoltab}
-svyciprop(~I(Politics.s=="Significantly"),bsa17.s)
+svyciprop(~I(Politics.s=="Significantly"),
+          bsa17.s)
+
 round(100*
-        c(prop.table(svytable(~Politics.s,bsa17.s))[2],
-attr(svyciprop(~I(Politics.s=="Significantly"),bsa17.s),"ci")),1
+        c(prop.table(
+          svytable(~Politics.s,bsa17.s))[2],
+attr(svyciprop(~I(Politics.s=="Significantly"),
+               bsa17.s),"ci")),1
 )
 ```                     
 **Question 4**
 
-What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use `RAgecat5`
+*What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use `RAgecat5`*
 
 ### 5. Domain (ie subpopulation) estimates
 Computing estimates for specific groups of a sample (for example the average age of people who reported being interested in politics) is not much more difficult than  doing it for the sample as a whole. However doing it as part of an inferential analysis requires some caution. Calculating weighted estimates  for  a subpopulation, amounts to computing second order estimates ie an estimate for a group whose size needs to be estimated first. Therefore, attempting this while  leaving out of  the rest of the sample might  yield incorrect results. This is why using survey design informed functions is particularly recommended in such cases.
@@ -209,7 +242,10 @@ The `survey` package function`svyby()` makes such domain estimation relatively s
 - And the type of type of variance estimation we would like to see displayed ie standard errors or confidence interval  
 ```{r bygor}
 bsa17$gor.f<-as_factor(bsa17$GOR_ID)
-bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
+bsa17.s<-svydesign(ids=~Spoint, 
+                   strata=~StratID, 
+                   weights=~WtFactor,
+                   data=bsa17)
 
 round(svyby(~RAgeE,by=~gor.f,svymean,design=bsa17.s,vartype = "ci")[-1],1)
 ```
@@ -231,21 +267,19 @@ round(
 ```
  **Question 5**
  
-What is the 95% confidence interval for the proportion of people interested in politics in the South West? Is the proportion likely to be different in London? In what way? What is the region of the UK for which the precision of the estimates is likely to be the smallest?
+*What is the 95% confidence interval for the proportion of people interested in politics in the South West? Is the proportion likely to be different in London? In what way? What is the region of the UK for which the precision of the estimates is likely to be the smallest?*
 
 When using `svyby()`, we can  define domains or subpopulations with several variables, not just one. For example, we could have looked at gender differences in political affiliations by regions. However, as the size of subgroups decrease, so does the precision of the estimates as their confidence interval widens, to a point where their substantive interest is not meaningful anymore. 
 
  **Question 6**
  
-Using interest in politics as before, and three category age 
-`RAgecat5` (which you may want to recode as a factor in order to improve  display clarity): 
+*Using interest in politics as before, and three category age `RAgecat5` (which you may want to recode as a factor in order to improve  display clarity): *
 
-- Produce a table of results showing the proportion of respondents significantly interested in Politics by age group
+*- Produce a table of results showing the proportion of respondents significantly interested in Politics by age group*
 
+*- Assess whether the age difference in interest for politics is similar for each gender?*
 
-- Assess whether the age difference in interest for politics is similar for each gender?
-
-- Based on the data, is it fair to say that men aged under 35 tend to  be more likely to declare  themselves  interested  in politics  than women aged 55 and above?
+*- Based on the data, is it fair to say that men aged under 35 tend to  be more likely to declare  themselves  interested  in politics  than women aged 55 and above?*
 
 
 
@@ -292,24 +326,3 @@ Older respondents both male and female tend to be more involved in politics than
 The confidence interval for the proportion of men under 35 and women above 55 interested in politics overlaps; it is unlikely that they  differ in the population.
 
 
-
-
-<!-- # Find number of obs per type -->
-<!-- rcat<-wtd.table(bsa17$RSexAge2,bsa17$WtFactor)$sum.of.weights -->
-<!-- n=length(bsa17$RSexAge2) -->
-<!-- # Get the proportion -->
-<!-- p_hat = rcat[1]/n -->
-<!-- alpha=.95 -->
-<!-- # Calculate the critical z-score -->
-<!-- z = qnorm(1-alpha/2) -->
-
-<!-- # Compute the CI -->
-<!-- 100*(p_hat + c(-1,1)*z*sqrt(p_hat*(1-p_hat)/n)) -->
-
-<!-- svyby(~RAgeE,by=~GOR_ID+Rsex,svymean,design=bsa17.s,vartype = "ci") -->
-
-<!-- svyby(~I(Politics.s=="Not"),by=~GOR_ID+Rsex,svyciprop,design=bsa17.s,vartype="ci") -->
-
-<!-- round(100*prop.table(ftable(svytable(~GOR_ID+Rsex+Politics.s,design=bsa17.s)),1),1) -->
-
-<!-- round(100*prop.table(ftable(svytable(~GOR_ID+Rsex+Politics.s,design=bsa17.s)),1),1) -->
