@@ -7,12 +7,12 @@ mainfont: "Arial"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
-#  docx: default
   html:
    toc: true
    smooth-scroll: true
    toc-location: left
    css: ukds.css
+  pdf: default
 execute:
   warning: false
 ---

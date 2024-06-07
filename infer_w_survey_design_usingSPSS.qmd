@@ -7,14 +7,14 @@ mainfont: "Arial"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
-#  docx: default
   html:
    toc: true
    smooth-scroll: true
    toc-location: left
    css: ukds.css
+  pdf: default 
 execute:
-  warning: false
+    warning: false
 ---
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.

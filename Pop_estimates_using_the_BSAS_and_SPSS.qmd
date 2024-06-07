@@ -12,6 +12,7 @@ format:
    smooth-scroll: true
    toc-location: left
    css: ukds.css
+  pdf: default 
 execute:
   warning: false
 editor: 
