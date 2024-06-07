@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.552">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,7 +79,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 2024</p>
+        <p class="date">June 2024</p>
       </div>
     </div>
     
@@ -174,6 +174,7 @@ WEIGHT OFF.</code></pre>
 <section id="computing-a-proportion-and-its-95-confidence-interval" class="level3">
 <h3 class="anchored" data-anchor-id="computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</h3>
 <p>We can now similarly compute an estimate of a proportion (or percentage) of a categorical variable in the population. For instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly) in order to simplify the analysis.</p>
+<p>The BSA regards ‘don’t know’ and ‘refusal’ responses as valid but since in this case there is only one ‘don’t know’ and no ‘refusal’, we can safely ignore these categories and recode them as system missing.</p>
 <pre><code>FREQUENCIES VARIABLES=Politics
   /ORDER=ANALYSIS.
 
@@ -242,13 +243,6 @@ CSTABULATE
 <li><p>Assess whether the age difference in interest for politics is similar for each gender?</p></li>
 <li><p>Based on the data, is it fair to say that men aged under 35 tend to be more likely to declare themselves interested in politics than women aged 55 and above?</p></li>
 </ul>
-<pre><code>CSTABULATE
-  /PLAN FILE='bsa17_SPSS_design.csaplan'
-  /TABLES VARIABLES=Politics.s
-  /SUBPOP TABLE=Rsex BY RAgecat5 DISPLAY=LAYERED
-  /CELLS TABLEPCT
-  /STATISTICS CIN(95) 
-  /MISSING SCOPE=TABLE CLASSMISSING=EXCLUDE.</code></pre>
 </section>
 <section id="answers" class="level3">
 <h3 class="anchored" data-anchor-id="answers">Answers</h3>
@@ -258,19 +252,21 @@ CSTABULATE
 <p><strong>Question 4</strong> The proportion of 17-34 year old in the sample is 28.5 and its 95% confidence interval 26.5, 30.6</p>
 <p><strong>Question 5</strong> The 95% confidence interval for the proportion of people interested in politics in the South West is 39.8-53.4. By contrast, it is 47.6-60.8 in London. The region with the lowest precision of estimates (ie the widest confidence interval) is Wales, with a 20 percentage point difference between the upper and lower bounds of the confidence interval.</p>
 <p><strong>Question 6</strong></p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>             I(Politics.s == "Significantly") ci_l ci_u
-17-34.Male                               42.9 37.7 48.2
-35-54.Male                               50.8 46.6 54.9
-55+.Male                                 57.8 53.9 61.6
-17-34.Female                             26.3 22.0 31.1
-35-54.Female                             34.1 30.6 37.8
-55+.Female                               43.0 39.6 46.5</code></pre>
-</div>
+<pre><code>CSTABULATE
+  /PLAN FILE='bsa17_SPSS_design.csaplan'
+  /TABLES VARIABLES=Politics.s
+  /SUBPOP TABLE=Rsex BY RAgecat5 DISPLAY=LAYERED
+  /CELLS TABLEPCT
+  /STATISTICS CIN(95) 
+  /MISSING SCOPE=TABLE CLASSMISSING=EXCLUDE.</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/spss_8.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing a contingency table of whether respondents are interested in politics by 4 category age group and gender"></p>
+<figcaption>SPSS output for POLITICS.s by Rsex and RAgecat5</figcaption>
+</figure>
 </div>
 <p>Older respondents both male and female tend to be more involved in politics than younger ones.</p>
-<p>The confidence interval for the proportion of men under 35 and women above 55 interested in politics overlaps; it is unlikely that they differ in the population.</p>
+<p>The confidence intervals for the proportion of men under 35 and women above 55 interested in politics overlap; it is unlikely that they differ in the population.</p>
 </section>
 
 </main>

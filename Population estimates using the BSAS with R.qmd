@@ -95,7 +95,7 @@ bsa20<-read_spss(
 ### 1. Explore the dataset
 
 Start by getting an overall feel for the data.
-Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.
+Use the code below to produce a summary of all the variables in the dataset.
 
 ```{r head1}
 ### Gives the number of rows (observations) 

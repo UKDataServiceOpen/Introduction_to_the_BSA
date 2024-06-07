@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.552">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,7 +79,7 @@ background: white;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 2024</p>
+        <p class="date">June 2024</p>
       </div>
     </div>
     
@@ -98,7 +98,10 @@ background: white;
   <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">2. Missing values</a></li>
   <li><a href="#compare-unweighted-and-weighted-frequencies" id="toc-compare-unweighted-and-weighted-frequencies" class="nav-link" data-scroll-target="#compare-unweighted-and-weighted-frequencies">3. Compare unweighted and weighted frequencies</a></li>
   <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">4. Confidence intervals</a></li>
-  <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a></li>
+  <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a>
+  <ul class="collapse">
+  <li><a href="#appendix-recoding-nonresponses-as-system-missing" id="toc-appendix-recoding-nonresponses-as-system-missing" class="nav-link" data-scroll-target="#appendix-recoding-nonresponses-as-system-missing">Appendix: recoding nonresponses as system missing</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -129,7 +132,7 @@ cd "C:\Users\YOUR_USER_NAME\Desktop\UKDS".
 show DIRECTORY.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_1.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_1.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output window showing the current default directory"></p>
 <figcaption>Output of the show DIRECTORY command</figcaption>
 </figure>
 </div>
@@ -137,48 +140,44 @@ show DIRECTORY.</code></pre>
 <pre><code>GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_2.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_2.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view"></p>
 <figcaption>BSA dataset in SPSS Variables View</figcaption>
 </figure>
 </div>
 </section>
-<section id="explore-the-dataset" class="level1">
-<h1>1. Explore the dataset</h1>
+<section id="explore-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="explore-the-dataset">1. Explore the dataset</h3>
 <p>Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset.</p>
 <pre><code>CODEBOOK all. </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_3.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_3.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the output of the CODEBOOK command for the SERIAL variable"></p>
 <figcaption>SPSS codebook output for the first variables</figcaption>
 </figure>
 </div>
 <p><strong>Questions</strong></p>
-<ol type="1">
-<li>What is the overall sample size?</li>
-<li>How many variables are in the dataset?</li>
-</ol>
+<p><em>1. What is the overall sample size?</em> <em>2. How many variables are in the dataset?</em></p>
 <p>Now, focus on the three variables we will use.</p>
 <pre><code>CODEBOOK TAXSPEND EUVOTWHO PenExp2.  </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_4.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_4.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the output of the TAXSPEND command for the SERIAL variable"></p>
 <figcaption>SPSS codebook output for TAXSPEND</figcaption>
 </figure>
 </div>
-<p><strong>Questions 3</strong> What do the variables measure and how?*</p>
+<p><strong>Questions 3</strong></p>
+<p><em>What do the variables measure and how?</em></p>
 </section>
-<section id="missing-values" class="level1">
-<h1>2. Missing values</h1>
+<section id="missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="missing-values">2. Missing values</h3>
 <p>Review the frequency tables, examining the not applicable and don’t know categories.</p>
-<p><strong>Question 4</strong> Why for EUVOTWHO are there so many not applicable? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages?</p>
-<p>Now, set all item missing responses including don’t knows and prefer not to say as missing values.</p>
-<p>The SPSS syntax below includes the command, the variables and the relevant missing values in (). Note, you can set missing values more than 1 at a time if they have the same missing value pattern.</p>
-<pre><code>MISSING VALUES PenExp2 (-1, 9998, 9999). 
-MISSING VALUES TAXSPEND (-1, 8, 9). 
-MISSING VALUES EUVOTWHO (-1, 3 THRU 9). </code></pre>
+<p><strong>Question 4</strong></p>
+<p><em>Why for EUVOTWHO are there so many not applicable? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages?</em></p>
+<p>When analysing survey data, it is sometimes convenient to recode item nonresponses such as ´Don’t know´ and ‘Prefer not to say’ as system missing so that they do not appear in the results. An example of the syntax required to achieve this with EUVOTWHO and TAXSPEND is provided in the appendix.</p>
+<p>Unlike some other surveys, ‘Don’t knows’ and ‘Does not apply’ were not removed when weights were computed in the BSA. As a result, analyses using weights (ie when planning to use the data to make inference about the British population) need to retain these observations, otherwise estimated results might be incorrect.</p>
 </section>
-<section id="compare-unweighted-and-weighted-frequencies" class="level1">
-<h1>3. Compare unweighted and weighted frequencies</h1>
+<section id="compare-unweighted-and-weighted-frequencies" class="level3">
+<h3 class="anchored" data-anchor-id="compare-unweighted-and-weighted-frequencies">3. Compare unweighted and weighted frequencies</h3>
 <p>Let’s examine the weighted responses.</p>
 <pre><code>WEIGHT Off.
 *This line is probably not unnecessary as we have not applied a weight yet; it has been included just to make sure we are looking at unweighed results. 
@@ -193,7 +192,7 @@ EXAMINE VARIABLES=PenExp2
   /NOTOTAL.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_5.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_5.PNG" class="img-fluid figure-img" alt="&quot;A screenshot of SPPS Output  window showing the unweighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"></p>
 <figcaption>SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
@@ -214,14 +213,14 @@ EXAMINE VARIABLES=PenExp2
 WEIGHT off. </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_6.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_6.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables"></p>
 <figcaption>SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
 <p>Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results.</p>
 </section>
-<section id="confidence-intervals" class="level1">
-<h1>4. Confidence intervals</h1>
+<section id="confidence-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-intervals">4. Confidence intervals</h3>
 <p>Add confidence intervals to the bar charts and mean to indicate uncertainty due to sampling error.</p>
 <pre><code>WEIGHT BY BSA20_wt_new.
 GRAPH
@@ -241,12 +240,14 @@ EXAMINE VARIABLES=PenExp2
   </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pics/spss_7.PNG" class="img-fluid figure-img"></p>
+<p><img src="pics/spss_7.PNG" class="img-fluid figure-img" alt="A screenshot of SPPS Output  window showing a bar plot  of the frequency distribution of  the TAXSPEND and EUVOTWHO variables"></p>
 <figcaption>SPSS output for GRAPH BAR of TAXSPEND and EUVOTWHO</figcaption>
 </figure>
 </div>
-<p><strong>Question 5 </strong> What proportion think government should increase taxes and spend more on health, education and social benefits?</p>
-<p><strong>Question 6 </strong> How much do people think they will get at state pension age?</p>
+<p><strong>Question 5 </strong></p>
+<p><em>What proportion think government should increase taxes and spend more on health, education and social benefits?</em></p>
+<p><strong>Question 6 </strong></p>
+<p><em>How much do people think they will get at state pension age?</em></p>
 <p><strong>Additional question</strong></p>
 <p>Select two variables that interest you and examine their distribution.</p>
 </section>
@@ -266,6 +267,18 @@ EXAMINE VARIABLES=PenExp2
 <li><p>About 50% say the government should increase taxes and spend more.</p></li>
 <li><p>The amount people think they will get at state pension age varies between £0 and £7000, with an average in the region between £170 and £184</p></li>
 </ol>
+<section id="appendix-recoding-nonresponses-as-system-missing" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-recoding-nonresponses-as-system-missing">Appendix: recoding nonresponses as system missing</h2>
+<p>The code below provides and example of how to recode missing values including ‘don’t knows’ and ‘prefer not to say’ into system missing.</p>
+<p>The SPSS syntax below includes the command, the variables and the relevant missing values in (). Note, you can set missing values more than 1 at a time if they have the same missing value pattern.</p>
+<pre><code>COMPUTE EUVOTWHO_m=EUVOTWHO.
+COMPUTE TAXSPEND_m=TAXSPEND.
+COMPUTE PenExp2_m=PenExp2.
+
+MISSING VALUES PenExp2_m (-1, 9998, 9999). 
+MISSING VALUES TAXSPEND_m (-1, 8, 9). 
+MISSING VALUES EUVOTWHO_m (-1, 3 THRU 9). </code></pre>
+</section>
 </section>
 
 </main>

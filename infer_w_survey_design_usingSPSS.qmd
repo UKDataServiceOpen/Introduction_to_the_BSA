@@ -7,7 +7,7 @@ mainfont: "Arial"
 title-block-banner: "white"
 title-block-banner-color: "#742082"
 format:
-  docx: default
+#  docx: default
   html:
    toc: true
    smooth-scroll: true
@@ -55,7 +55,8 @@ CD 'C:\Users\YOUR_USER_NAME\Desktop\UKDS'.
 In principle, we should  tell SPSS that we are working with a three stage stratified cluster sample. In practice however, we only have information about the initial ie primary sampling units.  
 This is achieved with the ```CSPLAN``` command through we create a plan file which contains the survey design information.
 
-```{r open,echo=F}
+```{r open}
+#| echo: false
 rm(list=ls())
 library(haven)
 library(dplyr)
@@ -64,9 +65,9 @@ library(survey)
 
 #setwd("C:/Users/mscsepw2/OneDrive - The University of Manchester/Surveyskills")
 #setwd ("C:/Users/msrahjb2/Dropbox (The University of Manchester)/Surveyskills")
-setwd ("~/Documents/UKDS/")
+setwd ("~/OneDrive/data/")
 
-bsa17<-read_spss("data/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
+bsa17<-read_spss("bsa/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 #bsa17.s<-svydesign(ids=~Spoint+Sserial, strata=~StratID, weights=~WtFactor,data=bsa17)
 ```
 ```
@@ -124,9 +125,14 @@ What are the consequences of weighing but not accounting for the sample design; 
 - inferring the uncertainty  of our estimate of the population age? 
 
 ### 4. Computing a proportion and its 95% confidence interval
-We can now similarly compute an estimate of a proportion (or percentage)  of a categorical variable in the population. For instance, the proportion of people who declare themselves interested in politics. This is the ```Politics``` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly) in order to simplify the analysis. 
+We can now similarly compute an estimate of a proportion (or percentage)  of a categorical variable in the population. For instance, the proportion of people who declare themselves interested in politics. This is the ```Politics``` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly) in order to simplify the analysis.  
 
-```{r polrecode, echo=F, include=F}
+The BSA regards 'don't know' and 'refusal' responses as valid but since in this case there is only one 'don't know' and no 'refusal', we can safely ignore these categories and recode them as system missing. 
+
+```{r polrecode}
+#| echo: false
+#| include: false
+
 attr(bsa17$Politics,"label")      #Phrasing of the question
 table(as_factor(bsa17$Politics))  #Sample distribution
 
@@ -190,7 +196,10 @@ The SPSS command `CSDESCRIPTIVES` that we used above makes such domain estimatio
 - And the type of type of variance estimation we would like to see displayed ie standard errors or confidence interval  
 
 
-```{r bygor,echo=F, include=F}
+```{r bygor}
+#| echo: false
+#| include: false
+
 bsa17$gor.f<-as_factor(bsa17$GOR_ID)
 bsa17.s<-svydesign(ids=~Spoint+Sserial, strata=~StratID, weights=~WtFactor,data=bsa17)
 
@@ -224,7 +233,8 @@ CSTABULATE
 ```
 
 
-```{r bygorprop,echo=F}
+```{r bygorprop}
+#| echo: false
 #round(100*svyby(~I(Politics.s=="Significantly"),by=~gor.f,svyciprop,design=bsa17.s,vartype = "ci")[-1],1)
 
 #round(100*svyby(~I(Politics.s=="Significantly"),by=~gor.f,svyciprop,design=bsa17.s,vartype = "ci")[-1],1)[9,c(2,3)]
@@ -246,15 +256,7 @@ Using interest in politics as before, and three category age
 
 - Based on the data, is it fair to say that men aged under 35 tend to  be more likely to declare  themselves  interested  in politics  than women aged 55 and above?
 
-```
-CSTABULATE
-  /PLAN FILE='bsa17_SPSS_design.csaplan'
-  /TABLES VARIABLES=Politics.s
-  /SUBPOP TABLE=Rsex BY RAgecat5 DISPLAY=LAYERED
-  /CELLS TABLEPCT
-  /STATISTICS CIN(95) 
-  /MISSING SCOPE=TABLE CLASSMISSING=EXCLUDE.
-```
+
 
 ### Answers
 
@@ -277,18 +279,20 @@ The 95% confidence interval for the proportion of people interested in politics 
 
 **Question 6**
 
-```{r 6.1,echo=F}
-bsa17$RAgecat5.f<-as_factor(bsa17$RAgecat5)
-bsa17$Rsex.f<-as_factor(bsa17$Rsex)
+```
+CSTABULATE
+  /PLAN FILE='bsa17_SPSS_design.csaplan'
+  /TABLES VARIABLES=Politics.s
+  /SUBPOP TABLE=Rsex BY RAgecat5 DISPLAY=LAYERED
+  /CELLS TABLEPCT
+  /STATISTICS CIN(95) 
+  /MISSING SCOPE=TABLE CLASSMISSING=EXCLUDE.
+```
+![SPSS output for POLITICS.s by  Rsex and  RAgecat5 ](pics/spss_8.PNG){fig-alt='A screenshot of SPPS Output  window showing a contingency table of whether respondents are interested in politics by 4 category age group and gender'}
 
-
-bsa17.s<-svydesign(ids=~Spoint+Sserial, strata=~StratID, weights=~WtFactor,data=bsa17)
-
-round(100*svyby(~I(Politics.s=="Significantly"),by=~RAgecat5.f+Rsex.f,svyciprop,design=bsa17.s,vartype = "ci")[c(-8,-4),c(-2,-1)],1)
-``` 
 Older respondents both male and female tend to be more involved in politics than younger ones.
 
-The confidence interval for the proportion of men under 35 and women above 55 interested in politics overlaps; it is unlikely that they  differ in the population.
+The confidence intervals for the proportion of men under 35 and women above 55 interested in politics overlap; it is unlikely that they  differ in the population.
 
 
 

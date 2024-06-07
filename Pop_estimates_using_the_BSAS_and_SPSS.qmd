@@ -55,7 +55,7 @@ GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.
 
 ![BSA dataset in SPSS Variables View ](pics/spss_2.PNG){fig-alt='A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view'}
 
-# 1. Explore the dataset 
+### 1. Explore the dataset 
 
 Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset. 
 
@@ -67,8 +67,8 @@ CODEBOOK all.
 
 **Questions**
 
-1. What is the overall sample size?
-2. How many variables are in the dataset?
+*1. What is the overall sample size?*
+*2. How many variables are in the dataset?*
 
 
 Now, focus on the three variables we will use. 
@@ -80,26 +80,23 @@ CODEBOOK TAXSPEND EUVOTWHO PenExp2.
 
 
 **Questions 3**
-What do the variables measure and how?* 
+
+*What do the variables measure and how?* 
 
 
-# 2. Missing values
+### 2. Missing values
 
 Review the frequency tables, examining the not applicable and don't know categories. 
 
-**Question 4** Why for EUVOTWHO are there so many not applicable? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages? 
+**Question 4** 
 
-Now, set all item missing responses including don't knows and prefer not to say as missing values.
+*Why for EUVOTWHO are there so many not applicable? Note, you can use the documentation to check if needed. What does this mean when it comes to interpreting the percentages?* 
 
-The SPSS syntax below includes the command, the variables and the relevant missing values in (). Note, you can set missing values more than 1 at a time if they have the same missing value pattern.
+When analysing survey data, it is sometimes convenient to recode item nonresponses such as ´Don’t know´ and ‘Prefer not to say’ as system missing so that they do not appear in the results. An example of the syntax required to achieve this with EUVOTWHO and TAXSPEND is provided in the appendix.
 
-```
-MISSING VALUES PenExp2 (-1, 9998, 9999). 
-MISSING VALUES TAXSPEND (-1, 8, 9). 
-MISSING VALUES EUVOTWHO (-1, 3 THRU 9). 
-```
+Unlike some other surveys,  'Don’t knows' and ‘Does not apply’ were not removed when weights were computed in the BSA. As a result,  analyses using weights (ie when planning to use the data to make inference about the British population) need to retain these observations, otherwise  estimated results might be incorrect.   
 
-# 3. Compare unweighted and weighted frequencies
+### 3. Compare unweighted and weighted frequencies
 Let's examine the weighted responses. 
 
 ```
@@ -115,6 +112,7 @@ EXAMINE VARIABLES=PenExp2
   /MISSING LISTWISE
   /NOTOTAL.
 ```
+
 
 ![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO ](pics/spss_5.PNG){fig-alt='"A screenshot of SPPS Output  window showing the unweighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables'}
 
@@ -140,11 +138,12 @@ WEIGHT off.
 ```
 
 
+
 ![SPSS output for Frequency distribution of TAXSPEND and EUVOTWHO](pics/spss_6.PNG){fig-alt='A screenshot of SPPS Output  window showing the weighted output of the FREQUENCIES command for the TAXSPEND EUVOTWHO variables'}
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 
-# 4. Confidence intervals 
+### 4. Confidence intervals 
 
 Add confidence intervals to the bar charts and mean to indicate uncertainty due to sampling error. 
 
@@ -170,31 +169,34 @@ EXAMINE VARIABLES=PenExp2
 
 ![SPSS output for GRAPH BAR of TAXSPEND and EUVOTWHO ](pics/spss_7.PNG){fig-alt='A screenshot of SPPS Output  window showing a bar plot  of the frequency distribution of  the TAXSPEND and EUVOTWHO variables'}
 
-**Question 5 ** What proportion think government should increase taxes and spend more on health, education and social benefits?
+**Question 5 ** 
 
-**Question 6 **  How much do people think they will get at state pension age? 
+*What proportion think government should increase taxes and spend more on health, education and social benefits?*
+
+**Question 6 **  
+
+*How much do people think they will get at state pension age?* 
 
 **Additional question**
 
 Select two variables that interest you and examine their distribution. 
 
 # Answers
-```{r files,echo=F, include=F}
+```{r files}
+#| echo: false
+#| include: false
 library(dplyr) ### Data manipulation functions
 library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 
-### Setting up the working directory
-### Change it to match yours: ie typically 
-### `C:/USERS/Your_Username_here/Your_data_folder_here`)
 
-setwd("~/Documents/UKDS/")
+setwd("~/OneDrive/data")
 #setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
 
 getwd()
 
 # Opening the BSA dataset in SPSS format
-bsa20<-read_spss('data/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
+bsa20<-read_spss('bsa/UKDA-9005-spss/spss/spss25/bsa2020_archive.sav') 
 
 bsa20<-bsa20%>%mutate(
               TAXSPEND.r=factor(as_factor(TAXSPEND,"labels"), 
@@ -250,3 +252,19 @@ ci<-c(m.p,m.p-1.96*(se.p/sqrt(n)),m.p+1.96*(se.p/sqrt(n)))
 5. About `r round(100*prop.table(data.frame(wtd.table(bsa20$TAXSPEND,bsa20$BSA20_wt_new)[2])))[3,1]`% say the government should increase taxes and spend more. 
 
 6. The amount people think they will get at state pension age varies between £0 and £`r max(bsa20$PenExp2.r,na.rm=T)`, with an average in the region between  £`r round(ci[2])` and £`r round(ci[3])`
+
+## Appendix: recoding nonresponses as system missing
+
+The code below provides and example of how to recode missing values including 'don't knows'  and 'prefer not to say'   into system missing. 
+
+The SPSS syntax below includes the command, the variables and the relevant missing values in (). Note, you can set missing values more than 1 at a time if they have the same missing value pattern.
+
+```
+COMPUTE EUVOTWHO_m=EUVOTWHO.
+COMPUTE TAXSPEND_m=TAXSPEND.
+COMPUTE PenExp2_m=PenExp2.
+
+MISSING VALUES PenExp2_m (-1, 9998, 9999). 
+MISSING VALUES TAXSPEND_m (-1, 8, 9). 
+MISSING VALUES EUVOTWHO_m (-1, 3 THRU 9). 
+```

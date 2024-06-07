@@ -157,7 +157,9 @@ round(c(w.m,w.ci),1)
 *- inferring the uncertainty  of our estimate of the population age?*
 
 ### 4. Computing a proportion and its 95% confidence interval
-We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. The BSA regards 'don't know' and 'refusal' responses as valid but in this case there is only one 'don't know' and no 'refusal' responses, so we can safely ignore these categories.   As before, we prefer using `xtabs()` over `table()` as it allows us to ignore unused factor levels.
+We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. 
+
+The BSA regards 'don't know' and 'refusal' responses as valid but since in this case there is only one 'don't know' and no 'refusal', we can safely ignore these categories and recode them as system missing. As before, we prefer using `xtabs()` over `table()` as it allows us to ignore unused factor levels.
 
 ```{r polrecode}
 attr(bsa17$Politics,"label")     ### Phrasing of the question
@@ -247,7 +249,11 @@ bsa17.s<-svydesign(ids=~Spoint,
                    weights=~WtFactor,
                    data=bsa17)
 
-round(svyby(~RAgeE,by=~gor.f,svymean,design=bsa17.s,vartype = "ci")[-1],1)
+round(svyby(~RAgeE,
+            by=~gor.f,
+            svymean,
+            design=bsa17.s,
+            vartype = "ci")[-1],1)
 ```
  *Note:* we used `[-1]` from the object created by `svyby()` in order to remove a column with alphanumeric values (the region names), so that we could round the results without getting an error.
  
@@ -310,7 +316,10 @@ bsa17$RAgecat5.f<-as_factor(bsa17$RAgecat5)
 bsa17$Rsex.f<-as_factor(bsa17$Rsex)
 
 
-bsa17.s<-svydesign(ids=~Spoint, strata=~StratID, weights=~WtFactor,data=bsa17)
+bsa17.s<-svydesign(ids=~Spoint, 
+                   strata=~StratID, 
+                   weights=~WtFactor,
+                   data=bsa17)
 
 round(
       100*
@@ -323,6 +332,6 @@ round(
 ``` 
 Older respondents both male and female tend to be more involved in politics than younger ones.
 
-The confidence interval for the proportion of men under 35 and women above 55 interested in politics overlaps; it is unlikely that they  differ in the population.
+The confidence intervals for the proportion of men under 35 and women above 55 interested in politics overlap; it is unlikely that they  differ in the population.
 
 
