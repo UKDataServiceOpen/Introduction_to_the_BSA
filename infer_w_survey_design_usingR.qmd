@@ -1,5 +1,5 @@
 ---
-title: "Survey design-informed inference with British Social Attitudes Survey data using R"
+title: "Survey design-informed inference with the British Social Attitudes Survey data using R"
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
@@ -66,7 +66,8 @@ library(survey) ### Survey design functions
 ### Setting up the working directory
 ### Change the setwd() command  to match the location of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
-setwd("~/OneDrive/data")
+### setwd("~/OneDrive/data")
+setwd("C:/Users/qtnvpw1/OneDrive - The University of Manchester/data")
 
 getwd()
 
