@@ -1,6 +1,6 @@
 ---
 title: "Population inference with the British Social Attitudes Survey"
-subtitle: Introduction to using SPSS with weights and survey design variables again
+subtitle: Introduction to using SPSS with weights and survey design variables again and again
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
