@@ -1,6 +1,6 @@
 ---
 title: "Population inference with the British Social Attitudes Survey"
-subtitle: Survey design-informed approach using R
+subtitle: Survey design-informed approach using R - introduction
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
