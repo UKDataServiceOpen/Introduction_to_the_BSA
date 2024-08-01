@@ -1,5 +1,6 @@
 ---
-title: "Survey design-informed inference with British Social Attitudes Survey data using SPSS"
+title: "Population inference with the British Social Attitudes Survey"
+subtitle: Learning to use SPSS with weights and survey design variables
 author: "UK Data Service"
 date: last-modified
 date-format: "MMMM YYYY"
