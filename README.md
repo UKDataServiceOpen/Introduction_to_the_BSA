@@ -4,9 +4,9 @@
 
 ## Introduction to the British Social Attitudes Survey: R and SPSS Practical Exercises
 
-This repository contains the Quarto source files of the practical exercises for the Introduction to Social Attitudes Surveys UKDS Data Skills Module.
+This repository contains the Quarto source files of the practical exercises for the *Introduction to Social Attitudes Surveys* UKDS Data Skills Module.
 
-Direct pointers to the practical exercises on GitHub Pages:
+Direct links to the HTML pages of the exercises on GitHub Pages:
 
 - R version:
 
