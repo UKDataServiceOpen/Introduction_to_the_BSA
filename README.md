@@ -12,8 +12,6 @@ A key aim of the BSA is to track the views and opinions of the public on nationa
 
 In addition, the interview questionnaire consists of various  background and demographic questions. The rest of the questionnaire  includes a series of non-core questions (modules) on a number of social, political, economic and moral topics, which are included in the survey  less frequently.
 
-The full questionnaire of the BSA survey used is available on the [documentation section](https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=200006#!/access-data) of the UK Data Service datasets for each survey year. [FAQs](https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=200006#!/faqs) are available.
-
 Direct links to the HTML pages of the exercises on GitHub Pages:
 
 - R version:
