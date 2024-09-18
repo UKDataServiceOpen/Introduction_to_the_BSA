@@ -6,7 +6,7 @@
 
 This repository contains the Quarto source files of the practical exercises for the Introduction to Social Attitudes Surveys UKDS Data Skills Module.
 
-Direct links to the exercises on GitHub Pages:
+Direct pointers to the practical exercises on GitHub Pages:
 
 - R version:
 
