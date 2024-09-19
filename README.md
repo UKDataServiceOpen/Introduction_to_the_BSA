@@ -15,7 +15,7 @@ In addition, the interview questionnaire consists of various  background and dem
 
 ### Practical exercises
 ## Test commit 1
-
+## Test commit 2
 Direct links to the HTML pages of the exercises on GitHub Pages:
 
 - R version:
