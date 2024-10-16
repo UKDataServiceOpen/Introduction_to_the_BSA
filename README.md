@@ -7,6 +7,10 @@
 This repository contains the Quarto source files of the practical exercises for the *Introduction to Social Attitudes Surveys* UKDS Data Skills Module.
 
 
+A key aim of the BSA is to track the views and opinions of the public on national issues over time. The BSA questionnaire has core questions that are repeated in most years. 
+These cover different topics such as politics, welfare, poverty,  health, education, equalities, and employment.
+In addition, the interview questionnaire consists of various background and demographic questions. 
+The rest of the questionnaire  includes a series of non-core questions (modules) on a number of social, political, economic and moral topics, which are included in the survey  less frequently.
 
 ### Practical exercises
 Direct links to the HTML pages of the exercises on GitHub Pages:
