@@ -1,22 +1,4 @@
----
-title: "Population inference with the British Social Attitudes Survey"
-subtitle: Introduction to using SPSS with weights and survey design variables
-author: "UK Data Service"
-date: last-modified
-date-format: "MMMM YYYY"
-mainfont: "Arial"
-title-block-banner: "white"
-title-block-banner-color: "#742082"
-format:
-  html:
-   toc: true
-   smooth-scroll: true
-   toc-location: left
-   css: ukds.css
-  pdf: default 
-execute:
-    warning: false
----
+## Using SPSS with weights and survey design variables
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
  In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
@@ -66,7 +48,7 @@ library(survey)
 
 #setwd("C:/Users/mscsepw2/OneDrive - The University of Manchester/Surveyskills")
 #setwd ("C:/Users/msrahjb2/Dropbox (The University of Manchester)/Surveyskills")
-setwd ("~/OneDrive/data/")
+setwd ("~/Data/")
 
 bsa17<-read_spss("bsa/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 #bsa17.s<-svydesign(ids=~Spoint+Sserial, strata=~StratID, weights=~WtFactor,data=bsa17)

@@ -1,24 +1,4 @@
----
-title: "Basic population estimates with British Social Attitudes Survey data using SPSS"
-author: "UK Data Service"
-date: last-modified
-date-format: "MMMM YYYY"
-mainfont: "Arial"
-title-block-banner: "white"
-title-block-banner-color: "#742082"
-format:
-  html:
-   toc: true
-   smooth-scroll: true
-   toc-location: left
-   css: ukds.css
-  pdf: default 
-execute:
-  warning: false
-editor: 
-  markdown: 
-    wrap: sentence
----
+##  Basic population estimates with BSA data using SPSS
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
 In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:
@@ -191,7 +171,7 @@ library(haven) ### Importing stata/SPSS files
 library(Hmisc) ### Extra statistical functions
 
 
-setwd("~/OneDrive/data")
+setwd("~/Data")
 #setwd("C:/Users/qtnvpw1/Dropbox/work/UKDS/DSP")
 
 getwd()
