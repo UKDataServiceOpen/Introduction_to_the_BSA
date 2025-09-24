@@ -11,7 +11,7 @@ In the exercise, we examine data from the 2020 British Social Attitudes survey t
 
 Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-### Getting started
+## Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
@@ -72,7 +72,7 @@ bsa20<-read_spss(
        ) 
 ```
 
-### 1. Explore the dataset
+## 1. Explore the dataset
 
 Start by getting an overall feel for the data.
 Use the code below to produce a summary of all the variables in the dataset.
@@ -147,7 +147,7 @@ attr(bsa20$EUVOTWHO,"labels")
 
 *What do the variables measure and how?*
 
-### 2. Missing values
+## 2. Missing values
 
 Let's now examine the distribution of our three variables.
 We can temporarily convert `EUVOTWHO` and `TAXSPEND` into factors using `mutate()` for a more meaningful output that include their value labels.
@@ -174,7 +174,7 @@ Unlike some other surveys,  'Don’t knows' and ‘Does not apply’ were not re
  
  
 
-### 3. Compare unweighted and weighted proportions
+## 3. Compare unweighted and weighted proportions
 
 In this section, we compare  unweighted and weighted prportionso for `EUVOTWHO` and  `TAXSPEND`. Let's examine the unweighted responses first.
 In order to ensure coherence with the remainder of this exercise, we use `xtabs()` for categorical variables and `summary()` for  continuous ones.
@@ -262,7 +262,7 @@ Do you have an idea as to why this might be the case?
 
 A possible explanation is that those more likely to vote 'Remain', such as younger people tend to also be less likely to take part in surveys, and therefore their real prevalence in the population  will be underestimated by unweighted proportions. 
 
-### 4. Confidence intervals
+## 4. Confidence intervals
 
 So far, we have just computed point estimates without worrying about their precision. Estimates precision (or uncertainty) does matter insofar as it determines how big the ranges within which  'true' population values are likely to be. These are also known as the *confidence intervals* of our estimates.
 
@@ -270,7 +270,7 @@ In this exercise, we will be computing confidence intervals ‘by hand‘ and ig
 
 We will explore  the more reliable survey design functions provided by the `survey` package in the next exercise.
 
-#### Confidence intervals for proportions
+### Confidence intervals for proportions
 
 The `Hmisc` package provides `binconf()` a handy function to compute confidence intervals for proportions. We need to provide it with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations. `binconf()` accepts  individual proportions or  complete frequency tables as input. 
 
@@ -341,7 +341,7 @@ ciprop.l
 
 *What proportion think government should increase taxes and spend more on health, education and social benefits?*
 
-#### Confidence intervals for means 
+### Confidence intervals for means{.unnumbered}
 
 
 Several R packages offer functions for computing confidence intervals and standard errors of means.
@@ -365,7 +365,7 @@ round(ci,1)
 
 *How much do people think they will get at state pension age?*
 
-### Answers
+## Answers
 
 1.  There are `r nrow(bsa20)` cases in the dataset.
 

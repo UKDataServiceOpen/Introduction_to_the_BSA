@@ -1,4 +1,4 @@
-##  Basic population estimates with BSA data using SPSS
+#  Basic population estimates with BSA data using SPSS
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
 In the exercise, we examine data from the 2020 British Social Attitudes survey to find out:
@@ -11,7 +11,7 @@ In the exercise, we examine data from the 2020 British Social Attitudes survey t
 
 Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-### Getting started
+## Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9005){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
@@ -36,7 +36,7 @@ GET FILE='BSA\UKDA-9005-spss\spss\spss25\bsa2020_archive.sav'.
 
 ![BSA dataset in SPSS Variables View ](pics/spss_2.PNG){fig-alt='A screenshot of SPPS Data Editor  window showing the BSA dataset in variable view'}
 
-### 1. Explore the dataset 
+## 1. Explore the dataset 
 
 Start by getting an overall feel for the dataset. Either inspect variables and cases in the data editor or use the code below to produce a summary of all the variables in the dataset. 
 
@@ -65,7 +65,7 @@ CODEBOOK TAXSPEND EUVOTWHO PenExp2.
 *What do the variables measure and how?* 
 
 
-### 2. Missing values
+## 2. Missing values
 
 Review the frequency tables, examining the not applicable and don't know categories. 
 
@@ -77,7 +77,7 @@ When analysing survey data, it is sometimes convenient to recode item nonrespons
 
 Unlike some other surveys,  'Don’t knows' and ‘Does not apply’ were not removed when weights were computed in the BSA. As a result,  analyses using weights (ie when planning to use the data to make inference about the British population) need to retain these observations, otherwise  estimated results might be incorrect.   
 
-### 3. Compare unweighted and weighted frequencies
+## 3. Compare unweighted and weighted frequencies
 Let's examine the weighted responses. 
 
 ```
@@ -124,7 +124,7 @@ WEIGHT off.
 
 Now, what proportion say they voted remain in the EU referendum? It is about 54 percent, lower than the unweighted proportion and closer to the actual referendum results. 
 
-### 4. Confidence intervals 
+## 4. Confidence intervals 
 
 Add confidence intervals to the bar charts and mean to indicate uncertainty due to sampling error. 
 
@@ -162,7 +162,7 @@ EXAMINE VARIABLES=PenExp2
 
 Select two variables that interest you and examine their distribution. 
 
-# Answers
+## Answers
 ```{r files}
 #| echo: false
 #| include: false

@@ -1,4 +1,4 @@
-## Using SPSS with weights and survey design variables
+# Using SPSS with weights and survey design variables
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
  In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
@@ -7,13 +7,13 @@ Please note that at the time of writing this document only some of the BSA editi
 
 Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-### Getting started
+## Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
 The examples below assume that the dataset has been saved in a  new folder named *UKDS* on your Desktop (Windows computers). The path would typically be `C:\Users\YOUR_USER_NAME\Desktop\UKDS`. Feel free to change it to the location that best suits your needs
 
-### 1. Identifying the survey design and variables 
+## 1. Identifying the survey design and variables 
 
 We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or  in the data catalogue pages for the data on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation){target="_blank" rel="noopener"}.
 
@@ -26,7 +26,7 @@ Now that we are a bit more familiar with the way the survey was designed, we nee
 **Question 2**
 What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?
 
-### 2. Specifying the survey design 
+## 2. Specifying the survey design 
 
 Let us first open the 2017 BSA dataset.
 ```
@@ -63,7 +63,7 @@ CSPLAN ANALYSIS
   /ESTIMATOR TYPE=WR.
 ```
 
-### 3. Mean age and its 95% confidence interval
+## 3. Mean age and its 95% confidence interval
 We can now produce a first set of estimates using this design and compare them with those we would have got without accounting for  it. We will compute the average (ie mean) age of respondents in the sample, as well as the proportion of male and female respondents aged over 55. We will need to use ```/CSDESCRIPTIVES```
 
 ```
@@ -107,7 +107,7 @@ What are the consequences of weighing but not accounting for the sample design; 
 - inferring the mean value of the population age?
 - inferring the uncertainty  of our estimate of the population age? 
 
-### 4. Computing a proportion and its 95% confidence interval
+## 4. Computing a proportion and its 95% confidence interval
 We can now similarly compute an estimate of a proportion (or percentage)  of a categorical variable in the population. For instance, the proportion of people who declare themselves interested in politics. This is the ```Politics``` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly) in order to simplify the analysis.  
 
 The BSA regards 'don't know' and 'refusal' responses as valid but since in this case there is only one 'don't know' and no 'refusal', we can safely ignore these categories and recode them as system missing. 
@@ -169,7 +169,7 @@ CSTABULATE
 **Question 4**
 What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use ```RAgecat5```
 
-### 5. Domain (ie subpopulation) estimates
+## 5. Domain (ie subpopulation) estimates
 Although computing estimates for specific groups (for example the average age of people who report being interested in politics) is not conceptually different from doing it for the sample as a whole, doing it with weights as part of an inferential analysis requires some caution. Calculating weighted estimates  for  a subpopulation while the rest of the sample is left out of the analysis might  yield incorrect results. This is why using survey design informed functions  is particularly recommended when doing such analyses.
 
 The SPSS command `CSDESCRIPTIVES` that we used above makes such domain estimation relatively straightforward. If we would like to compute the mean age of BSA respondents by government office regions, we need to specify:
@@ -241,7 +241,7 @@ Using interest in politics as before, and three category age
 
 
 
-### Answers
+## Answers
 
 **Question 1**
 The 2017 BSA is a three stage stratified random survey, with postcode sectors, adresses and individuals as the units selected at each stage. Primary sampling units were  stratified according to geographies (sub regions), population density, and proportion of owner-occupiers. Sampling rate was proportional to the size of postcode sectors (ie number of addresses).

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Using SPSS with weights and survey design variables – Introduction to the British Social Attitudes Survey: R and SPSS Practical Exercises</title>
+<title>Using SPSS with weights and survey design variables – Introduction to the British Social Attitudes Survey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6b2a7ee387b58c40ee5288a1ca5c66c8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-09793f2abd4d07c0b388972e81cf4fcb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -97,29 +97,8 @@ background: white;
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Introduction to the British Social Attitudes Survey: R and SPSS Practical Exercises</span>
-    </a>
-  </div>
         <div class="quarto-navbar-tools tools-end">
-    <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item quarto-navbar-tools-item" href="./Introduction-to-the-British-Social-Attitudes-Survey--R-and-SPSS-Practical-Exercises.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item quarto-navbar-tools-item" href="./Introduction-to-the-British-Social-Attitudes-Survey--R-and-SPSS-Practical-Exercises.docx">
-              <i class="bi bi-file-word pe-1"></i>
-            Download Docx
-            </a>
-          </li>
-      </ul>
-    </div>
+    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -138,7 +117,7 @@ background: white;
   </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingSPSS.html">SPSS Exercises</a></li><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingSPSS.html"><span class="chapter-title">Using SPSS with weights and survey design variables</span></a></li></ol></nav>
       <h1 class="title"><span class="chapter-title">Using SPSS with weights and survey design variables</span></h1>
@@ -218,7 +197,11 @@ background: white;
   </li>
     </ul>
     </div>
-    <nav id="TOC" role="doc-toc" class="toc-active">
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -231,10 +214,6 @@ background: white;
   <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a></li>
   </ul>
 </nav>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -246,20 +225,20 @@ background: white;
 <p>This exercise is part of the <a href="https://trainingmodules.ukdataservice.ac.uk/attitudes/#/" target="_blank" rel="noopener">‘Introduction to the British Social Attitudes Survey (BSA)’</a> online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">British Social Attitudes Survey (BSA) 2017</a> using weights and survey design variables.</p>
 <p>Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult <a href="https://ukdataservice.ac.uk/learning-hub/survey-data/" target="_blank" rel="noopener">our guidelines</a>.</p>
 <p>Answers to the questions asked throughout the exercise can be found at the end of the page.</p>
-<section id="getting-started" class="level3">
-<h3 class="anchored" data-anchor-id="getting-started">Getting started</h3>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
 <p>Data can be downloaded from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">UK Data Service website</a> following <a href="https://ukdataservice.ac.uk/help/registration/registration-login-faqs/" target="_blank" rel="noopener">registration</a>. Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
 <p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typically be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs</p>
 </section>
-<section id="identifying-the-survey-design-and-variables" class="level3">
-<h3 class="anchored" data-anchor-id="identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</h3>
+<section id="identifying-the-survey-design-and-variables" class="level2">
+<h2 class="anchored" data-anchor-id="identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</h2>
 <p>We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the <code>mrdoc/pdf</code> folder or in the data catalogue pages for the data on the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation" target="_blank" rel="noopener">UK Data Service website</a>.</p>
 <p><strong>Question 1</strong> What is the design that was used in this survey (ie how many stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?</p>
 <p>Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the user manual or the data dictionary available in the BSA documentation.</p>
 <p><strong>Question 2</strong> What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?</p>
 </section>
-<section id="specifying-the-survey-design" class="level3">
-<h3 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h3>
+<section id="specifying-the-survey-design" class="level2">
+<h2 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h2>
 <p>Let us first open the 2017 BSA dataset.</p>
 <pre><code>CD 'C:\Users\YOUR_USER_NAME\Desktop\UKDS'.
   GET 
@@ -274,8 +253,8 @@ This is achieved with the <code>CSPLAN</code> command through we create a plan f
   /DESIGN STAGELABEL='S1' STRATA=StratID CLUSTER=Spoint 
   /ESTIMATOR TYPE=WR.</code></pre>
 </section>
-<section id="mean-age-and-its-95-confidence-interval" class="level3">
-<h3 class="anchored" data-anchor-id="mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</h3>
+<section id="mean-age-and-its-95-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</h2>
 <p>We can now produce a first set of estimates using this design and compare them with those we would have got without accounting for it. We will compute the average (ie mean) age of respondents in the sample, as well as the proportion of male and female respondents aged over 55. We will need to use <code>/CSDESCRIPTIVES</code></p>
 <pre><code>DATASET ACTIVATE DataSet1.
 * Complex Samples Descriptives.
@@ -303,8 +282,8 @@ WEIGHT OFF.</code></pre>
 <li>inferring the uncertainty of our estimate of the population age?</li>
 </ul>
 </section>
-<section id="computing-a-proportion-and-its-95-confidence-interval" class="level3">
-<h3 class="anchored" data-anchor-id="computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</h3>
+<section id="computing-a-proportion-and-its-95-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</h2>
 <p>We can now similarly compute an estimate of a proportion (or percentage) of a categorical variable in the population. For instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly) in order to simplify the analysis.</p>
 <p>The BSA regards ‘don’t know’ and ‘refusal’ responses as valid but since in this case there is only one ‘don’t know’ and no ‘refusal’, we can safely ignore these categories and recode them as system missing.</p>
 <pre><code>FREQUENCIES VARIABLES=Politics
@@ -339,8 +318,8 @@ CSTABULATE
   /MISSING SCOPE=TABLE CLASSMISSING=EXCLUDE.</code></pre>
 <p><strong>Question 4</strong> What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use <code>RAgecat5</code></p>
 </section>
-<section id="domain-ie-subpopulation-estimates" class="level3">
-<h3 class="anchored" data-anchor-id="domain-ie-subpopulation-estimates">5. Domain (ie subpopulation) estimates</h3>
+<section id="domain-ie-subpopulation-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="domain-ie-subpopulation-estimates">5. Domain (ie subpopulation) estimates</h2>
 <p>Although computing estimates for specific groups (for example the average age of people who report being interested in politics) is not conceptually different from doing it for the sample as a whole, doing it with weights as part of an inferential analysis requires some caution. Calculating weighted estimates for a subpopulation while the rest of the sample is left out of the analysis might yield incorrect results. This is why using survey design informed functions is particularly recommended when doing such analyses.</p>
 <p>The SPSS command <code>CSDESCRIPTIVES</code> that we used above makes such domain estimation relatively straightforward. If we would like to compute the mean age of BSA respondents by government office regions, we need to specify:</p>
 <ul>
@@ -376,8 +355,8 @@ CSTABULATE
 <li><p>Based on the data, is it fair to say that men aged under 35 tend to be more likely to declare themselves interested in politics than women aged 55 and above?</p></li>
 </ul>
 </section>
-<section id="answers" class="level3">
-<h3 class="anchored" data-anchor-id="answers">Answers</h3>
+<section id="answers" class="level2">
+<h2 class="anchored" data-anchor-id="answers">Answers</h2>
 <p><strong>Question 1</strong> The 2017 BSA is a three stage stratified random survey, with postcode sectors, adresses and individuals as the units selected at each stage. Primary sampling units were stratified according to geographies (sub regions), population density, and proportion of owner-occupiers. Sampling rate was proportional to the size of postcode sectors (ie number of addresses).</p>
 <p><strong>Question 2</strong> From the Data Dictionary it appears that the primary sampling units (sub regions) are identified by <code>Spoint</code> and the strata by <code>StratID</code>. The weights variable is <code>WtFactor</code>. Addresses are not provided but could be approximated with a household identifier.</p>
 <p><strong>Question 3</strong> Not using weights would make us overestimate the mean age in the population (of those aged 16+) by about 4 years. This is likely to be due to the fact that older respondents are more likely to take part to surveys. Using survey design variables does not alter the value of the estimated population mean. However, not accounting for it would lead us to overestimate the precision/underestimate the uncertainty of our estimate with a narrower confidence interval – by about plus or minus 3 months.</p>
