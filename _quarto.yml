@@ -3,19 +3,22 @@ project:
   output-dir: docs
 
 execute:
-  echo: true
   warning: false
   message: false
-  cache: false
   freeze: false
+  
+theme: 
+  - default
+  - custom_ukds.scss
   
 book:
   title: "Introduction to the British Social Attitudes Survey"
   subtitle: "R and SPSS Practical Exercises"
   downloads: [pdf]
-#  author: Pierre Walthéry, Nadia Kennar, Rihab Dahab, UK Data Service
+  author: UK Data Service
   output-file: "BSA_Exercices"
-#  date: "June 2024"
+  date: "June 2024"
+  date-format: MMMMYYYY
   chapters:
     - index.qmd
     - part: "R Exercises"
@@ -26,42 +29,21 @@ book:
       chapters:
         - infer_w_survey_design_usingSPSS.qmd   
         - Pop_estimates_using_the_BSAS_and_SPSS.qmd  
-  navbar: 
-     background: "#FFFFFF" 
-     search: false
-     title: false
 
   sidebar:
     style: "floating"
     search: true
-    title: false
+    title: " "
     logo: pics/UKDS_Logos_Col_Grey_300dpi.png
     logo-href: https://ukdataservice.ac.uk/
     logo-alt: "UK Data Service Logo and link to website"
-    background: "#FFFFFF" 
-#   foreground: "#742082" 
-   
-   # contents:
-   #    - text: "Weights and survey design in R"
-   #      href: infer_w_survey_design_usingR.qmd   
-   #    - text: "Weights and survey design in SPSS"
-   #      href: infer_w_survey_design_usingSPSS.qmd
-   #    - text: "Population estimates using SPSS"
-   #      href: Pop_estimates_using_the_BSAS_and_SPSS.qmd
-   #    - text: "Population estimates using R"
-   #      href: 'Population estimates using the BSAS with R.qmd'
 
 
 #bibliography: references.bib
-mainfont: "Open Sans"
-sansfont: "Open Sans"
-monofont: "Courier New"
-monofontoptions: 'Scale=0.8'
 pdf-engine: lualatex
 
 format:
   html:
-    css: ukds.css
     toc: true
     toc-location: right
     title-block-banner: "white"

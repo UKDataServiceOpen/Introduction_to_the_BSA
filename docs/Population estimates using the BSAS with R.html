@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.29">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,20 +69,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./infer_w_survey_design_usingR.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7a4068b46cc005e1514339e2acc6e017.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-09793f2abd4d07c0b388972e81cf4fcb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-167ea9274012420706d9e008e4a49b41.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -123,20 +124,12 @@ background: white;
 </style>
 
 
-<link rel="stylesheet" href="ukds.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-        <div class="quarto-navbar-tools tools-end">
-    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -168,13 +161,20 @@ background: white;
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="https://ukdataservice.ac.uk/" class="sidebar-logo-link">
-      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./"></a> 
+        <div class="sidebar-tools-main">
+    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -274,7 +274,7 @@ background: white;
 <p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typically be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs.</p>
 <p>We begin by loading the R packages needed for the exercise and set the working directory.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="do">### Functions for importing data from </span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               <span class="do">### commercial packages</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc) <span class="do">### Extra statistical functions</span></span>
@@ -285,29 +285,29 @@ background: white;
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:\Users\Your_Username_here</span><span class="sc">\"</span><span class="st">)</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">getwd()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">getwd()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>[1] C:\Users\Your_Username_here\</code></p>
 <p>We then open the BSA dataset in SPSS format. Stata or tab-delimited format can also be used.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span><span class="fu">read_spss</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span><span class="fu">read_spss</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'UKDA-9005-spss/spss/spss25/bsa2020_archive.sav'</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="explore-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="explore-the-dataset">1. Explore the dataset</h2>
 <p>Start by getting an overall feel for the data. Use the code below to produce a summary of all the variables in the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Gives the number of rows (observations) </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Gives the number of rows (observations) </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">### and columns (variables)</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bsa20) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bsa20) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3964  210</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> <span class="do">### List variable names in their actual </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> <span class="do">### List variable names in their actual </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> <span class="do">### order in the dataset</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(bsa20)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(bsa20)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] "serial"       "QnrVersion"   "RespSx2cat"   "RespAgeE"     "MarStat6"    
   [6] "REconFW01"    "REconFW02"    "REconFW03"    "REconFW04"    "REconFW05"   
@@ -352,10 +352,10 @@ background: white;
 [201] "BestNatU2"    "RetirAg3"     "ReligSum20"   "RlFamSum20"   "EmplStatDV"  
 [206] "RClassGP"     "serialh"      "GOR"          "gor2"         "BSA20_wt_new"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Displays the first five</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Displays the first five</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">### lines of a data frame</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bsa20)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bsa20)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 210
   serial   QnrVersion RespSx2cat RespAgeE MarStat6 REconFW01 REconFW02 REconFW03
@@ -377,7 +377,7 @@ background: white;
 </div>
 <p>The above output is summarised in a <code>haven</code>- imported dataframe format also known as a ‘tibble’. For a really raw output we need to convert into a ‘pure’ data frame. Beware, the output might be very lengthy!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(bsa20))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(bsa20))  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     serial QnrVersion RespSx2cat RespAgeE MarStat6 REconFW01 REconFW02
 1 3.211e+09          1          2       70        5         0         0
@@ -565,18 +565,18 @@ background: white;
 <p>Alternatively, haven-imported numeric variables can be converted into factors with levels (ie categories) reflecting the SPSS or Stata value labels, but with numeric values different from the original ones.</p>
 <p>Let’s examine the original variable description and value labels with the <code>attr()</code> function. We can do this variable by variable…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"label"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "If it had to choose, should govt reduce/increase/maintain levels of taxation and spending?"</code></pre>
 </div>
 </div>
 <p>… Or all at once:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(                          <span class="co"># Transpose rows and columns for better readability   </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(                          <span class="co"># Transpose rows and columns for better readability   </span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  bsa20 <span class="sc">|&gt;</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(TAXSPEND,EUVOTWHO,PenExp2) <span class="sc">|&gt;</span> <span class="co"># Select the relevant variables</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise_all</span>(attr,<span class="st">"label"</span>)  <span class="co"># Apply the attr() function to all of them</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1]                                                                                                 
 TAXSPEND "If it had to choose, should govt reduce/increase/maintain levels of taxation and spending?"         
@@ -586,7 +586,7 @@ PenExp2  "How much do you think someone who reaches State Pension age today woul
 </div>
 <p>We do the same with value labels:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"labels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>TAXSPEND,<span class="st">"labels"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                        Not applicable 
                                                                     -1 
@@ -601,7 +601,7 @@ Increase taxes and spend more on health, education and social benefits
                                                   Prefer not to answer 
                                                                      9 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>EUVOTWHO,<span class="st">"labels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa20<span class="sc">$</span>EUVOTWHO,<span class="st">"labels"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       Not applicable Remain a member of the European Union 
                                    -1                                     1 
@@ -618,9 +618,9 @@ Increase taxes and spend more on health, education and social benefits
 <h2 class="anchored" data-anchor-id="missing-values">2. Missing values</h2>
 <p>Let’s now examine the distribution of our three variables. We can temporarily convert <code>EUVOTWHO</code> and <code>TAXSPEND</code> into factors using <code>mutate()</code> for a more meaningful output that include their value labels. Review the frequency tables, examining the ‘not applicable’ and ‘don’t know’ categories.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="sc">%&gt;%</span><span class="fu">select</span>(EUVOTWHO,TAXSPEND) <span class="sc">%&gt;%</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="fu">as_factor</span>(.)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                  EUVOTWHO   
  Not applicable                       :   0  
@@ -639,7 +639,7 @@ Increase taxes and spend more on health, education and social benefits
  Prefer not to answer                                                  :  21  
                                                                               </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
       0     120     160    1293     200    9999    1076 </code></pre>
@@ -655,31 +655,31 @@ Increase taxes and spend more on health, education and social benefits
 <p>In this section, we compare unweighted and weighted prportionso for <code>EUVOTWHO</code> and <code>TAXSPEND</code>. Let’s examine the unweighted responses first. In order to ensure coherence with the remainder of this exercise, we use <code>xtabs()</code> for categorical variables and <code>summary()</code> for continuous ones.</p>
 <p>First, as mentioned above, we recode <code>EUVOTWHO</code> and <code>TAXSPEND</code>into factors, with value labels as levels using <code>as_factor()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span>bsa20<span class="sc">%&gt;%</span><span class="fu">mutate</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span>bsa20<span class="sc">%&gt;%</span><span class="fu">mutate</span>(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">TAXSPEND.f=</span><span class="fu">as_factor</span>(TAXSPEND,<span class="st">"labels"</span>), </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">EUVOTWHO.f=</span><span class="fu">as_factor</span>(EUVOTWHO,<span class="st">"labels"</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>               )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>               )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can truncate factor levels respectively to 14 and 6 characters, for a more human-friendly output using <code>substr()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.f)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.f),<span class="dv">1</span>,<span class="dv">14</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.f)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.f),<span class="dv">1</span>,<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.f)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.f),<span class="dv">1</span>,<span class="dv">14</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.f)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.f),<span class="dv">1</span>,<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we compute the proportions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(                               <span class="do">### Rounds the results to one decimal</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(                               <span class="do">### Rounds the results to one decimal</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span><span class="sc">*</span>                               <span class="do">### Converts proportions to %  </span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(                      <span class="do">### Computes proportions</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xtabs</span>(<span class="sc">~</span>TAXSPEND.f,bsa20,       <span class="do">### Computes frequencies,</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">drop.unused.levels =</span> T) <span class="do">### Leaves out levels with 0 observations),</span></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>      ), </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TAXSPEND.f
 Reduce taxes a Keep taxes and Increase taxes     Don't know Prefer not to  
            4.7           40.1           53.8            0.9            0.5 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.f,bsa20,<span class="at">drop.unused.levels =</span> T)),<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.f,bsa20,<span class="at">drop.unused.levels =</span> T)),<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EUVOTWHO.f
 Remain Leave  I Don' Prefer 
@@ -688,7 +688,7 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We can also examine the basic summary statistics for <code>PenExp2</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa20<span class="sc">$</span>PenExp2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
       0     120     160    1293     200    9999    1076 </code></pre>
@@ -697,8 +697,8 @@ Remain Leave  I Don' Prefer
 <p>What is the (unweighted) percentage of respondents who say they voted remain in the EU referendum? About 57 percent of sample members who voted in referendum said they voted to remain. This figure seems a bit high (though people do not always report accurately).</p>
 <p>Let’s compare with the weighted frequencies. We will keep using <code>xtabs()</code> for convenience. With <code>xtabs()</code>, weights are specified on the left hand side of the formula as shown below. For the record, <code>wtd.table()</code> function from the <code>Hmisc</code> package also produces weighted frequency tables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>bsa20)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>bsa20)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EUVOTWHO.f
     Not ap     Remain     Leave      I Don'     Don't      Prefer 
@@ -707,9 +707,9 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We can get rid of the empty levels to improve the output:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>bsa20,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">drop.unused.levels =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">drop.unused.levels =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EUVOTWHO.f
     Remain     Leave      I Don'     Prefer 
@@ -718,7 +718,7 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We convert the weighted frequencies into proportions and examine the results:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>euv.wp<span class="ot">&lt;-</span><span class="fu">round</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>euv.wp<span class="ot">&lt;-</span><span class="fu">round</span>(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prop.table</span>(</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
@@ -727,7 +727,7 @@ Remain Leave  I Don' Prefer
 <span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
 <span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>)</span>
 <span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>euv.wp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>euv.wp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EUVOTWHO.f
 Remain Leave  I Don' Prefer 
@@ -749,12 +749,12 @@ Remain Leave  I Don' Prefer
 <p>The <code>Hmisc</code> package provides <code>binconf()</code> a handy function to compute confidence intervals for proportions. We need to provide it with two parameters: the frequencies for which we would like a confidence interval, and the total number of non missing observations. <code>binconf()</code> accepts individual proportions or complete frequency tables as input.</p>
 <p>We begin with the unweighted confidence interval for EUVOTWHO:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>eu.ci<span class="ot">&lt;-</span><span class="fu">binconf</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.f,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>eu.ci<span class="ot">&lt;-</span><span class="fu">binconf</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.f,</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                     bsa20,</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">drop.unused.levels =</span> T)[<span class="dv">1</span>],</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sum</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>EUVOTWHO.f,bsa20)))</span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>eu.ci</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>eu.ci</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PointEst     Lower     Upper
  0.5664585 0.5372704 0.5951927</code></pre>
@@ -762,9 +762,9 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We convert the output into rounded percentages for better readability:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>      eu.ci,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PointEst Lower Upper
      56.6  53.7  59.5</code></pre>
@@ -772,14 +772,14 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We can adapt the syntax above to make it work with weighted frequencies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">binconf</span>(<span class="fu">xtabs</span>(bsa20<span class="sc">$</span>BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>bsa20,</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">drop.unused.levels =</span> T)[<span class="dv">2</span>],</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(<span class="fu">xtabs</span>(bsa20<span class="sc">$</span>BSA20_wt_new<span class="sc">~</span>EUVOTWHO.f,</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data=</span>bsa20,</span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">drop.unused.levels =</span> T))),</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PointEst Lower Upper
      45.3  42.3  48.3</code></pre>
@@ -788,7 +788,7 @@ Remain Leave  I Don' Prefer
 <p>What are the differences between weighted and unweighted confidence intervals for the proportion of people who voted remain?</p>
 <p>Let us now do the same with people’s views about government tax and spending.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ciprop<span class="ot">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ciprop<span class="ot">&lt;-</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">binconf</span>(<span class="fu">xtabs</span>(BSA20_wt_new<span class="sc">~</span>TAXSPEND.f,</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>bsa20,</span>
@@ -797,7 +797,7 @@ Remain Leave  I Don' Prefer
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                  bsa20))),</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>)</span>
 <span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>ciprop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>ciprop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> PointEst Lower Upper
       5.5   4.8   6.3
@@ -809,14 +809,14 @@ Remain Leave  I Don' Prefer
 </div>
 <p>We can improve the layout by adding the value labels. In order to do this, we create a data frame with the results of the above computation <code>ciprop</code> and specify that the row names should be the original value labels of TAXSPEND using as_factor. We also however need to omit the first label ‘Not applicable’ as we removed it earlier.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ciprop.l<span class="ot">&lt;-</span><span class="fu">data.frame</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ciprop.l<span class="ot">&lt;-</span><span class="fu">data.frame</span>(</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>           ciprop,</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">row.names=</span><span class="fu">levels</span>(</span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                     bsa20<span class="sc">$</span>TAXSPEND.f</span>
 <span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                     )[<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>           )</span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>ciprop.l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>ciprop.l</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               PointEst Lower Upper
 Reduce taxes a      5.5   4.8   6.3
@@ -835,13 +835,13 @@ Prefer not to       0.5   0.3   0.8</code></pre>
 <p>Under assumptions of simple random sampling, a 95% confidence interval of the mean is defined as plus or minus 1.96 times its standard error. The standard error of the mean is its standard deviation – that is, the square root of its variance – divided by the square root of the sample size.</p>
 <p>We will be using <code>wtd.mean</code> from the <code>Hmisc</code> package to compute weighted means, and <code>wtd.var</code> for variances. We can therefore compute:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>m.p<span class="ot">&lt;-</span><span class="fu">wtd.mean</span>(bsa20<span class="sc">$</span>PenExp2,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>m.p<span class="ot">&lt;-</span><span class="fu">wtd.mean</span>(bsa20<span class="sc">$</span>PenExp2,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>se.p<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(bsa20<span class="sc">$</span>PenExp2,<span class="at">weights=</span>bsa20<span class="sc">$</span>BSA20_wt_new))</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="fu">sum</span>(bsa20<span class="sc">$</span>BSA20_wt_new[<span class="sc">!</span><span class="fu">is.na</span>(bsa20<span class="sc">$</span>PenExp2)])</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>ci<span class="ot">&lt;-</span><span class="fu">c</span>(m.p,m.p<span class="fl">-1.96</span><span class="sc">*</span>(se.p<span class="sc">/</span><span class="fu">sqrt</span>(n)),m.p<span class="fl">+1.96</span><span class="sc">*</span>(se.p<span class="sc">/</span><span class="fu">sqrt</span>(n)))</span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci,<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1305.9 1194.4 1417.5</code></pre>
 </div>
@@ -871,7 +871,7 @@ Prefer not to       0.5   0.3   0.8</code></pre>
 <h2 class="anchored" data-anchor-id="appendix-recoding-nonresponses-as-system-missing-na">Appendix: recoding nonresponses as system missing (NA)</h2>
 <p>The code below provides and example of how to recode missing values into system missing (NA) using separate variables. For ease of interpretation, we also convert the original numeric variable into labelled factors using <code>as_factor()</code>, so that they directly display the value labels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span>bsa20<span class="sc">%&gt;%</span><span class="fu">mutate</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>bsa20<span class="ot">&lt;-</span>bsa20<span class="sc">%&gt;%</span><span class="fu">mutate</span>(</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">TAXSPEND.r=</span><span class="fu">factor</span>(<span class="fu">as_factor</span>(TAXSPEND,<span class="st">"labels"</span>), </span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">exclude =</span> <span class="fu">c</span>(<span class="st">"Prefer not to answer"</span>,</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Don't know"</span>)),</span>
@@ -885,11 +885,11 @@ Prefer not to       0.5   0.3   0.8</code></pre>
 <span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r),<span class="dv">1</span>,<span class="dv">14</span>)</span>
 <span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)<span class="ot">&lt;-</span><span class="fu">substr</span>(<span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r),<span class="dv">1</span>,<span class="dv">6</span>)</span>
 <span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>TAXSPEND.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Reduce taxes a" "Keep taxes and" "Increase taxes"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(bsa20<span class="sc">$</span>EUVOTWHO.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Remain" "Leave "</code></pre>
 </div>
@@ -950,13 +950,14 @@ Prefer not to       0.5   0.3   0.8</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

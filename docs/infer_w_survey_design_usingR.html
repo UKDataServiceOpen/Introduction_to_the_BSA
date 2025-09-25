@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.29">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,20 +69,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7a4068b46cc005e1514339e2acc6e017.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-09793f2abd4d07c0b388972e81cf4fcb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-167ea9274012420706d9e008e4a49b41.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -123,20 +124,12 @@ background: white;
 </style>
 
 
-<link rel="stylesheet" href="ukds.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-        <div class="quarto-navbar-tools tools-end">
-    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -168,13 +161,20 @@ background: white;
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="https://ukdataservice.ac.uk/" class="sidebar-logo-link">
-      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./"></a> 
+        <div class="sidebar-tools-main">
+    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -267,7 +267,7 @@ background: white;
 <p>The code below will need to be adjusted in order to match the location of the data on your computer.</p>
 <p>We begin by loading the R packages needed for the exercise and set the working directory.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="do">### Functions for importing data from commercial packages</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc) <span class="do">### Extra statistical functions</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey) <span class="do">### Survey design functions</span></span>
@@ -281,7 +281,7 @@ background: white;
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">getwd()</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st"># Opening the BSA dataset in SPSS format</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">bsa17&lt;-read_spss("</span>data<span class="sc">/</span>UKDA<span class="dv">-8450</span><span class="sc">-</span>spss<span class="sc">/</span>spss<span class="sc">/</span>spss25<span class="sc">/</span>bsa2017_for_ukda.sav<span class="st">")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">bsa17&lt;-read_spss("</span>data<span class="sc">/</span>UKDA<span class="dv">-8450</span><span class="sc">-</span>spss<span class="sc">/</span>spss<span class="sc">/</span>spss25<span class="sc">/</span>bsa2017_for_ukda.sav<span class="st">")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>[1] C:\Users\Your_Username_here\</code></p>
 </section>
@@ -298,15 +298,15 @@ background: white;
 <h2 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h2>
 <p>We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie the <em>Primary Sampling Units</em>, as well as the strata. This is achieved with the <code>svydesign()</code> command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,       <span class="do">### Primary Sampling Units</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,       <span class="do">### Primary Sampling Units</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID,   <span class="do">### Strata if stratified design</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor, <span class="do">### Weights</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data=</span>bsa17)        <span class="do">### The dataset</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bsa17.s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "survey.design2" "survey.design" </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa17.s) <span class="do">### Warning: very long output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bsa17.s) <span class="do">### Warning: very long output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Stratified 1 - level Cluster Sampling design (with replacement)
 With (372) clusters.
@@ -558,7 +558,7 @@ Data variables:
 <h2 class="anchored" data-anchor-id="mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</h2>
 <p>We can now produce a first set of estimates using this information and compare them with those we would have got without accounting for the survey design. We will compute the average (ie mean) age of respondents in the sample. We will need to use <code>svymean()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        mean     SE
 RAgeE 48.313 0.4236</code></pre>
@@ -567,17 +567,17 @@ RAgeE 48.313 0.4236</code></pre>
 <p>By default <code>svymean()</code> computes the standard error of the mean. We need to<br>
 embed it within <code>confint()</code> in order to get a confidence interval.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)) <span class="do">### Just the confidence interval...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)) <span class="do">### Just the confidence interval...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         2.5 %  97.5 %
 RAgeE 47.48289 49.1433</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s),</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s))</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>) <span class="do">### ... Or both, rounded</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>) <span class="do">### ... Or both, rounded</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>RAgeE             
  48.3  47.5  49.1 </code></pre>
@@ -592,19 +592,19 @@ RAgeE 47.48289 49.1433</code></pre>
 <li>A 95% confidence interval is the sample mean respectively minus and plus 1.96 times its standard error. It is then relatively straightforward to compute unweighted and ‘casually weighted’ confidences intervals for the mean.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Unweighted means and CI</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Unweighted means and CI</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>u.m<span class="ot">&lt;-</span> <span class="fu">mean</span>(bsa17<span class="sc">$</span>RAgeE)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>u.se<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">var</span>(bsa17<span class="sc">$</span>RAgeE))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(bsa17<span class="sc">$</span>RAgeE))</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>u.ci<span class="ot">&lt;-</span><span class="fu">c</span>(u.m <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>u.se,u.m <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>u.se)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(u.m,u.ci),<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(u.m,u.ci),<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 52.2 51.6 52.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Weighted means and CI without survey design</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Weighted means and CI without survey design</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>w.m<span class="ot">&lt;-</span> <span class="fu">wtd.mean</span>(bsa17<span class="sc">$</span>RAgeE,bsa17<span class="sc">$</span>WtFactor)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>w.se<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(bsa17<span class="sc">$</span>RAgeE,bsa17<span class="sc">$</span>WtFactor))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(bsa17<span class="sc">$</span>RAgeE))</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>w.ci<span class="ot">&lt;-</span><span class="fu">c</span>(w.m <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>w.se,w.m <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>w.se)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(w.m,w.ci),<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(w.m,w.ci),<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 48.3 47.7 48.9</code></pre>
 </div>
@@ -619,13 +619,13 @@ RAgeE 47.48289 49.1433</code></pre>
 <p>We can now similarly estimate the distribution of a categorical variable in the population by computing proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly), for simplicity.</p>
 <p>The BSA regards ‘don’t know’ and ‘refusal’ responses as valid but since in this case there is only one ‘don’t know’ and no ‘refusal’, we can safely ignore these categories and recode them as system missing. As before, we prefer using <code>xtabs()</code> over <code>table()</code> as it allows us to ignore unused factor levels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa17<span class="sc">$</span>Politics,<span class="st">"label"</span>)     <span class="do">### Phrasing of the question</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(bsa17<span class="sc">$</span>Politics,<span class="st">"label"</span>)     <span class="do">### Phrasing of the question</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "How much interest do you have in politics?"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span><span class="fu">as_factor</span>(Politics),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span><span class="fu">as_factor</span>(Politics),</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>bsa17,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">drop.unused.levels =</span> T) <span class="do">### Sample distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">drop.unused.levels =</span> T) <span class="do">### Sample distribution</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>as_factor(Politics)
 ... a great deal,      quite a lot,             some,    not very much, 
@@ -633,7 +633,7 @@ RAgeE 47.48289 49.1433</code></pre>
  or, none at all?        Don`t know 
               379                 1 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">ifelse</span>(bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">2</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">ifelse</span>(bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">2</span>,</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Significantly"</span>,<span class="cn">NA</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">ifelse</span>(bsa17<span class="sc">$</span>Politics<span class="sc">&gt;=</span><span class="dv">3</span> <span class="sc">&amp;</span> bsa17<span class="sc">$</span>Politics<span class="sc">&lt;=</span><span class="dv">5</span>,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Not Interested"</span>,bsa17<span class="sc">$</span>Politics.s)</span>
@@ -649,7 +649,7 @@ RAgeE 47.48289 49.1433</code></pre>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">drop.unused.levels =</span> T) </span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>          ),</span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1</span>)</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     ... a great deal, quite a lot,  some, not very much, or, none at all?
 [1,]            2266.0       1721.0 2266.0         1721.0           2266.0
@@ -661,19 +661,19 @@ RAgeE 47.48289 49.1433</code></pre>
 </div>
 <p>Changes in a data frame are not automatically transferred into <code>svydesign</code> objects used for inferences. We therefore need to recreate it each time we create or recode a variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">round</span>(<span class="fu">xtabs</span>(WtFactor<span class="sc">~</span>Politics.s,bsa17),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">round</span>(<span class="fu">xtabs</span>(WtFactor<span class="sc">~</span>Politics.s,bsa17),</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span>),</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prop.table</span>(</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">xtabs</span>(WtFactor<span class="sc">~</span>Politics.s,bsa17))</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>            ,<span class="dv">1</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Not Interested Significantly
 [1,]         2270.6        1715.2
 [2,]           57.0          43.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,      </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,      </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID, </span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor,</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data=</span>bsa17)</span>
@@ -683,7 +683,7 @@ RAgeE 47.48289 49.1433</code></pre>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                 bsa17.s)),<span class="dv">1</span>)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Not Interested Significantly
 [1,]         2270.6        1715.2
@@ -694,18 +694,18 @@ RAgeE 47.48289 49.1433</code></pre>
 <p>Let us now examine the confidence intervals of these proportions. Traditional statistical software usually compute these without telling us about the underlying computations going on. By contrast, doing this in R requires more coding, but in the process we gain a better understanding of what is actually estimated.</p>
 <p>Confidence intervals for proportion of categorical variables are usually computed as a sequence of binomial/dichotomic estimations – ie one for each category. In R this needs to be specified explicitly via the <code>svyciprop()</code> and <code>I()</code> functions. The former actually computes the proportion and its confidence interval (by default 95%), whereas the latter allows us to define the category we are focusing on (in case of non dichotomic variable).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>          bsa17.s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>          bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                        2.5% 97.5%
 I(Politics.s == "Significantly") 0.430 0.411 0.450</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fu">prop.table</span>(</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,bsa17.s))[<span class="dv">2</span>],</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(<span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>               bsa17.s),<span class="st">"ci"</span>)),<span class="dv">1</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Significantly          2.5%         97.5% 
          43.0          41.1          45.0 </code></pre>
@@ -725,7 +725,7 @@ I(Politics.s == "Significantly") 0.430 0.411 0.450</code></pre>
 <li>And the type of type of variance estimation we would like to see displayed ie standard errors or confidence interval</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>gor.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>GOR_ID)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>gor.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>GOR_ID)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint, </span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID, </span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor,</span>
@@ -735,7 +735,7 @@ I(Politics.s == "Significantly") 0.430 0.411 0.450</code></pre>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">by=</span><span class="sc">~</span>gor.f,</span>
 <span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>            svymean,</span>
 <span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">design=</span>bsa17.s,</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="sc">-</span><span class="dv">1</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="sc">-</span><span class="dv">1</span>],<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                           RAgeE ci_l ci_u
 A North East                46.1 43.6 48.6
@@ -755,14 +755,14 @@ M Scotland                  47.3 44.7 50.0</code></pre>
 <p>Our inference seem to suggest that the population in London is among the youngest in the country, and that those in the South West are among the oldest – their respective 95% confidence intervals do not overlap. We should not feel so confident about differences between London and the South East for example, as the CIs partially overlap.</p>
 <p>We can follow a similar approach with proportions: we just need to specify the category of the variable we are interested in as an outcome, for instance respondents who are significantly interested in politics, and replace <code>svymean</code> by <code>svyciprop</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span><span class="sc">*</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">svyby</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">by=</span><span class="sc">~</span>gor.f,</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>            svyciprop,</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">design=</span>bsa17.s,</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="sc">-</span><span class="dv">1</span>],</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                           I(Politics.s == "Significantly") ci_l ci_u
 A North East                                           33.4 26.6 40.9
@@ -796,7 +796,7 @@ M Scotland                                             42.7 36.0 49.8</code></pr
 <p><strong>Question 5</strong> The 95% confidence interval for the proportion of people interested in politics in the South West is 39.4, 53.8. By contrast, it is likely to be 47.2, 61.1 in London. The region with the lowest precision of estimates (ie the widest confidence interval) is Wales, with a 23 percentage point difference between the upper and lower bounds of the confidence interval.</p>
 <p><strong>Question 6</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>RAgecat5.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>RAgecat5)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>RAgecat5.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>RAgecat5)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>bsa17<span class="sc">$</span>Rsex.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>Rsex)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -812,7 +812,7 @@ M Scotland                                             42.7 36.0 49.8</code></pr
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>            svyciprop,</span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">design=</span>bsa17.s,</span>
 <span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>,<span class="sc">-</span><span class="dv">4</span>),<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>)],</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             I(Politics.s == "Significantly") ci_l ci_u
 17-34.Male                               42.9 37.7 48.2
@@ -881,13 +881,14 @@ M Scotland                                             42.7 36.0 49.8</code></pr
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
