@@ -1,22 +1,4 @@
----
-title: "Population inference with the British Social Attitudes Survey"
-subtitle: Learning to use R with weights and survey design variables
-author: "UK Data Service"
-date: last-modified
-date-format: "MMMM YYYY"
-mainfont: "Arial"
-title-block-banner: "white"
-title-block-banner-color: "#742082"
-format:
-  html:
-   toc: true
-   smooth-scroll: true
-   toc-location: left
-   css: ukds.css
-  pdf: default
-execute:
-  warning: false
----
+# Using R with weights and survey design variables
 
 This exercise is part of the ['Introduction to the British Social Attitudes Survey (BSA)'](https://trainingmodules.ukdataservice.ac.uk/attitudes/#/){target="_blank" rel="noopener"} online module.
  In this exercise, we will practice statistical inference with data from the [British Social Attitudes Survey (BSA) 2017](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} using weights and survey design variables.  
@@ -25,7 +7,7 @@ Please note that at the time of writing this document only some of the BSA editi
 
 Answers to the questions asked throughout the exercise can be found at the end of the page.
 
-### Getting started
+## Getting started
 
 Data can be downloaded from the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450){target="_blank" rel="noopener"} following [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/){target="_blank" rel="noopener"}. Download the compressed folder, unzip and save it somewhere accessible on your computer.
 
@@ -67,8 +49,8 @@ library(survey) ### Survey design functions
 ### Setting up the working directory
 ### Change the setwd() command  to match the location of the data on your computer  if required 
 ### setwd(`C:\Users\Your_Username_here\`)
-### setwd("~/OneDrive/data")
-setwd("C:/Users/qtnvpw1/OneDrive - The University of Manchester/data")
+setwd("~/Data")
+### setwd("C:/Users/qtnvpw1/OneDrive - The University of Manchester/data")
 
 getwd()
 
@@ -84,7 +66,7 @@ bsa17<-read_spss("bsa/UKDA-8450-spss/spss/spss25/bsa2017_for_ukda.sav")
 
 
 
-### 1. Identifying the survey design and variables 
+## 1. Identifying the survey design and variables 
 
 We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the `mrdoc/pdf` folder or  in the data catalogue pages for the data on the [UK Data Service website](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation){target="_blank" rel="noopener"}.
 
@@ -98,7 +80,7 @@ Now that we are a bit more familiar with the way the survey was designed, we nee
 
 *What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?* 
 
-### 2. Specifying the survey design 
+## 2. Specifying the survey design 
 We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie the *Primary Sampling Units*, as well as the strata. This is achieved with the `svydesign()` command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.
 
 
@@ -110,7 +92,7 @@ bsa17.s<-svydesign(ids=~Spoint,       ### Primary Sampling Units
 class(bsa17.s)
 summary(bsa17.s) ### Warning: very long output
 ```
-### 3. Mean age and its 95% confidence interval
+## 3. Mean age and its 95% confidence interval
 We can now produce a first set of estimates using this information and compare them with those we would have got without accounting for  the survey design. We will compute the average (ie mean) age of respondents in the sample. We will need to use `svymean()`
 ```{r mean}
 svymean(~RAgeE,bsa17.s)
@@ -158,7 +140,7 @@ round(c(w.m,w.ci),1)
 
 *- inferring the uncertainty  of our estimate of the population age?*
 
-### 4. Computing a proportion and its 95% confidence interval
+## 4. Computing a proportion and its 95% confidence interval
 We can now similarly estimate the distribution of a categorical variable in the population by computing  proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the `Politics` variable. It has five categories that we are going to recode into 'Significantly' (interested) and 'Not' (significantly), for simplicity. 
 
 The BSA regards 'don't know' and 'refusal' responses as valid but since in this case there is only one 'don't know' and no 'refusal', we can safely ignore these categories and recode them as system missing. As before, we prefer using `xtabs()` over `table()` as it allows us to ignore unused factor levels.
@@ -235,7 +217,7 @@ attr(svyciprop(~I(Politics.s=="Significantly"),
 
 *What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use `RAgecat5`*
 
-### 5. Domain (ie subpopulation) estimates
+## 5. Domain (ie subpopulation) estimates
 Computing estimates for specific groups of a sample (for example the average age of people who reported being interested in politics) is not much more difficult than  doing it for the sample as a whole. However doing it as part of an inferential analysis requires some caution. Calculating weighted estimates  for  a subpopulation, amounts to computing second order estimates ie an estimate for a group whose size needs to be estimated first. Therefore, attempting this while  leaving out of  the rest of the sample might  yield incorrect results. This is why using survey design informed functions is particularly recommended in such cases.
 
 The `survey` package function`svyby()` makes such domain estimation relatively straightforward. For instance, if we would like to compute the mean age of BSA respondents by Government Office Regions, we need to specify:
@@ -291,7 +273,7 @@ When using `svyby()`, we can  define domains or subpopulations with several vari
 
 
 
-### Answers
+## Answers
 
 **Question 1**
 The 2017 BSA is a three stage stratified random survey, with postcode sectors, adresses and individuals as the units selected at each stage. Primary sampling units were furthermore stratified according to geographies (sub regions), population density, and proportion of owner-occupiers. Sampling rate was proportional to the size of postcode sectors (ie number of addresses)

@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Using R with weights and survey design variables – Introduction to the British Social Attitudes Survey</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Population estimates using the BSAS with R.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f410b66b4933f15108f8fa93e83e019d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="ukds_long.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingR.html">R Exercises</a></li><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingR.html"><span class="chapter-title">Using R with weights and survey design variables</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="https://ukdataservice.ac.uk/" class="sidebar-logo-link">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="UK Data Service Logo and link to website" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./"></a> 
+        <div class="sidebar-tools-main">
+    <a href="./BSA_Exercices.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">R Exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./infer_w_survey_design_usingR.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Using R with weights and survey design variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Population estimates using the BSAS with R.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Basic population estimates with BSA data using R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">SPSS Exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./infer_w_survey_design_usingSPSS.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Using SPSS with weights and survey design variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Pop_estimates_using_the_BSAS_and_SPSS.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Basic population estimates with BSA data using SPSS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
+  <li><a href="#identifying-the-survey-design-and-variables" id="toc-identifying-the-survey-design-and-variables" class="nav-link" data-scroll-target="#identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</a></li>
+  <li><a href="#specifying-the-survey-design" id="toc-specifying-the-survey-design" class="nav-link" data-scroll-target="#specifying-the-survey-design">2. Specifying the survey design</a></li>
+  <li><a href="#mean-age-and-its-95-confidence-interval" id="toc-mean-age-and-its-95-confidence-interval" class="nav-link" data-scroll-target="#mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</a></li>
+  <li><a href="#computing-a-proportion-and-its-95-confidence-interval" id="toc-computing-a-proportion-and-its-95-confidence-interval" class="nav-link" data-scroll-target="#computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</a></li>
+  <li><a href="#domain-ie-subpopulation-estimates" id="toc-domain-ie-subpopulation-estimates" class="nav-link" data-scroll-target="#domain-ie-subpopulation-estimates">5. Domain (ie subpopulation) estimates</a></li>
+  <li><a href="#answers" id="toc-answers" class="nav-link" data-scroll-target="#answers">Answers</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingR.html">R Exercises</a></li><li class="breadcrumb-item"><a href="./infer_w_survey_design_usingR.html"><span class="chapter-title">Using R with weights and survey design variables</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Using R with weights and survey design variables</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This exercise is part of the <a href="https://trainingmodules.ukdataservice.ac.uk/attitudes/#/" target="_blank" rel="noopener">‘Introduction to the British Social Attitudes Survey (BSA)’</a> online module. In this exercise, we will practice statistical inference with data from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">British Social Attitudes Survey (BSA) 2017</a> using weights and survey design variables.</p>
+<p>Please note that at the time of writing this document only some of the BSA editions include survey design variables. For more information about inference from social surveys, including cases where weights and/or survey design variables are not available, please consult <a href="https://ukdataservice.ac.uk/learning-hub/survey-data/" target="_blank" rel="noopener">our guidelines</a>.</p>
+<p>Answers to the questions asked throughout the exercise can be found at the end of the page.</p>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
+<p>Data can be downloaded from the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450" target="_blank" rel="noopener">UK Data Service website</a> following <a href="https://ukdataservice.ac.uk/help/registration/registration-login-faqs/" target="_blank" rel="noopener">registration</a>. Download the compressed folder, unzip and save it somewhere accessible on your computer.</p>
+<p>The examples below assume that the dataset has been saved in a new folder named <em>UKDS</em> on your Desktop (Windows computers). The path would typically be <code>C:\Users\YOUR_USER_NAME\Desktop\UKDS</code>. Feel free to change it to the location that best suits your needs</p>
+<p>The code below will need to be adjusted in order to match the location of the data on your computer.</p>
+<p>We begin by loading the R packages needed for the exercise and set the working directory.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr) <span class="do">### Data manipulation functions</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(haven) <span class="do">### Functions for importing data from commercial packages</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(Hmisc) <span class="do">### Extra statistical functions</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(survey) <span class="do">### Survey design functions</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="do">### Setting up the working directory</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="do">### Change the setwd() command  to match the location of the data on your computer </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="do">### if required </span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">setwd</span>(<span class="st">"C:\Users\Your_Username_here</span><span class="sc">\"</span><span class="st">)</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="st">getwd()</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="st"># Opening the BSA dataset in SPSS format</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="st">bsa17&lt;-read_spss("</span>data<span class="sc">/</span>UKDA<span class="dv">-8450</span><span class="sc">-</span>spss<span class="sc">/</span>spss<span class="sc">/</span>spss25<span class="sc">/</span>bsa2017_for_ukda.sav<span class="st">")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>[1] C:\Users\Your_Username_here\</code></p>
+</section>
+<section id="identifying-the-survey-design-and-variables" class="level2">
+<h2 class="anchored" data-anchor-id="identifying-the-survey-design-and-variables">1. Identifying the survey design and variables</h2>
+<p>We first need to find out about the survey design that was used in the BSA 2017, and the design variables available in the dataset. Such information can usually be found in the documentation that comes together with the data under the <code>mrdoc/pdf</code> folder or in the data catalogue pages for the data on the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8450#!/documentation" target="_blank" rel="noopener">UK Data Service website</a>.</p>
+<p><strong>Question 1</strong></p>
+<p><em>What is the design that was used in this survey (i.e.&nbsp;how many sampling stages were there, and what were the units sampled). What were the primary sampling units; the strata (if relevant)?</em></p>
+<p>Now that we are a bit more familiar with the way the survey was designed, we need to try and identify the design variables we can include when producing estimates. The information can usually be found in the data documentation or the data dictionary available in the BSA documentation. </p>
+<p><strong>Question 2</strong></p>
+<p><em>What survey design variables are available? Are there any that are missing – if so which ones? What is the name of the weights variables?</em></p>
+</section>
+<section id="specifying-the-survey-design" class="level2">
+<h2 class="anchored" data-anchor-id="specifying-the-survey-design">2. Specifying the survey design</h2>
+<p>We need to tell R about the survey design. In practice this often means specifying the units selected at the initial sampling stage ie the <em>Primary Sampling Units</em>, as well as the strata. This is achieved with the <code>svydesign()</code> command. In effect this command creates a copy of the dataset with the survey design information attached, that can then subsequently be used for further estimation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,       <span class="do">### Primary Sampling Units</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID,   <span class="do">### Strata if stratified design</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor, <span class="do">### Weights</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>                   <span class="at">data=</span>bsa17)        <span class="do">### The dataset</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">class</span>(bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "survey.design2" "survey.design" </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">summary</span>(bsa17.s) <span class="do">### Warning: very long output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Stratified 1 - level Cluster Sampling design (with replacement)
+With (372) clusters.
+svydesign(ids = ~Spoint, strata = ~StratID, weights = ~WtFactor, 
+    data = bsa17)
+Probabilities:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2645  0.8288  1.0983  1.2386  1.6236  3.3318 
+Stratum Sizes: 
+           101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117
+obs         18  22  30  18  16  21  22  37  10  22  19  35  23  19  19  21  25
+design.PSU   2   2   3   2   2   2   2   3   2   3   2   3   2   2   2   2   2
+actual.PSU   2   2   3   2   2   2   2   3   2   3   2   3   2   2   2   2   2
+           118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134
+obs         12  12  32  40  25  21  23  26  23  18  34  23  20  29  39  19  30
+design.PSU   2   2   3   3   3   2   2   2   3   2   2   2   2   3   3   2   3
+actual.PSU   2   2   3   3   3   2   2   2   3   2   2   2   2   3   3   2   3
+           135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151
+obs         20  10  21  12  26  16  20  17  21  24  30  30  18  29  24  19  28
+design.PSU   2   2   2   2   3   2   2   2   2   3   2   3   2   3   2   3   2
+actual.PSU   2   2   2   2   3   2   2   2   2   3   2   3   2   3   2   3   2
+           152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168
+obs         18   8  23  33  14  23  17  39  13  22  16  19  21  18  26  13  14
+design.PSU   2   2   2   3   2   2   2   3   2   2   2   2   2   2   3   2   2
+actual.PSU   2   2   2   3   2   2   2   3   2   2   2   2   2   2   3   2   2
+           169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185
+obs         22  20   8  22  31  22  24  19  38  20  29  24  29  21  23  32  36
+design.PSU   2   2   2   2   2   2   2   2   3   2   2   2   3   2   2   3   3
+actual.PSU   2   2   2   2   2   2   2   2   3   2   2   2   3   2   2   3   3
+           186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202
+obs         24  22  43  38  38  47  34  15  22  35  17  20  20  21  21  43  35
+design.PSU   3   2   3   3   3   3   3   2   2   3   2   2   2   2   3   3   3
+actual.PSU   3   2   3   3   3   3   3   2   2   3   2   2   2   2   3   3   3
+           203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219
+obs         28  25  19  18  28  15  21  30  24  33  24  22  30  24  44  18  26
+design.PSU   3   3   2   2   2   2   2   2   2   3   2   2   3   2   3   2   2
+actual.PSU   3   3   2   2   2   2   2   2   2   3   2   2   3   2   3   2   2
+           220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236
+obs         22  28  20  27  34  33  41  24  23  26  17  23  36  20  45  32  27
+design.PSU   2   2   2   3   2   3   3   2   2   2   2   2   3   2   3   3   3
+actual.PSU   2   2   2   3   2   3   3   2   2   2   2   2   3   2   3   3   3
+           237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253
+obs         33  25  39  31  29  33  20  43  22  24  26  29  37  22  27  25  43
+design.PSU   3   3   3   3   2   2   2   3   2   2   2   2   3   2   2   2   3
+actual.PSU   3   3   3   3   2   2   2   3   2   2   2   2   3   2   2   2   3
+           254 255 256 257 258 259
+obs          7  32  26  25  28  35
+design.PSU   2   3   2   2   2   3
+actual.PSU   2   3   2   2   2   3
+Data variables:
+  [1] "Sserial"              "Spoint"               "StratID"             
+  [4] "WtFactor"             "OldWt"                "GOR_ID"              
+  [7] "ABCVer"               "Country"              "househlde"           
+ [10] "hhtypee"              "Rsex"                 "RAgeE"               
+ [13] "RAgeCat"              "RAgeCat2"             "RAgecat3"            
+ [16] "RAgecat4"             "RAgecat5"             "RSexAge"             
+ [19] "RSexAge2"             "MarStat"              "Married"             
+ [22] "legmarste"            "ChildHh"              "nch415e"             
+ [25] "nch318e"              "hhch04e"              "hhch511e"            
+ [28] "hhch1215e"            "hhch1617e"            "rch04e"              
+ [31] "rch511e"              "rch1215e"             "rch1617e"            
+ [34] "ownche"               "reconacte"            "RLastJob"            
+ [37] "seconacte"            "Readpap"              "WhPaper"             
+ [40] "paptype"              "TVNews"               "WebNews"             
+ [43] "WNwSite1"             "WNwSite2"             "SMNews"              
+ [46] "Internet"             "IntPers"              "MedResI"             
+ [49] "SupParty"             "ClosePty"             "PartyIDN"            
+ [52] "Partyid1"             "PartyId2"             "PartyID3"            
+ [55] "PtyAlleg"             "Idstrng"              "Politics"            
+ [58] "Coalitin"             "ConLabDf"             "VoteSyst"            
+ [61] "ScotPar2"             "ECPolicy2"            "GovTrust"            
+ [64] "Monarchy"             "MiEcono"              "MiCultur"            
+ [67] "Spend1"               "Spend2"               "SocSpnd1"            
+ [70] "SocSpnd2"             "SocSpnd3"             "SocSpnd4"            
+ [73] "SocSpnd5"             "SocSpnd6"             "Dole"                
+ [76] "TaxSpend"             "IncomGap"             "SRInc"               
+ [79] "CMArran"              "RBGaran2"             "SepInvol"            
+ [82] "SepServ"              "WkMent"               "WkPhys"              
+ [85] "HProbRsp"             "PhsRetn"              "PhsRecov"            
+ [88] "MntRetn"              "MntRecov"             "HCWork21"            
+ [91] "HCWork22"             "HCWork23"             "HCWork24"            
+ [94] "HCWork25"             "HCWork26"             "HCWork27"            
+ [97] "HCWork28"             "HCWork29"             "NatFrEst"            
+[100] "FalseBn2"             "RepFrau3"             "RepWho1"             
+[103] "RepWho2"              "RepWho3"              "RepWho4"             
+[106] "RepWho5"              "RepWho6"              "RepWho7"             
+[109] "RepWho8"              "RepWho9"              "RepWho10"            
+[112] "WhyNRep1"             "WhyNRep2"             "WhyNRep3"            
+[115] "WhyNRep4"             "WhyNRep5"             "WhyNRep6"            
+[118] "WhyNRep7"             "WhyNRep8"             "WhyNRep9"            
+[121] "BFPnsh1"              "BFPnsh2"              "BFPnsh3"             
+[124] "BFPnsh4"              "BFPnsh5"              "BFPnsh6"             
+[127] "BFPnsh7"              "BFPnsh8"              "BFPnsh9"             
+[130] "BFPnsh10"             "BFPnsh11"             "AwrPB"               
+[133] "AdminPn2"             "LosofBen"             "AwrCRec"             
+[136] "GovDoBF"              "ImpHDoc"              "ImpHPar"             
+[139] "ImpHBeha"             "ImpHFam"              "ImpHEd"              
+[142] "ImpHJob"              "ImpHNeig"             "ImpHArea"            
+[145] "ImpHSafe"             "RespoHl2"             "HomsBult"            
+[148] "YSBEmpl"              "YSBTrans"             "YSBGreen"            
+[151] "YSBSch"               "YSBAfRnt"             "YSBAfOwn"            
+[154] "YSBDesig"             "YSBShops"             "YSBMedic"            
+[157] "YSBLibry"             "YSBLeis"              "YSBFinan"            
+[160] "YSBOther"             "YSBDeps"              "YSBNone"             
+[163] "HousGSD"              "Buldres"              "EdSpnd1c"            
+[166] "EdSpnd2c"             "VocVAcad"             "ATTD151"             
+[169] "ATTD152"              "ATTD153"              "ATTD154"             
+[172] "ATTD155"              "ATTD156"              "ATTD157"             
+[175] "ATTD158"              "ATTD81"               "ATTD82"              
+[178] "ATTD83"               "ATTD84"               "ATTD85"              
+[181] "ATTD86"               "ATTD87"               "ATTD88"              
+[184] "GCSEFur"              "GCSEWrk"              "ALevFur"             
+[187] "ALevWrk"              "HEdOpp"               "ChLikUn2"            
+[190] "HEFee"                "FeesUni"              "FeesSub"             
+[193] "Himp"                 "PREVFR"               "TRFPB6U"             
+[196] "TRFPB9U"              "TrfPb10u"             "TrfConc1"            
+[199] "DRIVE"                "carnume"              "CycDang"             
+[202] "Bikeown2"             "BikeRid"              "TRAVEL1"             
+[205] "TRAVEL2"              "TRAVEL3"              "TRAVEL4a"            
+[208] "TRAVEL6"              "airtrvle"             "CCTrans1"            
+[211] "CCTrans2"             "CCTrans3"             "CCTrans4"            
+[214] "CCTrans5"             "CCTrans6"             "CCTrans7"            
+[217] "CCTrans8"             "CCTrans9"             "CCALowE"             
+[220] "CCACar"               "CCAPLANE"             "CCBELIEV"            
+[223] "EUBrld"               "EUExInf2"             "EUExUne2"            
+[226] "EUExIm2"              "EUExEco2"             "EUImpSov"            
+[229] "LeavEUI"              "EUconte"              "EUcontu"             
+[232] "EUconth"              "EULtop1"              "EULtop2"             
+[235] "EULtop3"              "NHSSat"               "WhySat1"             
+[238] "WhySat2"              "WhySat3"              "WhySat4"             
+[241] "WhySat5"              "WhySat6"              "WhySat7"             
+[244] "WhySat8"              "WhySat9"              "WhySat10"            
+[247] "WhyDis1"              "WhyDis2"              "WhyDis3"             
+[250] "WhyDis4"              "WhyDis5"              "WhyDis6"             
+[253] "WhyDis7"              "WhyDis8"              "WhyDis9"             
+[256] "WhyDis10"             "GPSat"                "DentSat"             
+[259] "InpatSat"             "OutpaSat"             "AESat"               
+[262] "CareSat3"             "NHSFProb"             "NHS5yrs"             
+[265] "NHSNx5Yr"             "NHSAcc"               "NHSImp"              
+[268] "AEtravel"             "CareNee2"             "PaySocia"            
+[271] "CarePa2"              "SocFutur"             "Tranneed"            
+[274] "Prejtran"             "PMS"                  "HomoSex"             
+[277] "SSRel"                "RSuperv"              "rocsect2e"           
+[280] "REmpWork"             "REmpWrk2"             "SNumEmp"             
+[283] "WkJbTim"              "ESrJbTim"             "SSrJbTim"            
+[286] "WkJbHrsI"             "ExPrtFul"             "EJbHrCaI"            
+[289] "SJbHrCaI"             "RPartFul"             "S2PartFl"            
+[292] "Remplyee"             "UnionSA"              "TUSAEver"            
+[295] "NPWork10"             "RES2010"              "RES2000"             
+[298] "SLastJb2"             "S2Employ"             "S2Superv"            
+[301] "S2ES2010"             "S2ES2000"             "rjbtype"             
+[304] "REconSum"             "REconPos"             "RNSEGGrp"            
+[307] "RNSocCl"              "RNSSECG"              "RClass"              
+[310] "RClassGp"             "RSIC07GpE"            "seconsum"            
+[313] "S2NSEGGp"             "S2NSSECG"             "S2NSocCl"            
+[316] "S2Class"              "S2ClassG"             "WAGMIN"              
+[319] "RESPPAY"              "TRCURJM"              "TRCURJN"             
+[322] "TRMRSJM"              "TRMRSJN"              "TRDIFJM"             
+[325] "TRDIFJN"              "PHOURS"               "REGHOUR"             
+[328] "WRKCON"               "JBMRESP"              "JBMWH1"              
+[331] "JBMWH2"               "JBMWH3"               "JBMWH4"              
+[334] "JBMWH5"               "JBMWH6"               "JBMWH7"              
+[337] "JBMWH8"               "FLEXHRS"              "MgCWld"              
+[340] "MgMWld"               "ChgAsJb1"             "ChgAsJb2"            
+[343] "ChgAsJb3"             "ChgJbTim"             "RetExp"              
+[346] "RetExpb"              "DVRetAge"             "PenKnow2"            
+[349] "RPenSrc1"             "RPenSrc2"             "RPenSrc3"            
+[352] "whrbrne"              "NatIdGB"              "NatId"               
+[355] "tenure2e"             "RentPrf1"             "HAWhat"              
+[358] "HAgdbd"               "HANotFM"              "LikeHA"              
+[361] "HAYwhy"               "HANwhy"               "HsDepnd"             
+[364] "ResPres"              "ReligSum"             "RlFamSum"            
+[367] "ChAttend"             "bestnatu2"            "raceori4"            
+[370] "DisNew2"              "DisAct"               "DisActDV"            
+[373] "Knowdis1"             "Knowdis2"             "Knowdis3"            
+[376] "Knowdis4"             "Knowdis5"             "Knowdis6"            
+[379] "Knowdis7"             "DisPrj"               "Dis100"              
+[382] "tea3"                 "HEdQual"              "HEdQual2"            
+[385] "HEdQual3"             "EUIdent"              "BritID2"             
+[388] "Voted"                "Vote"                 "EURefV2"             
+[391] "EUVOTWHO"             "EURefb"               "AnyBN3"              
+[394] "MainInc5"             "HHIncD"               "HHIncQ"              
+[397] "REarnD"               "REarnQ"               "SelfComp"            
+[400] "knwbdri"              "knwexec"              "knwclea"             
+[403] "knwhair"              "knwhr"                "knwlaw"              
+[406] "knwmech"              "knwnurs"              "knwpol"              
+[409] "knwtchr"              "incdiffs"             "incdsml"             
+[412] "govldif"              "socblaz"              "whoprvhc"            
+[415] "whoprvca"             "actgrp"               "actpol"              
+[418] "actchar"              "govnosa2"             "hhldjob"             
+[421] "hhmsick"              "hdown"                "hadvice"             
+[424] "hsococc"              "hlpmny"               "hlpjob"              
+[427] "hlpadmin"             "hlplive"              "hlpill"              
+[430] "lckcomp"              "isolate"              "leftout"             
+[433] "peopadvt"             "peoptrst"             "trstcrts"            
+[436] "trstprc"              "helpeldy"             "helpslf1"            
+[439] "helpfrnd"             "fampress"             "reltdemd"            
+[442] "ffrangr"              "eatout"               "newfrnd"             
+[445] "pplcont"              "pplftf"               "parcont"             
+[448] "sibcon2"              "chdcon2"              "othcont"             
+[451] "frndcont"             "contint"              "ltsgnhth"            
+[454] "depres"               "diffpile"             "acgoals"             
+[457] "lifesat2"             "makeem"               "langgs"              
+[460] "helpslf2"             "payback"              "domconv"             
+[463] "sitwhr"               "hmecont"              "religcon"            
+[466] "spseedu"              "ben3000"              "ben3000d"            
+[469] "falcatch"             "uniaff"               "unicar"              
+[472] "bothearn"             "sexrole"              "womworka"            
+[475] "womworkb"             "parlvmf2"             "gendwrk"             
+[478] "gendmath"             "gendcomp"             "sxbstrm"             
+[481] "sxbintm"              "sxbstrw"              "sxbintw"             
+[484] "sxblaw"               "sxbprov"              "sxboffb"             
+[487] "sxbnoone"             "sxboth"               "sxbcc"               
+[490] "carwalk2"             "carbus2"              "carbike2"            
+[493] "shrtjrn"              "plnallow"             "plnterm"             
+[496] "plnenvt"              "plnuppri"             "cartaxhi"            
+[499] "carallow"             "carreduc"             "carnod2"             
+[502] "carenvdc"             "resclose"             "res20mph"            
+[505] "resbumps"             "ddnodrv"              "ddnklmt"             
+[508] "specamsl"             "specammo"             "specamtm"            
+[511] "speedlim"             "speavesc"             "mobdsafe"            
+[514] "mobddang"             "mobdban"              "mobdlaw"             
+[517] "eutrdmv"              "consvfa"              "labrfa"              
+[520] "libdmfa"              "ukipfa"               "rthdswa2"            
+[523] "rthdsaw2"             "rthdsca2"             "rthdssa2"            
+[526] "rthdsprd"             "eqrdisab"             "nhsoutp2"            
+[529] "nhsinp2"              "bodimr"               "bodimop"             
+[532] "girlwapp"             "tprwrong2"            "eulunem"             
+[535] "eulimm"               "eulecon"              "eulwork"             
+[538] "eullowi"              "eulmlow"              "eulnhs"              
+[541] "jbernmny"             "jbenjoy"              "topupchn"            
+[544] "topupnch"             "topuplpa"             "worknow"             
+[547] "losejob"              "jbgdcurr"             "robots"              
+[550] "robown"               "voteduty"             "welfhelp"            
+[553] "morewelf"             "unempjob"             "sochelp"             
+[556] "dolefidl"             "welffeet"             "damlives"            
+[559] "proudwlf"             "redistrb"             "BigBusnn"            
+[562] "wealth"               "richlaw"              "indust4"             
+[565] "tradvals"             "stifsent"             "deathapp"            
+[568] "obey"                 "wronglaw"             "censor"              
+[571] "leftrigh"             "libauth"              "welfare2"            
+[574] "libauth2"             "leftrig2"             "welfgrp"             
+[577] "eq_inc_deciles"       "eq_inc_quintiles"     "eq_bhcinc2_deciles"  
+[580] "eq_bhcinc2_quintiles"</code></pre>
+</div>
+</div>
+</section>
+<section id="mean-age-and-its-95-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="mean-age-and-its-95-confidence-interval">3. Mean age and its 95% confidence interval</h2>
+<p>We can now produce a first set of estimates using this information and compare them with those we would have got without accounting for the survey design. We will compute the average (ie mean) age of respondents in the sample. We will need to use <code>svymean()</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        mean     SE
+RAgeE 48.313 0.4236</code></pre>
+</div>
+</div>
+<p>By default <code>svymean()</code> computes the standard error of the mean. We need to<br>
+embed it within <code>confint()</code> in order to get a confidence interval.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s)) <span class="do">### Just the confidence interval...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         2.5 %  97.5 %
+RAgeE 47.48289 49.1433</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">round</span>(</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">c</span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s),</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>RAgeE,bsa17.s))</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    ),</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="dv">1</span>) <span class="do">### ... Or both, rounded</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>RAgeE             
+ 48.3  47.5  49.1 </code></pre>
+</div>
+</div>
+<p><em>What difference would it make to the estimates and 95% CI to compute respectively, an unweighted mean, as well as a weighted mean without accounting for the survey design?</em></p>
+<p>There are different ways of computing ‘naive estimates’ in R. Below we demonstrate how to do it ´by hand’ for greater transparency.</p>
+<p>Base R provides a function for computing the variance of a variable: <code>var()</code>. Since we know that:</p>
+<ul>
+<li>The standard deviation of the mean is the square root of its variance</li>
+<li>The standard error of a sample mean is its standard deviation divided by the square root of the sample size</li>
+<li>A 95% confidence interval is the sample mean respectively minus and plus 1.96 times its standard error. It is then relatively straightforward to compute unweighted and ‘casually weighted’ confidences intervals for the mean.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="do">### Unweighted means and CI</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>u.m<span class="ot">&lt;-</span> <span class="fu">mean</span>(bsa17<span class="sc">$</span>RAgeE)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>u.se<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">var</span>(bsa17<span class="sc">$</span>RAgeE))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(bsa17<span class="sc">$</span>RAgeE))</span>
+<span id="cb12-4"><a href="#cb12-4"></a>u.ci<span class="ot">&lt;-</span><span class="fu">c</span>(u.m <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>u.se,u.m <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>u.se)</span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="fu">round</span>(<span class="fu">c</span>(u.m,u.ci),<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52.2 51.6 52.8</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="do">### Weighted means and CI without survey design</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>w.m<span class="ot">&lt;-</span> <span class="fu">wtd.mean</span>(bsa17<span class="sc">$</span>RAgeE,bsa17<span class="sc">$</span>WtFactor)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>w.se<span class="ot">&lt;-</span><span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(bsa17<span class="sc">$</span>RAgeE,bsa17<span class="sc">$</span>WtFactor))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(bsa17<span class="sc">$</span>RAgeE))</span>
+<span id="cb14-4"><a href="#cb14-4"></a>w.ci<span class="ot">&lt;-</span><span class="fu">c</span>(w.m <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>w.se,w.m <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>w.se)</span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="fu">round</span>(<span class="fu">c</span>(w.m,w.ci),<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 48.3 47.7 48.9</code></pre>
+</div>
+</div>
+<p><strong>Question 3</strong></p>
+<p><em>What are the consequences of not accounting for the sample design; not using weights and accounting for the sample design when:</em></p>
+<p><em>- inferring the mean value of the population age?</em></p>
+<p><em>- inferring the uncertainty of our estimate of the population age?</em></p>
+</section>
+<section id="computing-a-proportion-and-its-95-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="computing-a-proportion-and-its-95-confidence-interval">4. Computing a proportion and its 95% confidence interval</h2>
+<p>We can now similarly estimate the distribution of a categorical variable in the population by computing proportions (or percentages), for instance, the proportion of people who declare themselves interested in politics. This is the <code>Politics</code> variable. It has five categories that we are going to recode into ‘Significantly’ (interested) and ‘Not’ (significantly), for simplicity.</p>
+<p>The BSA regards ‘don’t know’ and ‘refusal’ responses as valid but since in this case there is only one ‘don’t know’ and no ‘refusal’, we can safely ignore these categories and recode them as system missing. As before, we prefer using <code>xtabs()</code> over <code>table()</code> as it allows us to ignore unused factor levels.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">attr</span>(bsa17<span class="sc">$</span>Politics,<span class="st">"label"</span>)     <span class="do">### Phrasing of the question</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "How much interest do you have in politics?"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span><span class="fu">as_factor</span>(Politics),</span>
+<span id="cb18-2"><a href="#cb18-2"></a>      <span class="at">data=</span>bsa17,</span>
+<span id="cb18-3"><a href="#cb18-3"></a>      <span class="at">drop.unused.levels =</span> T) <span class="do">### Sample distribution</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>as_factor(Politics)
+... a great deal,      quite a lot,             some,    not very much, 
+              739               982              1179               708 
+ or, none at all?        Don`t know 
+              379                 1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">ifelse</span>(bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> bsa17<span class="sc">$</span>Politics<span class="sc">==</span><span class="dv">2</span>,</span>
+<span id="cb20-2"><a href="#cb20-2"></a>                         <span class="st">"Significantly"</span>,<span class="cn">NA</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">ifelse</span>(bsa17<span class="sc">$</span>Politics<span class="sc">&gt;=</span><span class="dv">3</span> <span class="sc">&amp;</span> bsa17<span class="sc">$</span>Politics<span class="sc">&lt;=</span><span class="dv">5</span>,</span>
+<span id="cb20-4"><a href="#cb20-4"></a>                         <span class="st">"Not Interested"</span>,bsa17<span class="sc">$</span>Politics.s)</span>
+<span id="cb20-5"><a href="#cb20-5"></a>bsa17<span class="sc">$</span>Politics.s<span class="ot">&lt;-</span><span class="fu">as.factor</span>(bsa17<span class="sc">$</span>Politics.s)</span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="fu">rbind</span>(<span class="fu">xtabs</span>(<span class="sc">~</span><span class="fu">as_factor</span>(Politics.s),</span>
+<span id="cb20-8"><a href="#cb20-8"></a>      <span class="at">data=</span>bsa17,</span>
+<span id="cb20-9"><a href="#cb20-9"></a>      <span class="at">drop.unused.levels =</span> T) ,</span>
+<span id="cb20-10"><a href="#cb20-10"></a>      <span class="fu">round</span>(</span>
+<span id="cb20-11"><a href="#cb20-11"></a>        <span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(</span>
+<span id="cb20-12"><a href="#cb20-12"></a>          <span class="fu">xtabs</span>(<span class="sc">~</span><span class="fu">as_factor</span>(Politics),</span>
+<span id="cb20-13"><a href="#cb20-13"></a>          <span class="at">data=</span>bsa17,</span>
+<span id="cb20-14"><a href="#cb20-14"></a>          <span class="at">drop.unused.levels =</span> T) </span>
+<span id="cb20-15"><a href="#cb20-15"></a>          ),</span>
+<span id="cb20-16"><a href="#cb20-16"></a>        <span class="dv">1</span>)</span>
+<span id="cb20-17"><a href="#cb20-17"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ... a great deal, quite a lot,  some, not very much, or, none at all?
+[1,]            2266.0       1721.0 2266.0         1721.0           2266.0
+[2,]              18.5         24.6   29.6           17.8              9.5
+     Don`t know
+[1,]       1721
+[2,]          0</code></pre>
+</div>
+</div>
+<p>Changes in a data frame are not automatically transferred into <code>svydesign</code> objects used for inferences. We therefore need to recreate it each time we create or recode a variable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">rbind</span>(<span class="fu">round</span>(<span class="fu">xtabs</span>(WtFactor<span class="sc">~</span>Politics.s,bsa17),</span>
+<span id="cb22-2"><a href="#cb22-2"></a>            <span class="dv">1</span>),</span>
+<span id="cb22-3"><a href="#cb22-3"></a>      <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>              <span class="fu">prop.table</span>(</span>
+<span id="cb22-5"><a href="#cb22-5"></a>                <span class="fu">xtabs</span>(WtFactor<span class="sc">~</span>Politics.s,bsa17))</span>
+<span id="cb22-6"><a href="#cb22-6"></a>            ,<span class="dv">1</span>)</span>
+<span id="cb22-7"><a href="#cb22-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Not Interested Significantly
+[1,]         2270.6        1715.2
+[2,]           57.0          43.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint,      </span>
+<span id="cb24-2"><a href="#cb24-2"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID, </span>
+<span id="cb24-3"><a href="#cb24-3"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor,</span>
+<span id="cb24-4"><a href="#cb24-4"></a>                   <span class="at">data=</span>bsa17)</span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="fu">rbind</span>(<span class="fu">round</span>(<span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>                     bsa17.s),<span class="dv">1</span>),</span>
+<span id="cb24-8"><a href="#cb24-8"></a>      <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">prop.table</span>(</span>
+<span id="cb24-9"><a href="#cb24-9"></a>        <span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,</span>
+<span id="cb24-10"><a href="#cb24-10"></a>                 bsa17.s)),<span class="dv">1</span>)</span>
+<span id="cb24-11"><a href="#cb24-11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Not Interested Significantly
+[1,]         2270.6        1715.2
+[2,]           57.0          43.0</code></pre>
+</div>
+</div>
+<p>As with the mean of age earlier, we can see that the weighted and unweighted point estimates of the proportion of respondents significantly interested in politics differ, even if slightly, and that weighted point estimates do not differ irrespective of the survey design being accounted for.</p>
+<p>Let us now examine the confidence intervals of these proportions. Traditional statistical software usually compute these without telling us about the underlying computations going on. By contrast, doing this in R requires more coding, but in the process we gain a better understanding of what is actually estimated.</p>
+<p>Confidence intervals for proportion of categorical variables are usually computed as a sequence of binomial/dichotomic estimations – ie one for each category. In R this needs to be specified explicitly via the <code>svyciprop()</code> and <code>I()</code> functions. The former actually computes the proportion and its confidence interval (by default 95%), whereas the latter allows us to define the category we are focusing on (in case of non dichotomic variable).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
+<span id="cb26-2"><a href="#cb26-2"></a>          bsa17.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                        2.5% 97.5%
+I(Politics.s == "Significantly") 0.430 0.411 0.450</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>        <span class="fu">c</span>(<span class="fu">prop.table</span>(</span>
+<span id="cb28-3"><a href="#cb28-3"></a>          <span class="fu">svytable</span>(<span class="sc">~</span>Politics.s,bsa17.s))[<span class="dv">2</span>],</span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">attr</span>(<span class="fu">svyciprop</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5"></a>               bsa17.s),<span class="st">"ci"</span>)),<span class="dv">1</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Significantly          2.5%         97.5% 
+         43.0          41.1          45.0 </code></pre>
+</div>
+</div>
+<p><strong>Question 4</strong></p>
+<p><em>What is the proportion of respondents aged 17-34 in the sample, as well as its 95% confidence interval? You can use <code>RAgecat5</code></em></p>
+</section>
+<section id="domain-ie-subpopulation-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="domain-ie-subpopulation-estimates">5. Domain (ie subpopulation) estimates</h2>
+<p>Computing estimates for specific groups of a sample (for example the average age of people who reported being interested in politics) is not much more difficult than doing it for the sample as a whole. However doing it as part of an inferential analysis requires some caution. Calculating weighted estimates for a subpopulation, amounts to computing second order estimates ie an estimate for a group whose size needs to be estimated first. Therefore, attempting this while leaving out of the rest of the sample might yield incorrect results. This is why using survey design informed functions is particularly recommended in such cases.</p>
+<p>The <code>survey</code> package function<code>svyby()</code> makes such domain estimation relatively straightforward. For instance, if we would like to compute the mean age of BSA respondents by Government Office Regions, we need to specify:</p>
+<ul>
+<li>The outcome variable whose estimate we want to compute: ie <code>RAgeE</code></li>
+<li>The grouping variable(s) <code>GOR_ID</code></li>
+<li>The estimate function we are going to use here: <code>svymean</code>, the same as we used before</li>
+<li>And the type of type of variance estimation we would like to see displayed ie standard errors or confidence interval</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>bsa17<span class="sc">$</span>gor.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>GOR_ID)</span>
+<span id="cb30-2"><a href="#cb30-2"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint, </span>
+<span id="cb30-3"><a href="#cb30-3"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID, </span>
+<span id="cb30-4"><a href="#cb30-4"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor,</span>
+<span id="cb30-5"><a href="#cb30-5"></a>                   <span class="at">data=</span>bsa17)</span>
+<span id="cb30-6"><a href="#cb30-6"></a></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="fu">round</span>(<span class="fu">svyby</span>(<span class="sc">~</span>RAgeE,</span>
+<span id="cb30-8"><a href="#cb30-8"></a>            <span class="at">by=</span><span class="sc">~</span>gor.f,</span>
+<span id="cb30-9"><a href="#cb30-9"></a>            svymean,</span>
+<span id="cb30-10"><a href="#cb30-10"></a>            <span class="at">design=</span>bsa17.s,</span>
+<span id="cb30-11"><a href="#cb30-11"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="sc">-</span><span class="dv">1</span>],<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           RAgeE ci_l ci_u
+A North East                46.1 43.6 48.6
+B North West                49.6 47.3 52.0
+D Yorkshire and The Humber  48.0 45.2 50.8
+E East Midlands             48.6 45.9 51.3
+F West Midlands             48.1 45.0 51.2
+G East of England           49.0 46.0 52.0
+H London                    45.0 43.0 46.9
+J South East                48.0 45.1 50.8
+K South West                53.4 51.5 55.2
+L Wales                     49.1 45.1 53.1
+M Scotland                  47.3 44.7 50.0</code></pre>
+</div>
+</div>
+<p><em>Note:</em> we used <code>[-1]</code> from the object created by <code>svyby()</code> in order to remove a column with alphanumeric values (the region names), so that we could round the results without getting an error.</p>
+<p>Our inference seem to suggest that the population in London is among the youngest in the country, and that those in the South West are among the oldest – their respective 95% confidence intervals do not overlap. We should not feel so confident about differences between London and the South East for example, as the CIs partially overlap.</p>
+<p>We can follow a similar approach with proportions: we just need to specify the category of the variable we are interested in as an outcome, for instance respondents who are significantly interested in politics, and replace <code>svymean</code> by <code>svyciprop</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">round</span>(</span>
+<span id="cb32-2"><a href="#cb32-2"></a>      <span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>      <span class="fu">svyby</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
+<span id="cb32-4"><a href="#cb32-4"></a>            <span class="at">by=</span><span class="sc">~</span>gor.f,</span>
+<span id="cb32-5"><a href="#cb32-5"></a>            svyciprop,</span>
+<span id="cb32-6"><a href="#cb32-6"></a>            <span class="at">design=</span>bsa17.s,</span>
+<span id="cb32-7"><a href="#cb32-7"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb32-8"><a href="#cb32-8"></a>            <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           I(Politics.s == "Significantly") ci_l ci_u
+A North East                                           33.4 26.6 40.9
+B North West                                           42.1 36.3 48.2
+D Yorkshire and The Humber                             35.6 29.1 42.6
+E East Midlands                                        36.9 32.9 41.1
+F West Midlands                                        36.3 31.5 41.5
+G East of England                                      47.2 41.4 53.1
+H London                                               54.2 47.2 61.1
+J South East                                           44.6 38.7 50.8
+K South West                                           46.5 39.4 53.8
+L Wales                                                38.6 27.7 50.7
+M Scotland                                             42.7 36.0 49.8</code></pre>
+</div>
+</div>
+<p><strong>Question 5</strong></p>
+<p><em>What is the 95% confidence interval for the proportion of people interested in politics in the South West? Is the proportion likely to be different in London? In what way? What is the region of the UK for which the precision of the estimates is likely to be the smallest?</em></p>
+<p>When using <code>svyby()</code>, we can define domains or subpopulations with several variables, not just one. For example, we could have looked at gender differences in political affiliations by regions. However, as the size of subgroups decrease, so does the precision of the estimates as their confidence interval widens, to a point where their substantive interest is not meaningful anymore.</p>
+<p><strong>Question 6</strong></p>
+<p><em>Using interest in politics as before, and three category age <code>RAgecat5</code> (which you may want to recode as a factor in order to improve display clarity): </em></p>
+<p><em>- Produce a table of results showing the proportion of respondents significantly interested in Politics by age group</em></p>
+<p><em>- Assess whether the age difference in interest for politics is similar for each gender?</em></p>
+<p><em>- Based on the data, is it fair to say that men aged under 35 tend to be more likely to declare themselves interested in politics than women aged 55 and above?</em></p>
+</section>
+<section id="answers" class="level2">
+<h2 class="anchored" data-anchor-id="answers">Answers</h2>
+<p><strong>Question 1</strong> The 2017 BSA is a three stage stratified random survey, with postcode sectors, adresses and individuals as the units selected at each stage. Primary sampling units were furthermore stratified according to geographies (sub regions), population density, and proportion of owner-occupiers. Sampling rate was proportional to the size of postcode sectors (ie number of addresses)</p>
+<p><strong>Question 2</strong> From the Data Dictionary it appears that the primary sampling units (sub regions) are identified by<code>Spoint</code> and the strata by<code>StratID</code>. The weights variable is<code>WtFactor</code>. Addresses are not provided but could be approximated with a household identifier.</p>
+<p><strong>Question 3</strong> Not using weights would make us overestimate the mean age in the population (of those aged 16+) by about 4 years. This is likely to be due to the fact that older respondents are more likely to take part to surveys. Using survey design variables does not alter the value of the estimated population mean. However, not accounting for them would lead us to overestimate the precision/underestimate the uncertainty of our estimate with a narrower confidence interval – by about plus and minus 2 months .</p>
+<p><strong>Question 4</strong> The proportion of 17-25 year old in the sample is 28.5 and its 95%confidence interval 26.5, 30.6</p>
+<p><strong>Question 5</strong> The 95% confidence interval for the proportion of people interested in politics in the South West is 39.4, 53.8. By contrast, it is likely to be 47.2, 61.1 in London. The region with the lowest precision of estimates (ie the widest confidence interval) is Wales, with a 23 percentage point difference between the upper and lower bounds of the confidence interval.</p>
+<p><strong>Question 6</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>bsa17<span class="sc">$</span>RAgecat5.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>RAgecat5)</span>
+<span id="cb34-2"><a href="#cb34-2"></a>bsa17<span class="sc">$</span>Rsex.f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(bsa17<span class="sc">$</span>Rsex)</span>
+<span id="cb34-3"><a href="#cb34-3"></a></span>
+<span id="cb34-4"><a href="#cb34-4"></a></span>
+<span id="cb34-5"><a href="#cb34-5"></a>bsa17.s<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span>Spoint, </span>
+<span id="cb34-6"><a href="#cb34-6"></a>                   <span class="at">strata=</span><span class="sc">~</span>StratID, </span>
+<span id="cb34-7"><a href="#cb34-7"></a>                   <span class="at">weights=</span><span class="sc">~</span>WtFactor,</span>
+<span id="cb34-8"><a href="#cb34-8"></a>                   <span class="at">data=</span>bsa17)</span>
+<span id="cb34-9"><a href="#cb34-9"></a></span>
+<span id="cb34-10"><a href="#cb34-10"></a><span class="fu">round</span>(</span>
+<span id="cb34-11"><a href="#cb34-11"></a>      <span class="dv">100</span><span class="sc">*</span></span>
+<span id="cb34-12"><a href="#cb34-12"></a>      <span class="fu">svyby</span>(<span class="sc">~</span><span class="fu">I</span>(Politics.s<span class="sc">==</span><span class="st">"Significantly"</span>),</span>
+<span id="cb34-13"><a href="#cb34-13"></a>            <span class="at">by=</span><span class="sc">~</span>RAgecat5.f<span class="sc">+</span>Rsex.f,</span>
+<span id="cb34-14"><a href="#cb34-14"></a>            svyciprop,</span>
+<span id="cb34-15"><a href="#cb34-15"></a>            <span class="at">design=</span>bsa17.s,</span>
+<span id="cb34-16"><a href="#cb34-16"></a>            <span class="at">vartype =</span> <span class="st">"ci"</span>)[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>,<span class="sc">-</span><span class="dv">4</span>),<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>)],</span>
+<span id="cb34-17"><a href="#cb34-17"></a>      <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             I(Politics.s == "Significantly") ci_l ci_u
+17-34.Male                               42.9 37.7 48.2
+35-54.Male                               50.8 46.6 54.9
+55+.Male                                 57.8 53.9 61.6
+17-34.Female                             26.3 22.0 31.1
+35-54.Female                             34.1 30.6 37.8
+55+.Female                               43.0 39.6 46.5</code></pre>
+</div>
+</div>
+<p>Older respondents both male and female tend to be more involved in politics than younger ones.</p>
+<p>The confidence intervals for the proportion of men under 35 and women above 55 interested in politics overlap; it is unlikely that they differ in the population.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Population estimates using the BSAS with R.html" class="pagination-link" aria-label="Basic population estimates with BSA data using R">
+        <span class="nav-page-text"><span class="chapter-title">Basic population estimates with BSA data using R</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

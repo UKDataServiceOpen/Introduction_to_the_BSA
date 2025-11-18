@@ -1,0 +1,81 @@
+project:
+  type: book
+  output-dir: docs
+
+execute:
+  warning: false
+  message: false
+  freeze: false
+  
+book:
+  title: "Introduction to the British Social Attitudes Survey"
+  subtitle: "R and SPSS Practical Exercises"
+  downloads: [pdf]
+  author: UK Data Service
+  output-file: "BSA_Exercices"
+  date: "June 2024"
+  date-format: MMMM YYYY
+  chapters:
+    - index.qmd
+    - part: "R Exercises"
+      chapters:
+        - infer_w_survey_design_usingR.qmd
+        - 'Population estimates using the BSAS with R.qmd'
+    - part: "SPSS Exercises"
+      chapters:
+        - infer_w_survey_design_usingSPSS.qmd   
+        - Pop_estimates_using_the_BSAS_and_SPSS.qmd  
+
+  sidebar:
+    style: "floating"
+    search: true
+    title: " "
+    logo: pics/UKDS_Logos_Col_Grey_300dpi.png
+    logo-href: https://ukdataservice.ac.uk/
+    logo-alt: "UK Data Service Logo and link to website"
+
+
+#bibliography: references.bib
+jupyter: nbstata
+pdf-engine: lualatex
+
+format:
+    html: 
+      code-overflow: scroll
+      code-line-numbers: true
+      page-layout: full
+      toc: true
+      toc-location: right
+      highlight-style: arrow-light
+      smooth-scroll: true
+      link-external-newwindow: true
+      citations-hover: true
+      footnotes-hover: true
+      css: ukds_long.css
+      number-sections: false
+    
+
+    docx: 
+     fig-width: 7
+     papersize: A4
+
+    titlepage-pdf:
+     titlepage: plain
+     titlepage-geometry:
+      - top=70mm
+      - left=30mm
+      - right=30mm
+      - bottom=30mm
+     titlepage-theme:
+      logo-size: 3cm
+      title-fontstyle: Huge
+     titlepage-logo: "pics/UKDS_Logos_Col_Grey_300dpi.png"  
+     documentclass: scrreport
+     fig-width: 7
+     papersize: A4
+     include-in-header: preamble.tex
+     geometry:
+      - top=25mm
+      - left=25mm
+      - right=25mm
+      - bottom=30mm
