@@ -3,13 +3,9 @@ project:
   output-dir: docs
 
 execute:
-  # warning: false
+  warning: false
   message: false
   freeze: false
-  
-theme: 
-  - default
-  - custom_ukds.scss
   
 book:
   title: "Introduction to the British Social Attitudes Survey"
@@ -18,7 +14,7 @@ book:
   author: UK Data Service
   output-file: "BSA_Exercices"
   date: "June 2024"
-  date-format: MMMMYYYY
+  date-format: MMMM YYYY
   chapters:
     - index.qmd
     - part: "R Exercises"
@@ -40,23 +36,30 @@ book:
 
 
 #bibliography: references.bib
+jupyter: nbstata
 pdf-engine: lualatex
 
 format:
-  html:
-    toc: true
-    toc-location: right
-    title-block-banner: "white"
-    title-block-banner-color: "#742082"
-    number-sections: false
+    html: 
+      code-overflow: scroll
+      code-line-numbers: true
+      page-layout: full
+      toc: true
+      toc-location: right
+      highlight-style: arrow-light
+      smooth-scroll: true
+      link-external-newwindow: true
+      citations-hover: true
+      footnotes-hover: true
+      css: ukds_long.css
+      number-sections: false
     
-#    page-layout: full
- 
-  docx: 
+
+    docx: 
      fig-width: 7
      papersize: A4
 
-  titlepage-pdf:
+    titlepage-pdf:
      titlepage: plain
      titlepage-geometry:
       - top=70mm
