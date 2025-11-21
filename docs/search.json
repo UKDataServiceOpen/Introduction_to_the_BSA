@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Introduction to the British Social Attitudes Survey",
     "section": "",
-    "text": "Introduction\nThis repository contains the Quarto source files of the practical exercises for the Introduction to the British Social Attitudes Surveys UKDS Data Skills Module.\nThe BSA tracks the views and opinions of the public on national issues over time. The BSA questionnaire has core questions that are repeated in most years. These cover different topics such as politics, welfare, poverty, health, education, equalities, and employment alongside various background and demographic questions. It also includes non-core questions (modules) on a number of social, political, economic and moral topics, which are included periodically in the survey.\nDirect links to the HTML pages of the exercises on GitHub Pages:\n\nR version:\n\nBasic population estimates with BSA data using R \nSurvey design informed inference with BSA data using R\n\nSPSS version:\n\nBasic population estimates with BSA data using SPSS \n Survey design informed inference with BSA data using SPSS",
+    "text": "Introduction\nThis repository contains the Quarto source files of the practical exercises for the Introduction to the British Social Attitudes Surveys UKDS Data Skills Module.\nThe BSA tracks the views and opinions of the public on national issues over time. The BSA questionnaire has core questions that are repeated in most years. These cover different topics such as politics, welfare, poverty, health, education, equalities, and employment alongside various background and demographic questions. It also includes non-core questions (modules) on a number of social, political, economic and moral topics, which are included periodically in the survey.\nDirect links to the HTML pages of the exercises on GitHub Pages:",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -326,6 +326,16 @@
     "crumbs": [
       "SPSS Exercises",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Basic population estimates with BSA data using SPSS</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Introduction to the British Social Attitudes Survey",
+    "section": "",
+    "text": "R version:\n\nBasic population estimates with BSA data using R \nSurvey design informed inference with BSA data using R\n\nSPSS version:\n\nBasic population estimates with BSA data using SPSS \n Survey design informed inference with BSA data using SPSS",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   }
 ]
